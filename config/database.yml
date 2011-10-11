@@ -1,0 +1,27 @@
+development:
+  adapter: postgis
+  encoding: unicode
+  database: glatos_development
+  pool: 5
+  username: glatos
+  password:
+  script_dir: /usr/share/pgsql/contrib/postgis-1.5
+  schema_search_path: public,postgis
+
+test:
+  adapter: postgis
+  encoding: unicode
+  database: glatos_test
+  pool: 5
+  username: glatos
+  password:
+  script_dir: /usr/share/pgsql/contrib/postgis-1.5
+  schema_search_path: public,postgis
+
+production:
+  adapter: postgis
+  encoding: unicode
+  database: glatos_production
+  pool: 5
+  username: glatos
+  password:
