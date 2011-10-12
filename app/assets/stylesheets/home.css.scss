@@ -1,0 +1,9 @@
+#container {
+  @include container;
+  @include showgrid;
+  @include blueprint(true);
+}
+
+.navigation {
+  @include horizontal-list
+}
