@@ -1,0 +1,104 @@
+%h1 Users
+
+%table{:id => :table}
+
+  :javascript
+
+    function makeActionButtons(oObj) {
+      var text = "";
+      var ap = !oObj.aData.approved ? "Approve" : "Revoke Access"
+      text += "<a href='#' class='approver'>" + ap + "</a> ";
+      text += "<a href='#' class='destroyer'>Delete</a> ";
+      return text;
+    }
+
+    function makeRoleDropdown(oObj) {
+      text = "#{escape_javascript user_roles}";
+      return text;
+    }
+
+    var oTable;
+
+    $(document).ready(function() {
+
+      /* Init DataTables */
+      oTable = $('#table').dataTable( {
+        "bJQueryUI": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "bDeferRender": true,
+        "bFilter": false,
+        "sPaginationType": "full_numbers",
+        "sAjaxSource": "/users.json",
+        "aoColumns": [
+          { "sTitle": "Name", "sName": "name", "mDataProp": "name" },
+          { "sTitle": "Email", "sName": "email", "mDataProp": "email" },
+          { "sTitle": "Role", "sName": "role", "mDataProp": null, "fnRender": function (oObj){ return makeRoleDropdown(oObj); } },
+          { "sTitle": "Actions", "sName": "action", "mDataProp": null, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
+        ],
+        "fnDrawCallback": function(oSettings, json) {
+
+          // Set the selected role in the combobox
+          $(".roller").each(function(e) {
+            var aData = oTable.fnGetData($(this).parents('tr')[0]);
+            var id = aData.DT_RowId;
+            $(this).val(aData.role);
+          });
+
+          $(".destroyer").click(function(e) {
+            if(confirm("Are you sure?")) {
+              e.preventDefault();
+              var aData = oTable.fnGetData($(this).parents('tr')[0]);
+              var id = aData.DT_RowId;
+              $.ajax({
+                type: "DELETE",
+                url: "/users/"+id+".js",
+                success: function(){
+                  oTable.fnDraw();
+                },
+                error: function(){
+                  alert('Failed to delete User');
+                }
+              });
+            }
+          });
+          $(".roller").change(function(e) {
+            e.preventDefault();
+            var aData = oTable.fnGetData($(this).parents('tr')[0]);
+            var id = aData.DT_RowId;
+            var role = $(e.target).val();
+            $.ajax({
+              type: "PUT",
+              url: "/users/"+id+".js",
+              data: "user[role]="+role,
+              success: function(){
+                oTable.fnDraw();
+              },
+              error: function(){
+                alert('Failed to update User');
+              }
+            });
+          });
+
+          $(".approver").click(function(e) {
+            e.preventDefault();
+            var aData = oTable.fnGetData($(this).parents('tr')[0]);
+            var id = aData.DT_RowId;
+            // Do the opposite of what they currently are
+            var approved = !aData.approved
+            $.ajax({
+              type: "PUT",
+              url: "/users/"+id+".js",
+              data: "user[approved]="+approved,
+              success: function(){
+                oTable.fnDraw();
+              },
+              error: function(){
+                alert('Failed to update User');
+              }
+            });
+          });
+
+        }
+      });
+    });

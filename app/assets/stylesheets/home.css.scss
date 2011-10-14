@@ -1,9 +1,12 @@
 #container {
   @include container;
-  @include showgrid;
+  //@include showgrid;
   @include blueprint(true);
 }
 
-.navigation {
-  @include horizontal-list
+.horizontal-list {
+  @include horizontal-list;
 }
+
+.alert { @extend .error }
+.notice { @extend .success }

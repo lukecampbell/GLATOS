@@ -1,4 +1,4 @@
-.navigation
+#navigation{:class => 'horizontal-list'}
   %ul
     - if user_signed_in?
       %li
@@ -13,4 +13,4 @@
         = link_to('Edit account', edit_user_registration_path)
     - else
       %li
-        = link_to('Sign up', new_user_registration_path)
+        = link_to('Request GLATOS Account', new_user_registration_path)

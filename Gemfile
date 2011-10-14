@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
 
+gem 'thin'
 gem 'pg'
 
 group :assets do
@@ -18,6 +19,7 @@ end
 
 gem 'activerecord-postgis-adapter'
 
+gem 'kaminari'
 gem 'devise'
 gem 'cancan'
 gem 'compass', '~> 0.12.alpha.0'

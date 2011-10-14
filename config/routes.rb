@@ -1,7 +1,9 @@
 Glatos::Application.routes.draw do
 
+  root :to => 'home#index'
+
   devise_for :users
 
-  root :to => 'home#index'
+  resources :users, :only => [:index, :destroy, :update]
 
 end
