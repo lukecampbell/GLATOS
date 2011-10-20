@@ -1,12 +1,3 @@
-#container {
-  @include container;
-  //@include showgrid;
-  @include blueprint(true);
-}
-
-.horizontal-list {
-  @include horizontal-list;
-}
-
-.alert { @extend .error }
-.notice { @extend .success }
+@import 'base';
+@import 'smoothness';
+@import 'defaults';

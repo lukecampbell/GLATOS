@@ -1,0 +1,23 @@
+
+%html
+  %head
+    %title= Glatos
+    = stylesheet_link_tag    "application"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+
+  %body
+
+    #container
+
+      .header
+        %h1 GLATOS
+        #navigation
+          = render 'shared/navigation'
+
+      - flash.each do |name, msg|
+        = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+
+      = yield
+
+      .footer

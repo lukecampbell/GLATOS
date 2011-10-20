@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111013165217) do
+ActiveRecord::Schema.define(:version => 20111020205111) do
+
+  create_table "reports", :force => true do |t|
+    t.string "tag",         :null => false
+    t.text   "description"
+    t.string "method"
+    t.string "name"
+    t.string "phone"
+    t.string "email"
+    t.string "city"
+    t.string "state"
+  end
+
+  add_index "reports", ["tag"], :name => "index_reports_on_tag"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",    :null => false

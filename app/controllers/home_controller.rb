@@ -1,5 +1,8 @@
 class HomeController < ActionController::Base
 
-  layout 'application'
+  layout 'home'
+
+  def index
+  end
 
 end

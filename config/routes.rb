@@ -5,5 +5,6 @@ Glatos::Application.routes.draw do
   devise_for :users
 
   resources :users, :only => [:index, :destroy, :update]
+  resources :reports
 
 end
