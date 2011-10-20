@@ -13,8 +13,18 @@ end
 
 gem 'jquery-rails'
 
+group :test, :development do
+  gem 'rspec-rails'
+end
+
 group :test do
-  gem 'turn', :require => false
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'cucumber-rails'
+  gem 'minitest'
+  gem 'capybara'
+  gem 'turn', '< 0.8.3', :require => false
+  gem 'email_spec'
 end
 
 gem 'activerecord-postgis-adapter'
