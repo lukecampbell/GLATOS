@@ -14,14 +14,16 @@
 ActiveRecord::Schema.define(:version => 20111020205111) do
 
   create_table "reports", :force => true do |t|
-    t.string "tag",         :null => false
-    t.text   "description"
-    t.string "method"
-    t.string "name"
-    t.string "phone"
-    t.string "email"
-    t.string "city"
-    t.string "state"
+    t.string   "tag",         :null => false
+    t.text     "description"
+    t.string   "method"
+    t.string   "name"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "city"
+    t.string   "state"
+    t.datetime "reported"
+    t.datetime "found"
   end
 
   add_index "reports", ["tag"], :name => "index_reports_on_tag"
