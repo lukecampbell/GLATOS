@@ -35,3 +35,5 @@ gem 'cancan'
 gem 'compass', '~> 0.12.alpha.0'
 gem 'haml'
 gem 'haml-rails'
+
+gem 'formtastic'
