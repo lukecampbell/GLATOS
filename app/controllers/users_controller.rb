@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
 
-  before_filter :authenticate_user!
-
   layout  'admin'
 
   def index
+    authorize! :manage, @user
     respond_to do |format|
       format.html
       format.json {
@@ -28,6 +27,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @user
     @user = User.find(params[:id])
     @user.destroy
     respond_to do |format|
@@ -37,6 +37,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    authorize! :update, @user
     @user = User.find(params[:id])
     params[:user].delete(:password) if params[:user][:password].blank?
     params[:user].delete(:password_confirmation) if params[:user][:password].blank? and params[:user][:password_confirmation].blank?

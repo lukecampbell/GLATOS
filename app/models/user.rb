@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :email
   validates_uniqueness_of :name, :email, :case_sensitive => false
 
-  ROLES = %w[registered researcher investigator admin]
+  ROLES = %w[guest registered researcher investigator admin]
 
   def DT_RowId
     self.id

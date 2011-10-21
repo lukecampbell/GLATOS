@@ -2,8 +2,12 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    @user = user || User.new # for guest
+    @user = user || User.new(:role => :guest) # for guest
     send(@user.role)
+  end
+
+  def guest
+    can :create, Report
   end
 
   def registered
@@ -13,6 +17,7 @@ class Ability
 
   def researcher
     guest
+    can :read, Report
   end
 
   def investigator
