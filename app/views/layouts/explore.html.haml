@@ -1,0 +1,27 @@
+
+%html
+  %head
+    %title= 'Glatos - Explore'
+    = stylesheet_link_tag    "explore"
+    /[if IE 6]
+      = stylesheet_link_tag 'ie6'
+    /[if IE 7]
+      = stylesheet_link_tag 'ie7'
+    = javascript_include_tag "explore"
+    = csrf_meta_tags
+
+  %body
+
+    #container
+
+      .header
+        %h1 GLATOS
+        #navigation
+          = render 'shared/navigation'
+
+      - flash.each do |name, msg|
+        = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+
+      = yield
+
+      .footer

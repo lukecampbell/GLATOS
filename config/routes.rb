@@ -6,5 +6,6 @@ Glatos::Application.routes.draw do
 
   resources :users, :only => [:index, :destroy, :update]
   resources :reports
+  resources :explore, :only => [:index]
 
 end
