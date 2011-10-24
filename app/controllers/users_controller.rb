@@ -27,8 +27,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @user
     @user = User.find(params[:id])
+    authorize! :destroy, @user
     @user.destroy
     respond_to do |format|
       format.html
@@ -37,8 +37,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    authorize! :update, @user
     @user = User.find(params[:id])
+    authorize! :update, @user
     params[:user].delete(:password) if params[:user][:password].blank?
     params[:user].delete(:password_confirmation) if params[:user][:password].blank? and params[:user][:password_confirmation].blank?
     status = @user.update_attributes(params[:user]) ? 200 : 500
