@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111020205111) do
+ActiveRecord::Schema.define(:version => 20111021182010) do
 
   create_table "reports", :force => true do |t|
-    t.string   "tag",         :null => false
+    t.string   "tag",                                       :null => false
     t.text     "description"
     t.string   "method"
     t.string   "name"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(:version => 20111020205111) do
     t.string   "state"
     t.datetime "reported"
     t.datetime "found"
+    t.decimal  "length",      :precision => 6, :scale => 2
+    t.decimal  "weight",      :precision => 6, :scale => 2
+    t.string   "fishtype"
   end
 
   add_index "reports", ["tag"], :name => "index_reports_on_tag"
