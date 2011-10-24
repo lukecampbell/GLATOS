@@ -21,4 +21,5 @@ Report.create! :tag => "ABC123",
                :found => Time.now.utc - 1.week,
                :length => 23,
                :weight => 30,
-               :fishtype => "Walleye"
+               :fishtype => Fish::TYPES.first,
+               :location => 'POINT(-122 47)'
