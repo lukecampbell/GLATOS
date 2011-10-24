@@ -1,1 +1,92 @@
-Report
+%h1 Reports
+
+%table{:id => :table}
+
+  :javascript
+
+    function makeActionButtons(oObj) {
+      var text = "";
+      text += "<a href='#' class='destroyer'>Delete</a> ";
+      return text;
+    }
+
+    function makeExpandButton(oObj) {
+      return "<img src='#{asset_path 'details_open.png'}'>";
+    }
+
+    /* Formating function for extra details */
+    function fnFormatDetails(nTr) {
+      //:tag, :description, :method, :name, :phone, :email, :city, :state, :reported, :height, :weight, :fishtype, :found
+      var aData = oTable.fnGetData(nTr);
+      var sOut = '<table><tbody>';
+      sOut += '<tr><td>Description:</td><td>'+aData.description+'</td></tr>';
+      sOut += '<tr><td>Length:</td><td>'+aData.length+' inches</td></tr>';
+      sOut += '<tr><td>Weight:</td><td>'+aData.weight+' lbs</td></tr>';
+      sOut += '<tr><td>Contact:</td><td>'+aData.name+'</td></tr>';
+      sOut += '<tr><td></td><td>'+aData.email+'</td></tr>';
+      sOut += '<tr><td></td><td>'+aData.phone+'</td></tr>';
+      sOut += '<tr><td></td><td>'+aData.city + ", " + aData.state+'</td></tr>';
+      sOut += '</tbody></table>';
+
+      return sOut;
+    }
+
+    var oTable;
+
+    $(document).ready(function() {
+
+      /* Init DataTables */
+      oTable = $('#table').dataTable( {
+        "bJQueryUI": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "bDeferRender": true,
+        "bFilter": false,
+        "sPaginationType": "full_numbers",
+        "sAjaxSource": "/reports.json",
+        "aoColumns": [
+          { "sClass": "center", "bSortable": false, "mDataProp": null, "fnRender": function (oObj){ return makeExpandButton(oObj); } },
+          { "sTitle": "Tag", "sName": "tag", "mDataProp": "tag" },
+          { "sTitle": "Fish Type", "sName": "fishtype", "mDataProp": "fishtype" },
+          { "sTitle": "Method", "sName": "method", "mDataProp": "method" },
+          { "sTitle": "Found", "sName": "found", "mDataProp": "found" },
+          { "sTitle": "Reported", "sName": "reported", "mDataProp": "reported" },
+          { "sTitle": "Actions", "sName": "action", "mDataProp": null, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
+        ],
+
+        "fnDrawCallback": function(oSettings, json) {
+
+          $(".destroyer").click(function(e) {
+            if(confirm("Are you sure?")) {
+              e.preventDefault();
+              var aData = oTable.fnGetData($(this).parents('tr')[0]);
+              var id = aData.DT_RowId;
+              $.ajax({
+                type: "DELETE",
+                url: "/reports/"+id+".js",
+                success: function(){
+                  oTable.fnDraw();
+                },
+                error: function(){
+                  alert('Failed to delete Report');
+                }
+              });
+            }
+          });
+        }
+      });
+
+      $('#table tbody td img').live( 'click', function () {
+        var nTr = this.parentNode.parentNode;
+        if (this.src.match('details_close')) {
+          /* This row is already open - close it */
+          this.src = "#{asset_path 'details_open.png'}";
+          oTable.fnClose( nTr );
+        } else {
+          /* Open this row */
+          this.src = "#{asset_path 'details_close.png'}";
+          oTable.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
+        }
+      });
+
+    });
