@@ -27,6 +27,8 @@ group :test do
   gem 'email_spec'
 end
 
+gem 'rgeo'
+gem 'rgeo-geojson'
 gem 'activerecord-postgis-adapter'
 
 gem 'kaminari'
