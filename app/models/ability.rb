@@ -16,12 +16,13 @@ class Ability
   end
 
   def researcher
-    guest
+    registered
     can :read, Report
   end
 
   def investigator
     researcher
+    can :manage, Study, user_id => @user.id
   end
 
   def admin

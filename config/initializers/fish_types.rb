@@ -2,7 +2,8 @@ class Fish
   TYPES =
     [
       "Walleye",
-      "Trout",
-      "Sturgeon"
+      "Lake Trout",
+      "Sturgeon",
+      "Sea Lamprey"
     ]
 end

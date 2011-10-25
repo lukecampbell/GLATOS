@@ -11,7 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111024172655) do
+ActiveRecord::Schema.define(:version => 20111024202611) do
+
+  create_table "deployments", :force => true do |t|
+    t.datetime "start"
+    t.datetime "end"
+    t.integer  "study_id"
+    t.spatial  "location", :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+  end
+
+  add_index "deployments", ["location"], :name => "index_deployments_on_location", :spatial => true
+
+  create_table "receivers", :force => true do |t|
+    t.string "code"
+  end
+
+  add_index "receivers", ["code"], :name => "index_receivers_on_code"
 
   create_table "reports", :force => true do |t|
     t.string   "tag",                                                                                                   :null => false
@@ -32,6 +47,16 @@ ActiveRecord::Schema.define(:version => 20111024172655) do
 
   add_index "reports", ["location"], :name => "index_reports_on_location", :spatial => true
   add_index "reports", ["tag"], :name => "index_reports_on_tag"
+
+  create_table "studies", :force => true do |t|
+    t.string   "name",        :null => false
+    t.text     "description"
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "url"
+    t.string   "species"
+    t.integer  "user_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",    :null => false
