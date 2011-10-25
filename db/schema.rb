@@ -22,12 +22,6 @@ ActiveRecord::Schema.define(:version => 20111024202611) do
 
   add_index "deployments", ["location"], :name => "index_deployments_on_location", :spatial => true
 
-  create_table "receivers", :force => true do |t|
-    t.string "code"
-  end
-
-  add_index "receivers", ["code"], :name => "index_receivers_on_code"
-
   create_table "reports", :force => true do |t|
     t.string   "tag",                                                                                                   :null => false
     t.text     "description"
