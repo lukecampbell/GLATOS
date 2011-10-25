@@ -8,6 +8,7 @@ class Ability
 
   def guest
     can :create, Report
+    can :read, Deployment
   end
 
   def registered

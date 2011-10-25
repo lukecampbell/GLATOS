@@ -2,20 +2,66 @@ class DeploymentsController < ApplicationController
 
   def index
     authorize! :read, Deployment
-    @deps = Deployment.order('study_id ASC')
+    if params[:study_id]
+      study = Study.find(params[:study_id])
+    end
     respond_to do |format|
-      format.geo { render :json =>
-        @deps.as_json({
-          :only => [nil],
-          :methods => [:geojson]
-        })
+      format.html {
+        # The grid page is really only meant for people that
+        # can adminster the study
+        if params[:study_id]
+          authorize! :manage, study
+        else
+          authorize! :manage, Study
+        end
+        render :layout => 'admin'
       }
-      format.json { render :json =>
-        @deps.as_json({
-          :methods => [:DT_RowId, :geo],
-          :only => [:start, :end, :study_id]
-        })
+      format.geo {
+        if params[:study_id]
+          deps = Deployment.where(["study_id = ?",study])
+        else
+          deps = Deployment.order('study_id ASC')
+        end
+        render :json =>
+          deps.as_json({
+            :only => [nil],
+            :methods => [:geojson]
+          })
       }
+      format.json {
+        columns = params[:sColumns].split(",")
+        sort_direction = params[:sSortDir_0]
+        sort_column = columns[params[:iSortingCols].to_i]
+        page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
+        # The grid page is really only meant for people that
+        # can adminster the study
+        if params[:study_id]
+          authorize! :manage, study
+          deps = Deployment.where(["study_id = ?",study]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+        else
+          authorize! :manage, Study
+          deps = Deployment.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+        end
+        render :json => {
+          :sEcho => params[:sEcho],
+          :iTotalRecords => deps.total_count,
+          :iTotalDisplayRecords => deps.total_count,
+          :aaData => deps.as_json({
+            :only => [:study_id, :start, :end],
+            :methods => [:DT_RowId, :latitude, :longitude]
+          })
+        }
+      }
+    end
+  end
+
+  def destroy
+    @dep = Deployment.find(params[:id])
+    authorize! :destroy, @dep
+    @dep.destroy
+    respond_to do |format|
+      format.html
+      format.js { render :json => nil, :status => :ok}
     end
   end
 end

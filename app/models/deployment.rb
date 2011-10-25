@@ -18,4 +18,12 @@ class Deployment < ActiveRecord::Base
     return RGeo::GeoJSON::Feature.new(self.location, self.id, s)
   end
 
+  def latitude
+    location.latitude
+  end
+
+  def longitude
+    location.longitude
+  end
+
 end
