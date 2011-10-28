@@ -1,0 +1,51 @@
+.report, .user {
+
+  input {
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    padding: 5px;
+  }
+
+  .input .label {
+    float: none;
+  }
+
+  .stringish input {
+    width: 90%;
+    margin: 0.5em 0;
+  }
+
+  .text textarea {
+    width: 90%;
+    height: 100px;
+    margin: 0.5em 0;
+    padding: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+  }
+
+  .input .label {
+    color: #58595b;
+    font-weight: bold;
+  }
+
+  select {
+    margin: 0.5em 0;
+    padding: 3px;
+    width: 90%;
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+  }
+
+  .input .label {
+    width: 90%;
+  }
+
+  .input .inline-hints {
+    margin: 0;
+    font-size   : 10px;
+    font-weight : bold;
+    font-style  : italic;
+  }
+
+}

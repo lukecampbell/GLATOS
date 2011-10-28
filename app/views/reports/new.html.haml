@@ -1,18 +1,66 @@
-New Report
 
-= semantic_form_for @report do |f|
+= semantic_form_for @report, :remote => true, :class => 'report' do |f|
   = f.inputs do
-    = f.input :tag
-    = f.input :description
-    = f.input :method,      :as => :select,   :collection => Report::METHODS,   :label => "How did you find the tag?"
-    = f.input :name
-    = f.input :phone,       :as => :string
-    = f.input :email,       :as => :string
-    = f.input :city
-    = f.input :state,       :as => :select,   :collection => State::NAMES,      :label => "State/Province"
-    = f.input :length,      :as => :string,                                     :label => "Fish Length (inches)"
-    = f.input :weight,      :as => :string,                                     :label => "Fish Weight (pounds)"
-    = f.input :fishtype,    :as => :select,   :collection => Fish::TYPES,       :label => "What type of fish?"
-    = f.input :found
+    #report-left-side
+      %p
+        Acoustic transmitters, or tags, have been implanted in a variety of species around the Greak Lakes.  These tags allow GLATOS researchers to track the movements of tagged fish, givin ghem great insights into migration patterns, ecology, and spawning behaviours.
+      %p
+        Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let out researches know.
 
-  = f.buttons
+      .left-form-element
+        = f.input :tag,                         :label => "ID Tag Number"
+        = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing"
+      = f.input :found,                         :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?"
+      .right-form-element{:style => "text-align: center;"}
+        %img{:src => "#{asset_path 'calendar.png'}"}
+      = f.input :name,                          :wrapper_html => { :class => 'left-form-element' }
+      = f.input :city,                          :wrapper_html => { :class => 'right-form-element' }
+      = f.input :phone,       :as => :string,   :wrapper_html => { :class => 'left-form-element' }
+      = f.input :state,       :as => :select,   :wrapper_html => { :class => 'right-form-element' },    :collection => State::NAMES,            :label => "State/Province"
+      = f.input :email,       :as => :string,   :wrapper_html => { :class => 'left-form-element' }
+
+    #report-right-side
+
+      %p
+        If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  You may keep the fish!
+
+      = f.input :method,      :as => :select,   :wrapper_html => { :class => 'left-form-element' },      :collection => Report::METHODS,   :label => "How did you find the tag?"
+      = f.input :fishtype,    :as => :select,   :wrapper_html => { :class => 'right-form-element' },     :collection => Fish::TYPES,       :label => "What type of fish?"
+      .left-form-element
+        %img{:src => "#{asset_path 'tag.jpg'}", :style => "width: 90%;"}
+        %br
+        %div{:class => 'caption', :style => "width: 90%;"}
+          The V8-4L is a tag you could possibly find.  It weights only about 0.9 grams in water and is only 20.5mm long.
+      .right-form-element
+        .spacer{:style => "height: 40px;"}
+        = f.input :length,    :as => :string,   :wrapper_html => { :class => 'small-form-element' },       :label => "Fish Length",   :hint => "in"
+        = f.input :weight,    :as => :string,   :wrapper_html => { :class => 'small-form-element' },       :label => "Fish Weight",   :hint => "lbs"
+
+      .clear
+      .spacer{:style => "height: 40px;"}
+      %p{:class => 'left-form-element'}
+        Review your ID Tag Number before submitting
+      .right-form-element
+        = f.commit_button :button_html => { :disable_with => 'Wait...' }
+
+
+:javascript
+
+  $(document).ready(function() {
+    $('.default_value').each(function() {
+      var default_value = this.value;
+      $(this).css('color', '#666');
+      $(this).focus(function() {
+        if(this.value == default_value) {
+          this.value = '';
+          $(this).css('color', '#333');
+        }
+      });
+      $(this).blur(function() {
+        if(this.value == '') {
+          $(this).css('color', '#666');
+          this.value = default_value;
+        }
+      });
+    });
+  });
