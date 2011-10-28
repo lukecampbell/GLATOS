@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
 
         reports = Report.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
-        render :dataTable => {
+        render :json => {
           :sEcho => params[:sEcho],
           :iTotalRecords => reports.total_count,
           :iTotalDisplayRecords => reports.total_count,
