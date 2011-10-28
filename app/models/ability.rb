@@ -13,7 +13,7 @@ class Ability
 
   def registered
     guest
-    can :manage, User, id => @user.id
+    can :manage, User, :id => @user.id
   end
 
   def researcher
@@ -23,7 +23,7 @@ class Ability
 
   def investigator
     researcher
-    can :manage, Study, user_id => @user.id
+    can :manage, Study, :user_id => @user.id
   end
 
   def admin
