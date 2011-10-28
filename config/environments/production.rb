@@ -43,7 +43,10 @@ Glatos::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w( home.js home.css )
+  config.assets.precompile += %w( admin.js admin.css )
+  config.assets.precompile += %w( explore.js explore.css )
+  config.assets.precompile += %w( ie7.css ie6.css )
 
   config.action_mailer.default_url_options = { :host => 'glatos.org' }
   config.action_mailer.delivery_method = :smtp
