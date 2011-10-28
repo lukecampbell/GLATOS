@@ -6,14 +6,14 @@ class ReportsController < ApplicationController
     authorize! :manage, Report
     respond_to do |format|
       format.html { render :layout => 'admin'}
-      format.json {
+      format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
         sort_column = columns[params[:iSortingCols].to_i]
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
 
         reports = Report.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
-        render :json => {
+        render :dataTable => {
           :sEcho => params[:sEcho],
           :iTotalRecords => reports.total_count,
           :iTotalDisplayRecords => reports.total_count,

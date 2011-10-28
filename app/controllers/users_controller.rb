@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     authorize! :manage, @user
     respond_to do |format|
       format.html
-      format.json {
+      format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
         sort_column = columns[params[:iSortingCols].to_i]

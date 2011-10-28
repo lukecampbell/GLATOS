@@ -5,3 +5,4 @@
 # Mime::Type.register_alias "text/html", :iphone
 
 Mime::Type.register_alias "application/json", :geo
+Mime::Type.register_alias "application/json", :dataTable

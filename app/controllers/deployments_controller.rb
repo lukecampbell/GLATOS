@@ -28,7 +28,7 @@ class DeploymentsController < ApplicationController
             :methods => [:geojson]
           })
       }
-      format.json {
+      format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
         sort_column = columns[params[:iSortingCols].to_i]
