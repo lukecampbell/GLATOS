@@ -25,6 +25,9 @@ production:
   pool: 5
   username: glatos
   password:
+  script_dir: /usr/pgsql-9.0/share/contrib/postgis-1.5/
+  schema_search_path: public,postgis
+  template: template0
 
 cucumber:
   <<: *test
