@@ -1,1 +1,39 @@
 == GLATOS ==
+
+Setting up the dev environment:
+
+$ yum install goes-devel proj-devel bison flex git gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool libxslt-devel
+
+Install Ruby 1.9.2
+Install Postgres 9.0.5
+Install Postgis 1.5.3
+Install NodeJS 0.4.12
+
+# Symlink Postgis SQL scripts.  POSTGIS_DIR should be where postgis.sql is.
+$ mkdir -p /usr/share/pgsql/contrib/
+$ ln -s POSTGIS_DIR /usr/share/pgsql/contrib/postgis-1.5
+
+# Link pg_config to the PATH
+$ ln -s PG_CONFIG_PATH /usr/bin/pg_config
+
+Edit pg_hba.conf to allow the "postgres" and "glatos" user to connect to Postgres (with password is fine)
+
+$ createuser -U postgres
+Enter name of role to add: glatos
+Shall the new role be a superuser? (y/n) y
+
+# The application runs as the glatos user
+
+$ useradd glatos
+$ mkdir -p /mnt/glatos
+$ chown glatos:glatos /mnt/glatos/
+$ su glatos
+$ cd /mnt/glatos
+$ git clone git://github.com/asascience-open/GLATOS.git
+
+$ cd GLATOS
+$ gem update --system  # Get the most recent rubygems
+$ bundle install
+$ bundle exec rake db:create
+$ bundle exec rake db:seed
+$ rails server thin
