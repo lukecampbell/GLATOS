@@ -74,3 +74,9 @@ body {
 .clear {
   clear: both;
 }
+
+#report_found_input .ui-datepicker-trigger {
+  float: left;
+  vertical-align: middle;
+  margin: 0 20px 0 10px;
+}

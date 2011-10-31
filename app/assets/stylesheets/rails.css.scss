@@ -35,3 +35,22 @@
 .info a {
     color: #205791;
 }
+
+#error_explanation {
+  border: 2px solid #FBC2C4;
+  background: none repeat scroll 0 0 #FBE3E4;
+  border-color: #FBC2C4;
+  color: #8A1F11;
+  padding: 10px;
+
+  padding-left:50px;
+
+  text-shadow:none;
+
+  h2 {
+    font-size:13px;
+    line-height:18px;
+    font-weight:bold;
+    margin:0 0 6px 0;
+  }
+}

@@ -32,6 +32,18 @@ class ReportsController < ApplicationController
 
   def create
     authorize! :create, Report
+    @report = Report.new(params[:report])
+    @report.found = Date.strptime(params[:report][:found],"%m/%d/%Y").to_date rescue nil
+    if @report.save
+      respond_to do |format|
+        flash["notice"] = "Thank you for submitting your Report!"
+        format.html { redirect_to :action => :info }
+      end
+    else
+      respond_to do |format|
+        format.html { render :action => :new }
+      end
+    end
   end
 
   def destroy

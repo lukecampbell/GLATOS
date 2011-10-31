@@ -1,5 +1,6 @@
 
-= semantic_form_for @report, :remote => true, :class => 'report' do |f|
+= semantic_form_for @report, :class => 'report' do |f|
+  = f.semantic_errors
   = f.inputs do
     #report-left-side
       %p
@@ -10,9 +11,8 @@
       .left-form-element
         = f.input :tag,                         :label => "ID Tag Number"
         = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing"
-      = f.input :found,                         :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?"
+      = f.input :found,       :as => :string,   :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?",   :input_html => { :readonly => true }
       .right-form-element{:style => "text-align: center;"}
-        %img{:src => "#{asset_path 'calendar.png'}"}
       = f.input :name,                          :wrapper_html => { :class => 'left-form-element' }
       = f.input :city,                          :wrapper_html => { :class => 'right-form-element' }
       = f.input :phone,       :as => :string,   :wrapper_html => { :class => 'left-form-element' }
@@ -63,4 +63,15 @@
         }
       });
     });
+
+    $( "#report_found" ).datepicker({
+       buttonImage: "#{asset_path 'small_calendar.png'}"
+      ,changeMonth: true
+      ,changeYear:  true
+      ,showOn: "both"
+      ,autoSize: true
+      ,buttonImageOnly: true
+      ,showOptions: {direction: 'up' }
+      });
+
   });
