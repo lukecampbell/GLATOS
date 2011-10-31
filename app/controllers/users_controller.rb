@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
-        sort_column = columns[params[:iSortingCols].to_i]
+        sort_column = columns[params[:iSortingCols].to_i].to_s
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
 
         users = User.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
           :iTotalDisplayRecords => users.total_count,
           :aaData => users.as_json({
             :methods => [:DT_RowId, :confirmed?],
-            :only => [:name, :email, :role, :approved]
+            :only => [:name, :email, :organization, :role, :approved]
           })
         }
       }

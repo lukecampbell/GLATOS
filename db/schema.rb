@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111024202611) do
+ActiveRecord::Schema.define(:version => 20111031194714) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20111024202611) do
     t.string   "role"
     t.boolean  "approved",                              :default => false, :null => false
     t.string   "name"
+    t.string   "organization"
   end
 
   add_index "users", ["approved"], :name => "index_users_on_approved"

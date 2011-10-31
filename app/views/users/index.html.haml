@@ -33,9 +33,10 @@
         "aoColumns": [
           { "sTitle": "Name", "sName": "name", "mDataProp": "name" },
           { "sTitle": "Email", "sName": "email", "mDataProp": "email" },
-          { "sTitle": "Confirmed?", "sName": "confirmed?", "mDataProp": "confirmed?" },
-          { "sTitle": "Role", "sName": "role", "mDataProp": null, "fnRender": function (oObj){ return makeRoleDropdown(oObj); } },
-          { "sTitle": "Actions", "sName": "action", "mDataProp": null, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
+          { "sTitle": "Organization", "sName": "organization", "mDataProp": "organization" },
+          { "sTitle": "Confirmed?", "sName": "confirmed?", "mDataProp": "confirmed?", "bSortable": false },
+          { "sTitle": "Role", "sName": "role", "mDataProp": null, "bSortable": false, "fnRender": function (oObj){ return makeRoleDropdown(oObj); } },
+          { "sTitle": "Actions", "sName": "action", "mDataProp": null, "bSortable": false, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
         ],
         "fnDrawCallback": function(oSettings, json) {
 
