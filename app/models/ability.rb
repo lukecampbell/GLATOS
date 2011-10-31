@@ -11,7 +11,7 @@ class Ability
     can :read, Deployment
   end
 
-  def registered
+  def public
     guest
     can :manage, User, :id => @user.id
   end

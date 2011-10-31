@@ -6,6 +6,7 @@
     = f.input :name
     = f.input :email
     = f.input :organization
+    = f.input :role, :as => :radio, :collection => User::REGISTERABLE_ROLES.map{|r|["#{r.humanize} - #{User::ROLE_MAP[r.to_sym]}",r]}, :label => "Requested Role", :selected => User::REGISTERABLE_ROLES.first
     = f.input :password, :label => "Password (leave blank if you don't want to change it)"
     = f.input :password_confirmation
     = f.input :current_password, :label => "Current Password (we need your current password to confirm your changes)"
@@ -13,4 +14,3 @@
     = f.submit "Update"
 
 %br
-= link_to "Back", :back

@@ -5,10 +5,19 @@
     = f.input :name
     = f.input :email
     = f.input :organization
-    = f.input :role, :as => :select, :collection => options_for_select(User::ROLES.map{|r|[r.humanize,r]}), :label => "Requested Role"
+    = f.input :role, :as => :radio, :collection => User::REGISTERABLE_ROLES.map{|r|["#{r.humanize} - #{User::ROLE_MAP[r.to_sym]}",r]}, :label => "Requested Role"
     = f.input :password
     = f.input :password_confirmation
   = f.buttons do
     = f.submit "Sign up"
 %br
 = render :partial => "devise/shared/links"
+
+:javascript
+  $(document).ready(function() {
+    // Select the Public radio if none are selected
+    var $radios = $('input:radio[name=user[role]]');
+    if($radios.is(':checked') === false) {
+      $radios.filter('[value=public]').attr('checked', true);
+    }
+  });

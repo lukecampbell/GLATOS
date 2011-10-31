@@ -10,7 +10,15 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :email
   validates_uniqueness_of :name, :email, :case_sensitive => false
 
-  ROLES = %w[guest registered researcher investigator admin]
+  ROLES = %w[guest public researcher investigator admin]
+  REGISTERABLE_ROLES = ROLES - %w[guest]
+  ROLE_MAP = {
+    :guest => "Unregistered visitor to the site",
+    :public => "Registered user of the GLATOS website",
+    :researcher => "Researcher interested in GLATOS data",
+    :investigator => "Contributor to the GLATOS database",
+    :admin => "Administrator of the GLATOS website"
+  }
 
   def DT_RowId
     self.id
@@ -31,7 +39,7 @@ class User < ActiveRecord::Base
 
   def self.send_reset_password_instructions(attributes={})
     recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
-    if !recoverable.approved?
+    if !recoverable.approved? && recoverable.errors.blank?
       recoverable.errors[:base] << I18n.t("devise.failure.not_approved")
     elsif recoverable.persisted?
       recoverable.send_reset_password_instructions
