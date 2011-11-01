@@ -25,6 +25,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'cucumber-rails'
+  gem 'pickle'
   gem 'minitest'
   gem 'capybara'
   gem 'turn', '< 0.8.3', :require => false
