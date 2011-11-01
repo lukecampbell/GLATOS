@@ -20,6 +20,12 @@ module NavigationHelpers
     when /the sign in page/
       new_user_session_path
 
+    when /the user admin page/
+      users_path
+
+    when /the edit account page/
+      edit_user_registration_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

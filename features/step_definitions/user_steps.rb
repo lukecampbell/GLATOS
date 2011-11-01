@@ -2,13 +2,17 @@ Given /^no user exists with an email of "(.*)"$/ do |email|
   User.find(:first, :conditions => { :email => email }).should be_nil
 end
 
-Given /^I am an approved_user$/ do
-  Factory.create(:approved_user)
+Given /^I am logged in as an admin$/ do
+  user = Factory.build(:admin_user)
+  Given %{I sign in as "#{user.email}/#{user.password}"}
 end
 
-Given /^I am an unapproved_user$/ do
-  Factory.create(:user)
+Given /^I am logged in as an approved user$/ do
+  user = Factory.build(:approved_user)
+  Given %{I sign in as "#{user.email}/#{user.password}"}
 end
+
+
 
 Then /^I should be already signed in$/ do
   visit root_path
@@ -48,7 +52,10 @@ When /^I sign in as "(.*)\/(.*)"$/ do |email, password|
 end
 
 Then /^I should be signed in$/ do
-  Then %{I should see "Signed in successfully."}
+  visit root_path
+  And %{I should see "Edit account"}
+  And %{I should see "Logout"}
+  And %{I should not see "Login"}
 end
 
 When /^I return next time$/ do

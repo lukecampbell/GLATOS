@@ -19,7 +19,7 @@ class UsersController < ApplicationController
           :iTotalDisplayRecords => users.total_count,
           :aaData => users.as_json({
             :methods => [:DT_RowId, :confirmed?],
-            :only => [:name, :email, :organization, :role, :approved]
+            :only => [:name, :email, :organization, :requested_role, :role, :approved]
           })
         }
       }

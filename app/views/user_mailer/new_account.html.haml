@@ -1,0 +1,10 @@
+%p
+  A new account was requested on GLATOS Web
+
+  = @user.name
+  = @user.email
+  = @user.organization
+  = @user.role
+
+%p You can approve this user through the link below:
+%p= link_to 'User Administration', users_url

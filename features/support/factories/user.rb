@@ -3,6 +3,7 @@ FactoryGirl.define do
     name 'Test User'
     email 'user@test.com'
     password 'please'
+    role 'public'
 
     trait :approved do
       approved true
@@ -10,6 +11,8 @@ FactoryGirl.define do
 
     trait :admin do
       role "admin"
+      name 'Admin User'
+      email 'admin@test.com'
     end
 
     trait :researcher do

@@ -1,0 +1,11 @@
+%p
+  A user is requesting an upgraded role
+
+  = @user.name
+  = @user.email
+  = @user.organization
+  = "Current Role: #{@user.role.humanize}"
+  = "Newly Requested Role: #{@user.requested_role.humanize}"
+
+%p You can approve this users's role upgrade through the link below:
+%p= link_to 'User Administration', users_url

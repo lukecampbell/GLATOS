@@ -4,7 +4,7 @@ Feature: Sign out
   Should be able to sign out
 
     Scenario: User signs out
-      Given I am an approved_user
+      Given an approved user exists
       When I sign in as "user@test.com/please"
       Then I should be signed in
       And I sign out
