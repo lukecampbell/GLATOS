@@ -27,3 +27,14 @@ class Deployment < ActiveRecord::Base
   end
 
 end
+# == Schema Information
+#
+# Table name: deployments
+#
+#  id       :integer         not null, primary key
+#  start    :datetime
+#  end      :datetime
+#  study_id :integer
+#  location :spatial({:srid= indexed
+#
+

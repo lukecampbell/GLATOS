@@ -53,3 +53,30 @@ class User < ActiveRecord::Base
   end
 
 end
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer         not null, primary key
+#  email                  :string(255)     default(""), not null, indexed
+#  encrypted_password     :string(128)     default(""), not null
+#  reset_password_token   :string(255)     indexed
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer         default(0)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  confirmation_token     :string(255)     indexed
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  created_at             :datetime
+#  updated_at             :datetime
+#  role                   :string(255)
+#  approved               :boolean         default(FALSE), not null, indexed
+#  name                   :string(255)
+#  organization           :string(255)
+#  requested_role         :string(255)
+#
+
