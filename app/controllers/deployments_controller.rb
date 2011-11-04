@@ -18,9 +18,9 @@ class DeploymentsController < ApplicationController
       }
       format.geo {
         if params[:study_id]
-          deps = Deployment.where(["study_id = ?",study])
+          deps = Deployment.includes(:study).where(["study_id = ?",study])
         else
-          deps = Deployment.order('study_id ASC')
+          deps = Deployment.includes(:study).order('study_id ASC')
         end
         render :json =>
           deps.as_json({
@@ -37,18 +37,19 @@ class DeploymentsController < ApplicationController
         # can adminster the study
         if params[:study_id]
           authorize! :manage, study
-          deps = Deployment.where(["study_id = ?",study]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+          deps = Deployment.includes(:study, :otn_array).where(["study_id = ?",study]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
         else
           authorize! :manage, Study
-          deps = Deployment.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+          deps = Deployment.includes(:study, :otn_array).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
         end
         render :json => {
           :sEcho => params[:sEcho],
           :iTotalRecords => deps.total_count,
           :iTotalDisplayRecords => deps.total_count,
           :aaData => deps.as_json({
-            :only => [:study_id, :start, :end],
-            :methods => [:DT_RowId, :latitude, :longitude]
+            :only => [:start, :end, :station, :seasonal, :model],
+            :include => { :study => { :only => [:name] } },
+            :methods => [:DT_RowId, :latitude, :longitude, :code]
           })
         }
       }
