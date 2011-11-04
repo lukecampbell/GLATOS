@@ -9,7 +9,7 @@ class ReportsController < ApplicationController
       format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
-        sort_column = columns[params[:iSortingCols].to_i]
+        sort_column = columns[params[:iSortCol_0].to_i]
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
 
         reports = Report.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)

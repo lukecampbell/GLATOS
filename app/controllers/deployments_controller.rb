@@ -31,7 +31,7 @@ class DeploymentsController < ApplicationController
       format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
-        sort_column = columns[params[:iSortingCols].to_i]
+        sort_column = columns[params[:iSortCol_0].to_i]
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
         # The grid page is really only meant for people that
         # can adminster the study
