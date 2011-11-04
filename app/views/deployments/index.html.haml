@@ -34,15 +34,19 @@
         "bServerSide": true,
         "bDeferRender": true,
         "bFilter": false,
+        "aaSorting": [[ 3, "desc" ]],
         "sPaginationType": "full_numbers",
-        "sAjaxSource": "#{request.path}.json",
+        "sAjaxSource": "#{request.path}.dataTable",
         "aoColumns": [
           { "sClass": "center", "bSortable": false, "mDataProp": null, "fnRender": function (oObj){ return makeExpandButton(oObj); } },
-          { "sTitle": "Study", "sName": "study_id", "mDataProp": "study_id" },
+          { "sTitle": "Study", "bSortable": false, "mDataProp": "study.name" },
+          { "sTitle": "Unique Code (otn_array + station)", "bSortable": false, "mDataProp": "code" },
+          { "sTitle": "Model", "sName": "model", "mDataProp": "model" },
           { "sTitle": "Start", "sName": "start", "mDataProp": "start" },
           { "sTitle": "End", "sName": "end", "mDataProp": "end" },
+          { "sTitle": "Seasonal?", "sName": "seasonal", "mDataProp": "seasonal" },
           { "sTitle": "Location", "sName": "location", "mDataProp": null, "fnRender": function (oObj){ return oObj.aData.longitude + ", " + oObj.aData.latitude } },
-          { "sTitle": "Actions", "sName": "action", "mDataProp": null, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
+          { "sTitle": "Actions", "bSortable": false, "sName": "action", "mDataProp": null, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
         ],
 
         "fnDrawCallback": function(oSettings, json) {

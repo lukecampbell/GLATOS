@@ -2,6 +2,7 @@ class Deployment < ActiveRecord::Base
   require 'rgeo/geo_json'
 
   belongs_to :study
+  belongs_to :otn_array
 
   set_rgeo_factory_for_column(:location, RGeo::Geographic.spherical_factory(:srid => 4326))
 
@@ -9,21 +10,28 @@ class Deployment < ActiveRecord::Base
     self.id
   end
 
+  def code
+    "#{otn_array.code}-#{station}"
+  end
+
   def geo
     return RGeo::GeoJSON.encode(self.location)
   end
 
   def geojson
-    s = self.attributes.delete_if {|key, value| ["location","id"].include?(key) }
+    removals = ["location","id","station","otn_array_id"]
+    s = self.attributes.delete_if {|key, value| removals.include?(key) }
+    s[:otn_array] = otn_array.code
+    s[:code] = code
     return RGeo::GeoJSON::Feature.new(self.location, self.id, s)
   end
 
-  def latitude
-    location.latitude
+  def latitude(round=3)
+    location.latitude.round(round)
   end
 
-  def longitude
-    location.longitude
+  def longitude(round=3)
+    location.longitude.round(round)
   end
 
 end
