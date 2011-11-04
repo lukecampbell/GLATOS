@@ -39,10 +39,13 @@ end
 #
 # Table name: deployments
 #
-#  id       :integer         not null, primary key
-#  start    :datetime
-#  end      :datetime
-#  study_id :integer
-#  location :spatial({:srid= indexed
+#  id           :integer         not null, primary key
+#  start        :datetime
+#  end          :datetime
+#  study_id     :integer
+#  location     :spatial({:srid= indexed
+#  otn_array_id :integer
+#  station      :integer
+#  model        :string(255)
+#  seasonal     :boolean
 #
-
