@@ -1,7 +1,8 @@
 class Tag < ActiveRecord::Base
-  has_many :tag_deployments, :dependent => :destroy
+  has_many      :tag_deployments, :dependent => :destroy
   has_many      :reports
 
+  belongs_to    :study
 
 end
 # == Schema Information

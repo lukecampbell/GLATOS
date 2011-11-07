@@ -1,8 +1,10 @@
 class Study < ActiveRecord::Base
 
-  belongs_to :user
+  belongs_to  :user
 
-  has_many :deployments
+  has_many    :deployments
+
+  has_many    :tags
 
 end
 # == Schema Information
@@ -18,4 +20,3 @@ end
 #  species     :string(255)
 #  user_id     :integer
 #
-
