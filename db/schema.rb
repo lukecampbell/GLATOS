@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107142300) do
+ActiveRecord::Schema.define(:version => 20111107182924) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -48,10 +48,12 @@ ActiveRecord::Schema.define(:version => 20111107142300) do
     t.decimal  "weight",                                                                  :precision => 6, :scale => 2
     t.string   "fishtype"
     t.spatial  "location",    :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+    t.integer  "tag_id"
   end
 
   add_index "reports", ["location"], :name => "index_reports_on_location", :spatial => true
   add_index "reports", ["tag"], :name => "index_reports_on_tag"
+  add_index "reports", ["tag_id"], :name => "index_reports_on_tag_id"
 
   create_table "studies", :force => true do |t|
     t.string   "name",        :null => false

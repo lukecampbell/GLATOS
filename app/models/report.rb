@@ -1,5 +1,7 @@
 class Report < ActiveRecord::Base
 
+  belongs_to  :tag
+
   validates :tag, :description, :method, :name, :email, :length, :weight, :fishtype, :found, :presence => true
   validates :email, :format => { :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :message => "Invalid Email Address" }
 
