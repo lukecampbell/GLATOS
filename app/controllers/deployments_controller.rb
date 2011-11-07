@@ -47,7 +47,7 @@ class DeploymentsController < ApplicationController
           :iTotalRecords => deps.total_count,
           :iTotalDisplayRecords => deps.total_count,
           :aaData => deps.as_json({
-            :only => [:start, :end, :station, :seasonal, :model],
+            :only => [:start, :ending, :station, :seasonal, :model],
             :include => { :study => { :only => [:name] } },
             :methods => [:DT_RowId, :latitude, :longitude, :code]
           })
