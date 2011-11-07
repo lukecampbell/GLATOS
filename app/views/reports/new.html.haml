@@ -33,6 +33,9 @@
       %p{:class => "reward"}
         If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  You may keep the fish!
 
+      %p
+        = image_tag("tagged_fish.jpg")
+
       = f.input :method,      :as => :select,   :wrapper_html => { :class => 'left-form-element' },      :collection => Report::METHODS,   :label => "How did you find the tag?"
       = f.input :fishtype,    :as => :select,   :wrapper_html => { :class => 'right-form-element' },     :collection => Fish::TYPES,       :label => "What type of fish?"
       .left-form-element

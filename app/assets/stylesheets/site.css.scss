@@ -46,6 +46,10 @@ body {
 #report-right-side {
   @include column(11.5, true);
   float: right;
+
+  img {
+    width: 100%;
+  }
 }
 
 .left-form-element {
