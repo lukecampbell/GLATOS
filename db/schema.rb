@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107203750) do
+ActiveRecord::Schema.define(:version => 20111107205116) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(:version => 20111107203750) do
     t.string   "fishtype"
     t.spatial  "location",          :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer  "tag_deployment_id"
+    t.boolean  "contacted"
+    t.boolean  "resolved"
   end
 
   add_index "reports", ["input_tag"], :name => "index_reports_on_tag"

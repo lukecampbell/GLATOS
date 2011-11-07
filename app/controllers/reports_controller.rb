@@ -18,7 +18,11 @@ class ReportsController < ApplicationController
           :iTotalRecords => reports.total_count,
           :iTotalDisplayRecords => reports.total_count,
           :aaData => reports.as_json({
-            :methods => [:DT_RowId]
+            :methods => [:DT_RowId],
+            :include => { :tag_deployment => {
+              :only => [nil],
+              :include => {:tag => {:only => :code}}
+            }}
           })
         }
       }
@@ -60,6 +64,15 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :json => nil, :status => :ok}
+    end
+  end
+
+  def update
+    @report = Report.find(params[:id])
+    authorize! :update, @report
+    status = @report.update_attributes(params[:report]) ? 200 : 500
+    respond_to do |format|
+      format.js { render :json => nil, :status => status}
     end
   end
 
