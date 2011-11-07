@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107182924) do
+ActiveRecord::Schema.define(:version => 20111107203750) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20111107182924) do
   add_index "otn_arrays", ["code"], :name => "index_otn_arrays_on_code"
 
   create_table "reports", :force => true do |t|
-    t.string   "tag",                                                                                                   :null => false
+    t.string   "input_tag",                                                                                                   :null => false
     t.text     "description"
     t.string   "method"
     t.string   "name"
@@ -44,16 +44,17 @@ ActiveRecord::Schema.define(:version => 20111107182924) do
     t.string   "state"
     t.datetime "reported"
     t.datetime "found"
-    t.decimal  "length",                                                                  :precision => 6, :scale => 2
-    t.decimal  "weight",                                                                  :precision => 6, :scale => 2
+    t.decimal  "length",                                                                        :precision => 6, :scale => 2
+    t.decimal  "weight",                                                                        :precision => 6, :scale => 2
     t.string   "fishtype"
-    t.spatial  "location",    :limit => {:srid=>4326, :type=>"point", :geographic=>true}
-    t.integer  "tag_id"
+    t.spatial  "location",          :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+    t.integer  "tag_deployment_id"
   end
 
+  add_index "reports", ["input_tag"], :name => "index_reports_on_tag"
   add_index "reports", ["location"], :name => "index_reports_on_location", :spatial => true
-  add_index "reports", ["tag"], :name => "index_reports_on_tag"
-  add_index "reports", ["tag_id"], :name => "index_reports_on_tag_id"
+  add_index "reports", ["tag_deployment_id"], :name => "index_reports_on_tag_deployment_id"
+  add_index "reports", ["tag_deployment_id"], :name => "index_reports_on_tag_id"
 
   create_table "studies", :force => true do |t|
     t.string   "name",        :null => false

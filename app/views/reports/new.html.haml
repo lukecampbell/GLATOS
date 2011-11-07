@@ -9,7 +9,7 @@
         Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
 
       .left-form-element
-        = f.input :tag,                         :label => "ID Tag Number"
+        = f.input :input_tag,                   :label => "ID Tag Number"
         = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing"
       = f.input :found,       :as => :string,   :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?",   :input_html => { :readonly => true }
 

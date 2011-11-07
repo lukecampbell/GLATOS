@@ -6,6 +6,8 @@ class Study < ActiveRecord::Base
 
   has_many    :tags
 
+  validates   :user, :presence => true
+
 end
 # == Schema Information
 #

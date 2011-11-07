@@ -34,9 +34,16 @@ class ReportsController < ApplicationController
     authorize! :create, Report
     @report = Report.new(params[:report])
     @report.found = Date.strptime(params[:report][:found],"%m/%d/%Y").to_date rescue nil
+    @report.tag_deployment = Tag.find_match(params[:report][:input_tag]).first.active_deployment rescue nil
     if @report.save
+      ReportMailer.report_invoice(@report).deliver
+      if @report.tag_deployment
+        ReportMailer.matched_report_notification(@report).deliver
+      else
+        ReportMailer.unmatched_report_notification(@report).deliver
+      end
       respond_to do |format|
-        flash["notice"] = "Thank you for submitting your Report!"
+        flash["notice"] = "Thank you for submitting a Report!"
         format.html { redirect_to :action => :info }
       end
     else

@@ -2,7 +2,9 @@ class TagDeployment < ActiveRecord::Base
 
   belongs_to :tag
 
-  validates_presence_of :tag_id
+  has_one    :report
+
+  validates :tag_id, :release_date, :presence => true
 
   validates_inclusion_of :common_name, :in => Fish::TYPES
   #validates_inclusion_of :scientific_name, :in => Fish::SCITYPES

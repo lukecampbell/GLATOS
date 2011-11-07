@@ -33,22 +33,25 @@ stm = Study.create! :name => "STM",
                     :description => "Tracking Sea Lamprey migration through the St. Marys River",
                     :url => "http://www.glfc.org/telemetry/sealamprey.php",
                     :start => Time.utc(2010,1,1),
-                    :end => Time.utc(2012,12,1),
-                    :species => Fish::TYPES[3]
+                    :ending => Time.utc(2012,12,1),
+                    :species => Fish::TYPES[3],
+                    :user => User.create!(:name => "STM Admin 6", :email => 'user6@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
 hec = Study.create! :name => "HEC",
                     :description => "Tracking Walleye movement between Lakes Huron and Erie",
                     :url => "http://www.glfc.org/telemetry/walleye.php",
                     :start => Time.utc(2009,1,1),
-                    :end => Time.utc(2010,12,31),
-                    :species => Fish::TYPES[0]
+                    :ending => Time.utc(2010,12,31),
+                    :species => Fish::TYPES[0],
+                    :user => User.create!(:name => "HEC Admin 7", :email => 'user7@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
 drm = Study.create! :name => "DRM",
                     :description => "Understanding spawning behavior of wild and hatchery-reared lake trout at the Drummond Island Lake Trout Refuge",
                     :url => "http://www.glfc.org/telemetry/laketrout.php",
                     :start => Time.utc(2010,1,1),
-                    :end => Time.utc(2012,12,31),
-                    :species => Fish::TYPES[1]
+                    :ending => Time.utc(2012,12,31),
+                    :species => Fish::TYPES[1],
+                    :user => User.create!(:name => "DRM Admin 8", :email => 'user8@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
 #DEPLOYMENTS
 CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
@@ -76,7 +79,8 @@ CSV.foreach("#{Rails.root}/lib/data/tag.csv", {:headers => true}) do |row|
 end
 
 # REPORTS
-Report.create! :tag => "ABC123",
+Report.create! :input_tag => Tag.first.code,
+               :tag => Tag.first,
                :description => "I found the tag in the water, under some other water.",
                :method => Report::METHODS.first,
                :name => "John the Fisherman",

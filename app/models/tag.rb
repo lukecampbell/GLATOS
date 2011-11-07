@@ -1,8 +1,15 @@
 class Tag < ActiveRecord::Base
   has_many      :tag_deployments, :dependent => :destroy
-  has_many      :reports
 
   belongs_to    :study
+
+  validates_uniqueness_of   :code, :code_space, :serial, :case_sensitive => false
+
+  scope :find_match, lambda { |code| where("code ILIKE ? OR code_space ILIKE ?", "%#{code}%","%#{code}%").limit(1) }
+
+  def active_deployment
+    tag_deployments.order("release_date DESC").limit(1).first
+  end
 
 end
 # == Schema Information

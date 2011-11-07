@@ -15,12 +15,16 @@ FactoryGirl.define do
       email 'admin@test.com'
     end
 
-    trait :researcher do
-      role "researcher"
+    trait :investigator do
+      role 'investigator'
+      name 'Investigator User'
+      email 'investigator@glatos.org'
     end
 
-    trait :investigator do
-      role "investigator"
+    trait :researcher do
+      role "researcher"
+      name 'Researcher User'
+      email 'researcher@glatos.org'
     end
 
     factory :admin_user,              :traits => [:approved, :admin]

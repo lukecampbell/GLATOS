@@ -26,6 +26,9 @@ module NavigationHelpers
     when /the edit account page/
       edit_user_registration_path
 
+    when /the report a tag page/
+      new_report_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

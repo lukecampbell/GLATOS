@@ -33,7 +33,15 @@ Feature: Sign in
       Given I am not logged in
       And an unapproved investigator exists
       When I go to the sign in page
-      And I sign in as "user@test.com/please"
+      And I sign in as "investigator@glatos.org/please"
+      Then I should see "Your account has not been approved"
+      And I should be signed out
+
+    Scenario: A non public user (researcher) requires approval before signing in
+      Given I am not logged in
+      And an unapproved researcher exists
+      When I go to the sign in page
+      And I sign in as "researcher@glatos.org/please"
       Then I should see "Your account has not been approved"
       And I should be signed out
 
