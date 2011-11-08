@@ -21,6 +21,14 @@
       return "#{escape_javascript tags_and_active_deployments}";
     }
 
+    function makeStudyName(oObj) {
+      try {
+        return oObj.aData.tag_deployment.tag.study.name;
+      } catch(exp) {
+        return "";
+      }
+    }
+
     function makeExpandButton(oObj) {
       return "<img src='#{asset_path 'details_open.png'}'>";
     }
@@ -54,11 +62,12 @@
         "bServerSide": true,
         "bDeferRender": true,
         "bFilter": false,
-        "aaSorting": [[ 3, "ASC" ]],
+        "aaSorting": [[ 4, "ASC" ]],
         "sPaginationType": "full_numbers",
-        "sAjaxSource": "/reports.dataTable",
+        "sAjaxSource": "#{request.path}.dataTable",
         "aoColumns": [
           { "sClass": "center", "bSortable": false, "mDataProp": null, "fnRender": function (oObj){ return makeExpandButton(oObj); } },
+          { "sTitle": "Study", "bSortable": false, "mDataProp": null, "fnRender": function (oObj){ return makeStudyName(oObj); } },
           { "sTitle": "Matched Tag", "bSortable": false, "mDataProp": null, "fnRender": function (oObj){ return makeTagCode(oObj); } },
           { "sTitle": "Reported Tag", "sName": "input_tag", "mDataProp": "input_tag" },
           { "sTitle": "Fish Type", "sName": "fishtype", "mDataProp": "fishtype" },

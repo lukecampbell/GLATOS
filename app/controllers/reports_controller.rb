@@ -4,15 +4,32 @@ class ReportsController < ApplicationController
 
   def index
     authorize! :manage, Report
+    if params[:study_id]
+      study = Study.find(params[:study_id])
+    end
     respond_to do |format|
-      format.html { render :layout => 'admin'}
+      format.html {
+        # The grid page is really only meant for people that
+        # can adminster the study
+        if params[:study_id]
+          authorize! :manage, study
+        else
+          authorize! :manage, Study
+        end
+        render :layout => 'admin'
+      }
       format.dataTable {
         columns = params[:sColumns].split(",")
         sort_direction = params[:sSortDir_0]
         sort_column = columns[params[:iSortCol_0].to_i]
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
-
-        reports = Report.order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+        if params[:study_id]
+          authorize! :manage, study
+          reports = Report.includes({:tag_deployment => {:tag => :study}}).where(["tag_deployment_id IS NULL OR tags.study_id = ?",study.id]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+        else
+          authorize! :manage, Study
+          reports = Report.includes({:tag_deployment => :tag}).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+        end
         render :json => {
           :sEcho => params[:sEcho],
           :iTotalRecords => reports.total_count,
@@ -21,7 +38,13 @@ class ReportsController < ApplicationController
             :methods => [:DT_RowId],
             :include => { :tag_deployment => {
               :only => [nil],
-              :include => {:tag => {:only => :code}}
+              :include => {:tag => {
+                  :only => :code,
+                  :include => {:study => {
+                    :only => :name
+                  }}
+                }
+              }
             }}
           })
         }
