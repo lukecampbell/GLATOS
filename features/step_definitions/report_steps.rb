@@ -1,5 +1,5 @@
 Given /^I fill in a valid report$/ do
-  Given %{I fill in "ID Tag Number" with "ABC123"}
+  Given %{I fill in "Internal ID Tag Number" with "ABC123"}
   And %{I fill in "When did you find the tag?" with "11/08/2011"}
   And %{I fill in "Describe the area you were fishing" with "amazing description"}
   And %{I fill in "Name" with "Kyle Wilcox"}
