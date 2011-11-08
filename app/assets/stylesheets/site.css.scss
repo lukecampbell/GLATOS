@@ -41,6 +41,10 @@ body {
 #report-left-side {
   @include column(11.5);
   float: left;
+
+  p img {
+    width: 100%;
+  }
 }
 
 #report-right-side {

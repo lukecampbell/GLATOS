@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107205116) do
+ActiveRecord::Schema.define(:version => 20111108145023) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20111107205116) do
   add_index "otn_arrays", ["code"], :name => "index_otn_arrays_on_code"
 
   create_table "reports", :force => true do |t|
-    t.string   "input_tag",                                                                                                   :null => false
+    t.string   "input_tag",                                                                                                     :null => false
     t.text     "description"
     t.string   "method"
     t.string   "name"
@@ -44,13 +44,14 @@ ActiveRecord::Schema.define(:version => 20111107205116) do
     t.string   "state"
     t.datetime "reported"
     t.datetime "found"
-    t.decimal  "length",                                                                        :precision => 6, :scale => 2
-    t.decimal  "weight",                                                                        :precision => 6, :scale => 2
+    t.decimal  "length",                                                                          :precision => 6, :scale => 2
+    t.decimal  "weight",                                                                          :precision => 6, :scale => 2
     t.string   "fishtype"
-    t.spatial  "location",          :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "location",            :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer  "tag_deployment_id"
     t.boolean  "contacted"
     t.boolean  "resolved"
+    t.string   "input_external_code"
   end
 
   add_index "reports", ["input_tag"], :name => "index_reports_on_tag"
@@ -104,6 +105,7 @@ ActiveRecord::Schema.define(:version => 20111107205116) do
     t.string   "release_location"
     t.spatial  "release_geo",                               :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "release_date"
+    t.string   "external_code"
   end
 
   add_index "tag_deployments", ["capture_geo"], :name => "index_tag_deployments_on_capture_geo", :spatial => true

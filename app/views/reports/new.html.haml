@@ -8,9 +8,13 @@
       %p
         Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
 
-      .left-form-element
-        = f.input :input_tag,                   :label => "ID Tag Number"
-        = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing"
+      = f.input :input_tag,                   :label => "ID Tag Number",            :wrapper_html => { :class => 'left-form-element' }
+      = f.input :input_external_code,         :label => "External ID Tag Number",   :wrapper_html => { :class => 'right-form-element' }
+
+      %p
+        = image_tag("tagged_fish.jpg")
+
+      = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing", :wrapper_html => { :class => 'left-form-element' }
       = f.input :found,       :as => :string,   :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?",   :input_html => { :readonly => true }
 
 
@@ -32,9 +36,6 @@
 
       %p{:class => "reward"}
         If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  You may keep the fish!
-
-      %p
-        = image_tag("tagged_fish.jpg")
 
       = f.input :method,      :as => :select,   :wrapper_html => { :class => 'left-form-element' },      :collection => Report::METHODS,   :label => "How did you find the tag?"
       = f.input :fishtype,    :as => :select,   :wrapper_html => { :class => 'right-form-element' },     :collection => Fish::TYPES,       :label => "What type of fish?"
