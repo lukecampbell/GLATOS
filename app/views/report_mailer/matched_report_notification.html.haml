@@ -1,7 +1,8 @@
 %p
   A tag was found that was linked to your project.  Below is a summary.
 
-  = "Tag: #{@report.input_tag}"
+  = "Internal Tag: #{@report.tag_deployment.tag.code}"
+  = "External Tag: #{@report.tag_deployment.external_code}"
 
   = "Name: #{@report.name}"
   = "Phone: #{@report.phone}"

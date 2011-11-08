@@ -1,7 +1,8 @@
 %p
   A report was filed that did not match any known tags.  Below is a summary.
 
-  = "Tag: #{@report.input_tag}"
+  = "Reported Internal Tag: #{@report.input_tag}"
+  = "Reported External Tag: #{@report.input_external_code}"
 
   = "Name: #{@report.name}"
   = "Phone: #{@report.phone}"
