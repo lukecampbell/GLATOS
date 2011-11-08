@@ -3,15 +3,15 @@
   = f.semantic_errors
   = f.inputs do
     #report-left-side
-      %p
+      %p{:class => 'report_text'}
         Acoustic transmitters, or tags, have been implanted in a variety of species around the Greak Lakes.  These tags allow GLATOS researchers to track the movements of tagged fish, givin ghem great insights into migration patterns, ecology, and spawning behaviours.
-      %p
+      %p{:class => 'report_text'}
         Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
 
       = f.input :input_tag,                   :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
       = f.input :input_external_code,         :label => "External ID Tag Number",   :wrapper_html => { :class => 'right-form-element' }
 
-      %p
+      %p{:class => 'report_text'}
         = image_tag("tagged_fish.jpg")
 
       = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing", :wrapper_html => { :class => 'left-form-element' }
@@ -20,10 +20,10 @@
 
       .clear
 
-      %p{:class => "reward"}
+      %p{:class => "report_text reward"}
         By providing your contact information below project leads will be able to contact you about returning the tag
 
-      %p{:class => "reward", :style => "text-decoration: underline;"}
+      %p{:class => "report_text reward", :style => "text-decoration: underline;"}
         Some projects even provide rewards for returned tags!
 
       = f.input :name,                          :wrapper_html => { :class => 'left-form-element' }
@@ -34,7 +34,7 @@
 
     #report-right-side
 
-      %p{:class => "reward"}
+      %p{:class => "report_text reward"}
         If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  You may keep the fish!
 
       = f.input :method,      :as => :select,   :wrapper_html => { :class => 'left-form-element' },      :collection => Report::METHODS,   :label => "How did you find the tag?"
