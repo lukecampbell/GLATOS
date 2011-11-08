@@ -38,7 +38,11 @@ class ReportsController < ApplicationController
     authorize! :create, Report
     @report = Report.new(params[:report])
     @report.found = Date.strptime(params[:report][:found],"%m/%d/%Y").to_date rescue nil
-    @report.tag_deployment = Tag.find_match(params[:report][:input_tag]).first.active_deployment rescue nil
+    if params[:report][:input_tag]
+      @report.tag_deployment = Tag.find_match(params[:report][:input_tag]).first.active_deployment rescue nil
+    elsif params[:report][:input_external_code]
+      @report.tag_deployment = TagDeployment.find_match(params[:report][:input_external_code]).first rescue nil
+    end
     if @report.save
       ReportMailer.report_invoice(@report).deliver
       if @report.tag_deployment

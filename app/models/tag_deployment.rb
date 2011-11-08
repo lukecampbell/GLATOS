@@ -15,6 +15,8 @@ class TagDeployment < ActiveRecord::Base
   set_rgeo_factory_for_column(:surgery_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
   set_rgeo_factory_for_column(:release_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
 
+  scope :find_match, lambda { |code| where("external_code ILIKE ?", "%#{code}%").limit(1) }
+
 end
 # == Schema Information
 #

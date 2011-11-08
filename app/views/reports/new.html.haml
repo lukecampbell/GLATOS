@@ -8,7 +8,7 @@
       %p
         Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
 
-      = f.input :input_tag,                   :label => "ID Tag Number",            :wrapper_html => { :class => 'left-form-element' }
+      = f.input :input_tag,                   :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
       = f.input :input_external_code,         :label => "External ID Tag Number",   :wrapper_html => { :class => 'right-form-element' }
 
       %p
@@ -18,7 +18,7 @@
       = f.input :found,       :as => :string,   :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?",   :input_html => { :readonly => true }
 
 
-      %div{:style=> "clear:both;"}
+      .clear
 
       %p{:class => "reward"}
         By providing your contact information below project leads will be able to contact you about returning the tag
@@ -51,10 +51,11 @@
 
       .clear
       .spacer{:style => "height: 40px;"}
-      %p{:class => 'left-form-element'}
+
+      = f.commit_button :button_html => { :disable_with => 'Wait...' },   :wrapper_html => { :style => 'margin: 20px; float: right;' }
+      %div{:style => 'margin: 20px; float: right; line-height: 30px; font-weight: bold; font-style: italic;'}
         Review your ID Tag Number before submitting
-      .right-form-element
-        = f.commit_button :button_html => { :disable_with => 'Wait...' }
+
 
 
 :javascript
