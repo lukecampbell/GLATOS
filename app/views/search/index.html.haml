@@ -1,0 +1,61 @@
+%h2
+  Search
+
+
+%input{:class => 'phrase'}
+
+%button{:class => 'searcher'} Search
+
+
+%table{:id => 'tags'}
+
+
+%table{:id => 'reports'}
+
+
+:javascript
+
+  $(document).ready(function() {
+
+    $(".searcher").click(function(e) {
+      e.preventDefault();
+
+      var phrase = $(".phrase").val();
+
+      $.ajax({
+        type: "GET",
+        url: "#{search_tags_path({:format => :js})}",
+        data: "text="+phrase,
+        dataType: 'json',
+        success: function(data){
+          var items = [];
+          $.each(data, function(key, val) {
+            items.push('<tr><td>Tag: ' + val.id + '</td></tr>');
+          });
+          $("#tags").html(items.join(''));
+        },
+        error: function(){
+          // no tags
+        }
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "#{search_reports_path({:format => :js})}",
+        data: "text="+phrase,
+        dataType: 'json',
+        success: function(data){
+          var items = [];
+          $.each(data, function(key, val) {
+            items.push('<tr><td>Report: ' + val.id + '</td></tr>');
+          });
+          $("#reports").html(items.join(''));
+        },
+        error: function(){
+          // no tags
+        }
+      });
+
+    });
+
+  });
