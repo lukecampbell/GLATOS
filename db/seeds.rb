@@ -23,10 +23,14 @@ User.create! :name => "User 5", :email => 'user5@asascience.com', :password => E
 
 
 # OTN_ARRAY
-otns = ["BBI","BLL","BRS","BWA","BWB","CHR","CKI","DCK","DRM","DTR","EDS","FDT","FMP","GRD","GRS","IS1","LRC","LRP","LVD","LVU","MAU","MNB","OSC","OVP","PCH","PRS","RNS","RTR","RVR","SBI","SBO","SGR","SIC","SQR","SSM","STG","STR","THB","TRN","TTB","URC","WHT"]
-otns.each do |c|
-  OtnArray.create({:code => c})
+CSV.foreach("#{Rails.root}/lib/data/locations.csv", {:headers => true}) do |row|
+  OtnArray.create!({
+    :code => row['code'],
+    :description => row["Description"]
+  })
 end
+
+
 
 # STUDIES
 stm = Study.create! :name => "STM",
@@ -53,7 +57,16 @@ drm = Study.create! :name => "DRM",
                     :species => Fish::TYPES[1],
                     :user => User.create!(:name => "DRM Admin 8", :email => 'user8@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
-#DEPLOYMENTS
+mrs = Study.create! :name => "MRS",
+                    :description => "Movement and Habitiat Use of Adult and Juvenile Lake Sturgeon in the Muskegon River System, Michigan",
+                    :url => "",
+                    :start => Time.utc(2010,1,1),
+                    :ending => Time.utc(2012,12,1),
+                    :species => Fish::TYPES[2],
+                    :user => User.create!(:name => "MRS Admin 9", :email => 'user9@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+
+
+# DEPLOYMENTS
 CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
   Deployment.create!({
     :start => Time.strptime(row[7],"%m/%d/%Y"),
@@ -67,7 +80,7 @@ CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row
 end
 
 
-#TAGS
+# TAGS
 CSV.foreach("#{Rails.root}/lib/data/tag.csv", {:headers => true}) do |row|
   t = Tag.find_or_create_by_code_and_code_space_and_study_id(row[6], row[7], Study.find_by_name(row[row.length - 1]).id)
   td = TagDeployment.create!({
@@ -80,7 +93,7 @@ end
 
 # REPORTS
 Report.create! :input_tag => Tag.first.code,
-               :tag => Tag.first,
+               :tag_deployment => TagDeployment.first,
                :description => "I found the tag in the water, under some other water.",
                :method => Report::METHODS.first,
                :name => "John the Fisherman",
