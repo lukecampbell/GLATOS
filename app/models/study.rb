@@ -17,7 +17,7 @@ end
 #  name        :string(255)     not null
 #  description :text
 #  start       :datetime
-#  end         :datetime
+#  ending      :datetime
 #  url         :string(255)
 #  species     :string(255)
 #  user_id     :integer

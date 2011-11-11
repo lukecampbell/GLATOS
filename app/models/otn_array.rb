@@ -5,3 +5,12 @@ class OtnArray < ActiveRecord::Base
   validates_presence_of :code
 
 end
+# == Schema Information
+#
+# Table name: otn_arrays
+#
+#  id          :integer         not null, primary key
+#  code        :string(255)     indexed
+#  description :text
+#
+

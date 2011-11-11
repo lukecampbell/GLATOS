@@ -41,7 +41,7 @@ end
 #
 #  id           :integer         not null, primary key
 #  start        :datetime
-#  end          :datetime
+#  ending       :datetime
 #  study_id     :integer
 #  location     :spatial({:srid= indexed
 #  otn_array_id :integer
