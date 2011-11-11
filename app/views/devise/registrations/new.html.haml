@@ -8,6 +8,7 @@
     = f.input :role, :as => :radio, :collection => User::REGISTERABLE_ROLES.map{|r|["#{r.humanize} - #{User::ROLE_MAP[r.to_sym]}",r]}, :label => "Requested Role"
     = f.input :password
     = f.input :password_confirmation
+    = f.input :newsletter, :label => "Subscribe to the GLATOS newsletter"
   = f.buttons do
     = f.submit "Sign up"
 %br

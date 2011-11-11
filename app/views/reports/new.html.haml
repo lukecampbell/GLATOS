@@ -11,12 +11,7 @@
       = f.input :input_tag,                   :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
       = f.input :input_external_code,         :label => "External ID Tag Number",   :wrapper_html => { :class => 'right-form-element' }
 
-      %p{:class => 'report_text'}
-        = image_tag("tagged_fish.jpg")
-
       = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing", :wrapper_html => { :class => 'left-form-element' }
-      = f.input :found,       :as => :string,   :wrapper_html => { :class => 'right-form-element' },                                            :label => "When did you find the tag?",   :input_html => { :readonly => true }
-
 
       .clear
 
@@ -26,31 +21,37 @@
       %p{:class => "report_text reward", :style => "text-decoration: underline;"}
         Some projects even provide rewards for returned tags!
 
-      = f.input :name,                          :wrapper_html => { :class => 'left-form-element' }
+      = f.input :name,                          :wrapper_html => { :class => 'left-form-element' },     :label => "Full Name"
+      = f.input :address,                       :wrapper_html => { :class => 'right-form-element' }
+
+      = f.input :phone,       :as => :string,   :wrapper_html => { :class => 'left-form-element' },     :label => "Telephone"
       = f.input :city,                          :wrapper_html => { :class => 'right-form-element' }
-      = f.input :phone,       :as => :string,   :wrapper_html => { :class => 'left-form-element' }
-      = f.input :state,       :as => :select,   :wrapper_html => { :class => 'right-form-element' },    :collection => State::NAMES,            :label => "State/Province"
+
       = f.input :email,       :as => :string,   :wrapper_html => { :class => 'left-form-element' },     :hint => "If you don’t have an email address please call John Doe at 555-555-5555 to report the tag."
+      = f.input :state,       :as => :select,   :wrapper_html => { :class => 'tiny-form-element' },     :collection => State::NAMES,            :label => "State/Province"
+      = f.input :zipcode,                       :wrapper_html => { :class => 'tiny-form-element' },                                             :label => "Zip Code"
+
+      = f.input :newsletter,                    :wrapper_html => { :class => 'full-form-element' },     :label => "Subscribe to the GLATOS newsletter"
 
     #report-right-side
 
       %p{:class => "report_text reward"}
-        If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  You may keep the fish!
+        If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  DO NOT FREEZE.  You may keep the fish!
 
       = f.input :method,      :as => :select,   :wrapper_html => { :class => 'left-form-element' },      :collection => Report::METHODS,   :label => "How did you find the tag?"
       = f.input :fishtype,    :as => :select,   :wrapper_html => { :class => 'right-form-element' },     :collection => Fish::TYPES,       :label => "What type of fish?"
-      .left-form-element
-        %img{:src => "#{asset_path 'tag.jpg'}", :style => "width: 90%;"}
-        %br
-        %div{:class => 'caption', :style => "width: 90%;"}
-          The V8-4L is a tag you could possibly find.  It weights only about 0.9 grams in water and is only 20.5mm long.
-      .right-form-element
-        .spacer{:style => "height: 40px;"}
-        = f.input :length,    :as => :string,   :wrapper_html => { :class => 'small-form-element' },       :label => "Fish Length",   :hint => "in"
-        = f.input :weight,    :as => :string,   :wrapper_html => { :class => 'small-form-element' },       :label => "Fish Weight",   :hint => "lbs"
+
+      = f.input :found,       :as => :string,   :wrapper_html => { :class => 'left-form-element' },                                        :label => "When did you find the tag?",   :input_html => { :readonly => true }
+
+      = f.input :length,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => "Fish Length",          :hint => "inches"
+      = f.input :weight,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => "Fish Weight",          :hint => "pounds"
 
       .clear
-      .spacer{:style => "height: 40px;"}
+
+      %p{:class => 'report_text'}
+        = image_tag("tagged_fish.jpg")
+
+      .spacer{:style => "height: 20px;"}
 
       = f.commit_button :button_html => { :disable_with => 'Wait...' },   :wrapper_html => { :style => 'margin: 20px; float: right;' }
       %div{:style => 'margin: 20px; float: right; line-height: 30px; font-weight: bold; font-style: italic;'}

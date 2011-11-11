@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111108145023) do
+ActiveRecord::Schema.define(:version => 20111111194736) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20111108145023) do
   add_index "otn_arrays", ["code"], :name => "index_otn_arrays_on_code"
 
   create_table "reports", :force => true do |t|
-    t.string   "input_tag",                                                                                                     :null => false
+    t.string   "input_tag",                                                                                                                        :null => false
     t.text     "description"
     t.string   "method"
     t.string   "name"
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(:version => 20111108145023) do
     t.boolean  "contacted"
     t.boolean  "resolved"
     t.string   "input_external_code"
+    t.string   "address"
+    t.string   "zipcode",             :limit => 8
+    t.boolean  "newsletter",                                                                                                    :default => false
   end
 
   add_index "reports", ["input_tag"], :name => "index_reports_on_tag"
@@ -150,6 +153,12 @@ ActiveRecord::Schema.define(:version => 20111108145023) do
     t.string   "name"
     t.string   "organization"
     t.string   "requested_role"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode",                :limit => 8
+    t.string   "phone"
+    t.boolean  "newsletter",                            :default => false
   end
 
   add_index "users", ["approved"], :name => "index_users_on_approved"

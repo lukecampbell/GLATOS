@@ -51,7 +51,7 @@ body {
   @include column(11.5, true);
   float: right;
 
-  img {
+  p img {
     width: 100%;
   }
 }
@@ -74,6 +74,16 @@ body {
   @include column(5, true);
 }
 
+.full-form-element {
+  float: left;
+  @include column(11.2, true);
+}
+
+.tiny-form-element {
+  float: left;
+  @include column(2.8, true);
+}
+
 .caption {
   margin-top  : 5px;
   line-height : 12px;
@@ -89,5 +99,5 @@ body {
 #report_found_input .ui-datepicker-trigger {
   float: left;
   vertical-align: middle;
-  margin: 0 20px 0 10px;
+  margin: 0 30px 0 30px;
 }

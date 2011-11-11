@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :name, :email, :organization, :password, :password_confirmation, :remember_me, :role, :requested_role, :approved
 
-  validates_presence_of :name, :email
+  validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
+  validates :email, :format => { :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :message => "invalid" }
 
   ROLES = %w[guest public researcher investigator admin]
   REGISTERABLE_ROLES = ROLES - %w[guest]
@@ -79,4 +80,3 @@ end
 #  organization           :string(255)
 #  requested_role         :string(255)
 #
-
