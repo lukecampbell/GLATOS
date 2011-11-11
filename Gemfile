@@ -15,7 +15,7 @@ gem 'jquery-rails'
 
 group :development do
   gem 'capistrano'
-  gem 'annotate', :git => 'https://github.com/ctran/annotate_models.git', :require => false
+  gem 'annotate', :git => 'http://github.com/ctran/annotate_models.git', :require => false
 end
 
 group :test, :development do
