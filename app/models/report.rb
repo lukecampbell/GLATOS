@@ -1,4 +1,23 @@
 class Report < ActiveRecord::Base
+  include PgSearch
+
+  pg_search_scope :search_all,
+                  :against => [ :input_tag, :description, :method, :name, :email, :phone, :city, :state,
+                                :fishtype,  :input_external_code ],
+                  :using => {
+                    :tsearch => {:prefix => true},
+                    :trigram => {}
+                  },
+                  :associated_against => {
+                    :tag_deployment => [  :common_name,
+                                          :scientific_name,
+                                          :capture_location,
+                                          :external_code,
+                                          :description,
+                                          :release_group,
+                                          :release_location
+                                        ]
+                  }
 
   belongs_to  :tag_deployment
 

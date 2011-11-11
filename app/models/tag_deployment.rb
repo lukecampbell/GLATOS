@@ -1,4 +1,19 @@
 class TagDeployment < ActiveRecord::Base
+  include PgSearch
+
+  pg_search_scope :search_all,
+                  :against =>  [ :common_name,
+                                 :scientific_name,
+                                 :capture_location,
+                                 :external_code,
+                                 :description,
+                                 :release_group,
+                                 :release_location
+                               ],
+                  :using => {
+                    :tsearch => {:prefix => true},
+                    :trigram => {}
+                  }
 
   belongs_to :tag
 

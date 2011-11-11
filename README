@@ -35,5 +35,10 @@ $ cd GLATOS
 $ gem update --system  # Get the most recent rubygems
 $ bundle install
 $ bundle exec rake db:create
-$ bundle exec rake db:seed
+
+# Install the trigram postgres contrib (Pg 9.0.5 version is in the 'lib' directory)
+$ psql -U glatos -d glatos_production -f /usr/share/pgsql/contrib/pg_trgm.sql
+$ bundle exec rake db:reset
+
+# Start the webserver
 $ rails server thin

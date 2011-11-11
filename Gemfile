@@ -45,3 +45,4 @@ gem 'haml'
 gem 'haml-rails'
 
 gem 'formtastic'
+gem 'pg_search'

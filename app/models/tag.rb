@@ -1,4 +1,13 @@
 class Tag < ActiveRecord::Base
+  include PgSearch
+
+  pg_search_scope :search_all,
+                  :against => [:serial, :code, :code_space, :model, :manufacturer, :description],
+                  :using => {
+                    :tsearch => {:prefix => true},
+                    :trigram => {}
+                  }
+
   has_many      :tag_deployments, :dependent => :destroy
 
   belongs_to    :study
