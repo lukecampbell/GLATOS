@@ -19,5 +19,6 @@ Glatos::Application.routes.draw do
   match 'search' => 'search#index', :as => :search, :via => :get
   match 'search/tags' => 'search#tags', :as => :search_tags, :via => :get
   match 'search/reports' => 'search#reports', :as => :search_reports, :via => :get
+  match 'search/studies' => 'search#studies', :as => :search_studies, :via => :get
 
 end

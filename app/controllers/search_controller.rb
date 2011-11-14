@@ -12,4 +12,7 @@ class SearchController < ApplicationController
     render :json => Report.search_all(params[:text]).as_json
   end
 
+  def studies
+    render :json => Study.search_all(params[:text]).as_json
+  end
 end

@@ -6,12 +6,15 @@
 
 %button{:class => 'searcher'} Search
 
+.clear
 
-%table{:id => 'tags'}
+%table{:id => 'tags', :class => 'search_table'}
 
+%table{:id => 'reports', :class => 'search_table'}
 
-%table{:id => 'reports'}
+%table{:id => 'studies', :class => 'search_table'}
 
+.clear
 
 :javascript
 
@@ -50,6 +53,23 @@
             items.push('<tr><td>Report: ' + val.id + '</td></tr>');
           });
           $("#reports").html(items.join(''));
+        },
+        error: function(){
+          // no tags
+        }
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "#{search_studies_path({:format => :js})}",
+        data: "text="+phrase,
+        dataType: 'json',
+        success: function(data){
+          var items = [];
+          $.each(data, function(key, val) {
+            items.push('<tr><td>Study: ' + val.id + '</td></tr>');
+          });
+          $("#studies").html(items.join(''));
         },
         error: function(){
           // no tags

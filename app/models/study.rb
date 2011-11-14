@@ -1,4 +1,12 @@
 class Study < ActiveRecord::Base
+  include PgSearch
+
+  pg_search_scope :search_all,
+                  :against => [:code, :name, :description, :species],
+                  :using => {
+                    :tsearch => {:prefix => true},
+                    :trigram => {}
+                  }
 
   belongs_to  :user
 
