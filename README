@@ -34,6 +34,8 @@ $ git clone git://github.com/asascience-open/GLATOS.git
 $ cd GLATOS
 $ gem update --system  # Get the most recent rubygems
 $ bundle install
+# Having problems with bundle install? try this first:
+$ export LANG=en_US.utf8
 $ bundle exec rake db:create
 
 # Install the trigram postgres contrib (Pg 9.0.5 version is in the 'lib' directory)
@@ -42,3 +44,13 @@ $ bundle exec rake db:reset
 
 # Start the webserver
 $ rails server thin
+
+
+# Deployment
+$ rvmsudo /etc/init.d/thin stop
+$ git pull origin master
+$ export LANG=en_US.utf8
+$ bundle install
+$ RAILS_ENV=production rake db:migrate
+$ rake assets:precomile
+$ rvmsudo /etc/init.d/thin start
