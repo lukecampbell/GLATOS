@@ -33,7 +33,8 @@ end
 
 
 # STUDIES
-stm = Study.create! :name => "STM",
+stm = Study.create! :code => "STM",
+                    :name => "Sea Lamprey Project",
                     :description => "Tracking Sea Lamprey migration through the St. Marys River",
                     :url => "http://www.glfc.org/telemetry/sealamprey.php",
                     :start => Time.utc(2010,1,1),
@@ -41,7 +42,8 @@ stm = Study.create! :name => "STM",
                     :species => Fish::TYPES[3],
                     :user => User.create!(:name => "STM Admin 6", :email => 'user6@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
-hec = Study.create! :name => "HEC",
+hec = Study.create! :code => "HEC",
+                    :name => "Walleye Project",
                     :description => "Tracking Walleye movement between Lakes Huron and Erie",
                     :url => "http://www.glfc.org/telemetry/walleye.php",
                     :start => Time.utc(2009,1,1),
@@ -49,7 +51,8 @@ hec = Study.create! :name => "HEC",
                     :species => Fish::TYPES[0],
                     :user => User.create!(:name => "HEC Admin 7", :email => 'user7@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
-drm = Study.create! :name => "DRM",
+drm = Study.create! :code => "DRM",
+                    :name => "Lake Trout Project",
                     :description => "Understanding spawning behavior of wild and hatchery-reared lake trout at the Drummond Island Lake Trout Refuge",
                     :url => "http://www.glfc.org/telemetry/laketrout.php",
                     :start => Time.utc(2010,1,1),
@@ -57,7 +60,8 @@ drm = Study.create! :name => "DRM",
                     :species => Fish::TYPES[1],
                     :user => User.create!(:name => "DRM Admin 8", :email => 'user8@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
-mrs = Study.create! :name => "MRS",
+mrs = Study.create! :code => "MRS",
+                    :name => "Lake Sturgeon Project",
                     :description => "Movement and Habitiat Use of Adult and Juvenile Lake Sturgeon in the Muskegon River System, Michigan",
                     :url => "",
                     :start => Time.utc(2010,1,1),
@@ -70,7 +74,7 @@ mrs = Study.create! :name => "MRS",
 CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
   Deployment.create!({
     :start => Time.strptime(row[7],"%m/%d/%Y"),
-    :study_id => Study.find_by_name(row[row.length- 1]).id,
+    :study_id => Study.find_by_code(row[row.length- 1]).id,
     :location => "POINT(#{row[9]} #{row[8]})",
     :otn_array_id => OtnArray.find_by_code(row[1]).id,
     :station => row[2].to_i,
@@ -82,7 +86,7 @@ end
 
 # TAGS
 CSV.foreach("#{Rails.root}/lib/data/tag.csv", {:headers => true}) do |row|
-  t = Tag.find_or_create_by_code_and_code_space_and_study_id(row[6], row[7], Study.find_by_name(row[row.length - 1]).id)
+  t = Tag.find_or_create_by_code_and_code_space_and_study_id(row[6], row[7], Study.find_by_code(row[row.length - 1]).id)
   td = TagDeployment.create!({
     :common_name => Fish::TYPES.select{|s| /#{Regexp.escape(row[14].humanize)}/i.match(s)}.first,
     :release_location => row[29],

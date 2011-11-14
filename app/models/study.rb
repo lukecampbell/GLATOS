@@ -14,6 +14,7 @@ end
 # Table name: studies
 #
 #  id          :integer         not null, primary key
+#  code        :string(20)      not null
 #  name        :string(255)     not null
 #  description :text
 #  start       :datetime
