@@ -14,8 +14,11 @@
 
       .clear
 
-      = f.input :input_tag,                   :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
-      = f.input :input_external_code,         :label => "External ID Tag Number",   :wrapper_html => { :class => 'right-form-element' }
+      = f.input :input_tag,              :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
+      %label{:class => 'custom_label label'}
+        External ID Tag Numbers
+      = f.input :input_external_codes,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => false,          :hint => "External Tag #1", :input_html => { :name => "report[input_external_codes_one]"}
+      = f.input :input_external_codes,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => false,          :hint => "External Tag #2", :input_html => { :name => "report[input_external_codes_two]"}
 
       = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, coordinates, etc...", :class => 'default_value'},     :label => "Describe the area where you caught the fish or found the tag", :wrapper_html => { :class => 'left-form-element' }
 

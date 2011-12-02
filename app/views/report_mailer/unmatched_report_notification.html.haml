@@ -2,7 +2,7 @@
   A report was filed that did not match any known tags.  Below is a summary.
 
   = "Reported Internal Tag: #{@report.input_tag}"
-  = "Reported External Tag: #{@report.input_external_code}"
+  = "Reported External Tag: #{@report.input_external_codes.compact.join(',') rescue nil}"
 
   = "Name: #{@report.name}"
   = "Phone: #{@report.phone}"
@@ -10,7 +10,7 @@
   = "State/Province: #{@report.state}"
 
   = "Location: #{@report.location}"
-  = "Description: #{@report.email}"
+  = "Description: #{@report.description}"
   = "Caught: #{@report.found}"
   = "Reported: #{@report.reported}"
 

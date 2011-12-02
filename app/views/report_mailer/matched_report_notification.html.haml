@@ -2,7 +2,7 @@
   A tag was found that was linked to your project.  Below is a summary.
 
   = "Internal Tag: #{@report.tag_deployment.tag.code}"
-  = "External Tag: #{@report.tag_deployment.external_code}"
+  = "External Tag: #{@report.tag_deployment.external_codes.compact.join(',') rescue nil}"
 
   = "Name: #{@report.name}"
   = "Phone: #{@report.phone}"
@@ -10,7 +10,7 @@
   = "State/Province: #{@report.state}"
 
   = "Location: #{@report.location}"
-  = "Description: #{@report.email}"
+  = "Description: #{@report.description}"
   = "Caught: #{@report.found}"
   = "Reported: #{@report.reported}"
 

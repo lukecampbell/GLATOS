@@ -30,7 +30,24 @@ class TagDeployment < ActiveRecord::Base
   set_rgeo_factory_for_column(:surgery_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
   set_rgeo_factory_for_column(:release_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
 
-  scope :find_match, lambda { |code| where("external_code ILIKE ?", "%#{code}%").limit(1) }
+  def self.find_match(codes)
+    TagDeployment.select(:external_codes).each do |ext|
+      # If the intersection is not empty, we matched one...
+      if !(ext.external_codes & codes).empty?
+        return ext
+        break
+      end
+    end
+    return nil
+  end
+
+  def external_codes
+    read_attribute(:external_codes).split(",") rescue nil
+  end
+
+  def external_codes=(codes)
+    write_attribute(:external_codes, codes.join(","))
+  end
 
 end
 # == Schema Information

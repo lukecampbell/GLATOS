@@ -24,10 +24,23 @@ Feature: New Report
     Then I should see "Thank you for your Report!" in the email body
     And I should see "Internal Tag: ABC123" in the email body
 
-  Scenario: User fills in valid data and matches on the external tag
+  Scenario: User fills in valid data and matches on the first external tag
     Given I fill in a valid report
     And I fill in "Internal ID Tag Number" with ""
-    And I fill in "External ID Tag Number" with "External-XYZ"
+    And I fill in "report[input_external_codes_one]" with "External-XYZ"
+    And I press "Create Report"
+    Then I should see "Thank you for submitting a Report!"
+    And a report should exist with tag_deployment: that tag_deployment
+    And "report_submitted@glatos.org" should receive 1 email
+    When I open the email
+    Then I should see "Thank you for your Report!" in the email body
+    And I should see "Internal Tag: " in the email body
+    And I should see "External Tag: External-XYZ" in the email body
+
+  Scenario: User fills in valid data and matches on the second external tag
+    Given I fill in a valid report
+    And I fill in "Internal ID Tag Number" with ""
+    And I fill in "report[input_external_codes_two]" with "External-XYZ"
     And I press "Create Report"
     Then I should see "Thank you for submitting a Report!"
     And a report should exist with tag_deployment: that tag_deployment

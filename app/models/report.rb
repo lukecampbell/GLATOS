@@ -3,7 +3,7 @@ class Report < ActiveRecord::Base
 
   pg_search_scope :search_all,
                   :against => [ :input_tag, :description, :method, :name, :email, :phone, :city, :state,
-                                :fishtype,  :input_external_code ],
+                                :fishtype,  :input_external_codes ],
                   :using => {
                     :tsearch => {:prefix => true},
                     :trigram => {}
@@ -12,7 +12,7 @@ class Report < ActiveRecord::Base
                     :tag_deployment => [  :common_name,
                                           :scientific_name,
                                           :capture_location,
-                                          :external_code,
+                                          :external_codes,
                                           :description,
                                           :release_group,
                                           :release_location
@@ -21,7 +21,7 @@ class Report < ActiveRecord::Base
 
   belongs_to  :tag_deployment
 
-  validates :input_tag, :presence => { :if => lambda {|a| a.input_external_code.blank? }, :message => "You must enter an internal or external tag ID (or both)"}
+  validates :input_tag, :presence => { :if => lambda {|a| a.input_external_codes.blank? }, :message => "You must enter an internal or external tag ID (or both)"}
   validates :description, :method, :name, :email, :fishtype, :found, :presence => true
   validates :email, :format => { :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :message => "Invalid Email Address" }
 
@@ -34,6 +34,18 @@ class Report < ActiveRecord::Base
 
   def DT_RowId
     self.id
+  end
+
+  def input_external_codes
+    read_attribute(:input_external_codes).split(",") rescue nil
+  end
+
+  def input_external_codes=(codes)
+    if codes.is_a? String
+      write_attribute(:input_external_codes, codes)
+    elsif codes.is_a? Array
+      write_attribute(:input_external_codes, codes.join(","))
+    end
   end
 
 end

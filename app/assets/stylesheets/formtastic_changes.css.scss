@@ -48,6 +48,14 @@
     font-style  : italic;
   }
 
+  .custom_label {
+    display: block;
+    width: 90%;
+    color: #58595B;
+    font-weight: bold;
+    padding-top: 0.2em;
+  }
+
 }
 
 .formtastic .inline-errors {
