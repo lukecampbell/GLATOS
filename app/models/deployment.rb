@@ -23,6 +23,10 @@ class Deployment < ActiveRecord::Base
     self.id
   end
 
+  def station
+    "%03d" % read_attribute(:station)
+  end
+
   def code
     "#{otn_array.code}-#{station}"
   end
