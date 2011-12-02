@@ -69,6 +69,10 @@ mrs = Study.create! :code => "MRS",
                     :species => Fish::TYPES[2],
                     :user => User.create!(:name => "MRS Admin 9", :email => 'user9@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
 
+stm.confirm!
+hec.confirm!
+drm.confirm!
+mrs.confirm!
 
 # DEPLOYMENTS
 CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
