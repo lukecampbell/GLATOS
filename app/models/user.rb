@@ -11,11 +11,11 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :name, :email, :case_sensitive => false
   validates :email, :format => { :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :message => "invalid" }
 
-  ROLES = %w[guest public researcher investigator admin]
-  REGISTERABLE_ROLES = ROLES - %w[guest]
+  ROLES = %w[guest general researcher investigator admin]
+  REGISTERABLE_ROLES = ROLES - %w[guest admin]
   ROLE_MAP = {
     :guest => "Unregistered visitor to the site",
-    :public => "Registered user of the GLATOS website",
+    :general => "Registered user of the GLATOS website",
     :researcher => "Researcher interested in GLATOS data",
     :investigator => "Contributor to the GLATOS database",
     :admin => "Administrator of the GLATOS website"

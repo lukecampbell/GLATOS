@@ -11,13 +11,13 @@ class Ability
     can :read, Deployment
   end
 
-  def public
+  def general
     guest
     can :manage, User, :id => @user.id
   end
 
   def researcher
-    registered
+    general
     can :read, Report
   end
 
