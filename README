@@ -40,7 +40,9 @@ $ bundle exec rake db:create
 
 # Install the trigram postgres contrib (Pg 9.0.5 version is in the 'lib' directory)
 $ psql -U glatos -d glatos_production -f /usr/share/pgsql/contrib/pg_trgm.sql
-$ bundle exec rake db:reset
+$ bundle exec rake db:migrate
+$ bundle exec rake db:seed
+
 
 # Start the webserver
 $ rails server thin
@@ -53,4 +55,4 @@ $ export LANG=en_US.utf8
 $ bundle install
 $ RAILS_ENV=production rake db:migrate
 $ rake assets:precomile
-$ rvmsudo /etc/init.d/thin start
+$ rvmsudo /etc/init.d/thin Start
