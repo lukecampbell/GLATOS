@@ -7,11 +7,17 @@
         Acoustic transmitters, or tags, have been implanted in a variety of species around the Greak Lakes.  These tags allow GLATOS researchers to track the movements of tagged fish, givin ghem great insights into migration patterns, ecology, and spawning behaviours.
       %p{:class => 'report_text'}
         Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
+      %p{:class => 'report_text reward'}
+        %span{:style => 'font-size: 30px; vertical-align: middle;'}
+          *
+        Indicates a required field
+
+      .clear
 
       = f.input :input_tag,                   :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
       = f.input :input_external_code,         :label => "External ID Tag Number",   :wrapper_html => { :class => 'right-form-element' }
 
-      = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, weedy, visibility, etc...", :class => 'default_value'},     :label => "Describe the area you were fishing", :wrapper_html => { :class => 'left-form-element' }
+      = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, coordinates, etc...", :class => 'default_value'},     :label => "Describe the area where you caught the fish or found the tag", :wrapper_html => { :class => 'left-form-element' }
 
       .clear
 
@@ -57,7 +63,12 @@
       %div{:style => 'margin: 20px; float: right; line-height: 30px; font-weight: bold; font-style: italic;'}
         Review your ID Tag Number before submitting
 
+      .clear
 
+      %p{:class => 'report_text reward', :style => 'margin-right: 25px; text-align: right;'}
+        %span{:style => 'font-size: 30px; vertical-align: middle;'}
+          *
+        Indicates a required field
 
 :javascript
 
