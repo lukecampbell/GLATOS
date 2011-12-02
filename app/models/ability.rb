@@ -24,6 +24,7 @@ class Ability
   def investigator
     researcher
     can :manage, Study, :user_id => @user.id
+    can :manage, Tag, :study => { :user_id => @user.id }
   end
 
   def admin

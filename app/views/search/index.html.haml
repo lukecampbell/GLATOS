@@ -1,17 +1,17 @@
 %h2
   Search
 
-
 %input{:class => 'phrase'}
 
 %button{:class => 'searcher'} Search
 
 .clear
 
-#search_table
-  %h3 Tags
-  %h5{:id => 'tag_count'}
-  %div{:id => 'tags'}
+-if can? :manage, Tag
+  #search_table
+    %h3 Tags
+    %h5{:id => 'tag_count'}
+    %div{:id => 'tags'}
 
 #search_table
   %h3 Studies

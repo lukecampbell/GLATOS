@@ -7,7 +7,7 @@ class SearchController < ApplicationController
   def tags
     tags = Tag.includes(:study).search_all(params[:text])
     deps = TagDeployment.includes({:tag => :study}).search_all(params[:text]).map(&:tag)
-    tags = (tags + deps).uniq
+    tags = (tags + deps).select { |t| can? :manage, t }
     render :json => tags.as_json({
                       :only => [:id, :code, :code_space],
                       :include => {:study => {
