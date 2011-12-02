@@ -31,7 +31,7 @@ Feature: Request Account
         | Email                 | user@test.com   |
         | Password              | please          |
         | Password confirmation | please          |
-    And I choose "Public"
+    And I choose "General"
     And I press "Sign up"
     Then "admin@test.com" should receive 0 emails
     And "user@test.com" should receive 1 email
@@ -40,7 +40,7 @@ Feature: Request Account
     When I follow "Confirm my account" in the email
     Then I should be signed in
 
-  Scenario: Administrators receive an email about the new accounts that are not Public
+  Scenario: Administrators receive an email about the new accounts that are not General
     And I fill in the following:
         | Name                  | Testy McUserton |
         | Email                 | user@test.com   |

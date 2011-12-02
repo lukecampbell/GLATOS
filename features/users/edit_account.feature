@@ -49,7 +49,7 @@ Feature: Edit Account
     Then "admin@test.com" should receive 1 email
     When I open the email
     And I should see "A user is requesting an upgraded role" in the email body
-    And I should see "Current Role: Public" in the email body
+    And I should see "Current Role: General" in the email body
     And I should see "Newly Requested Role: Investigator" in the email body
     Given I am logged in as an admin
     And I follow "User Administration" in the email

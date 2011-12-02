@@ -19,7 +19,7 @@ Feature: Sign in
       Then I should see "Invalid email or password."
       And I should be signed out
 
-    Scenario: A public user signs in successfully becuase approval is not required
+    Scenario: A general user signs in successfully becuase approval is not required
       Given I am not logged in
       And a user exists
       When I go to the sign in page
@@ -29,7 +29,7 @@ Feature: Sign in
       When I return next time
       Then I should be already signed in
 
-    Scenario: A non public user (investigator) requires approval before signing in
+    Scenario: A non general user (investigator) requires approval before signing in
       Given I am not logged in
       And an unapproved investigator exists
       When I go to the sign in page
@@ -37,7 +37,7 @@ Feature: Sign in
       Then I should see "Your account has not been approved"
       And I should be signed out
 
-    Scenario: A non public user (researcher) requires approval before signing in
+    Scenario: A non general user (researcher) requires approval before signing in
       Given I am not logged in
       And an unapproved researcher exists
       When I go to the sign in page

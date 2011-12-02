@@ -3,7 +3,7 @@ FactoryGirl.define do
     name 'Test User'
     email 'user@test.com'
     password 'please'
-    role 'public'
+    role 'general'
 
     trait :approved do
       approved true

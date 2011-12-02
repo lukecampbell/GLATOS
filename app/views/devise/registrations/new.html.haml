@@ -19,6 +19,6 @@
     // Select the Public radio if none are selected
     var $radios = $('input:radio[name=user[role]]');
     if($radios.is(':checked') === false) {
-      $radios.filter('[value=public]').attr('checked', true);
+      $radios.filter('[value=general]').attr('checked', true);
     }
   });
