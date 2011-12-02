@@ -1,5 +1,18 @@
 class Deployment < ActiveRecord::Base
   require 'rgeo/geo_json'
+  include PgSearch
+
+  pg_search_scope :search_all,
+                  :against => [:model],
+                  :using => {
+                    :tsearch => {:prefix => true},
+                    :trigram => {}
+                  },
+                  :associated_against => {
+                    :otn_array => [ :code,
+                                    :description
+                                  ]
+                  }
 
   belongs_to :study
   belongs_to :otn_array

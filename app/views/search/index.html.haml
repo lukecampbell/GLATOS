@@ -8,15 +8,59 @@
 
 .clear
 
-%table{:id => 'tags', :class => 'search_table'}
+#search_table
+  %h3 Tags
+  %h5{:id => 'tag_count'}
+  %div{:id => 'tags'}
 
-%table{:id => 'reports', :class => 'search_table'}
+#search_table
+  %h3 Studies
+  %h5{:id => 'study_count'}
+  %div{:id => 'studies'}
 
-%table{:id => 'studies', :class => 'search_table'}
+#search_table
+  %h3 Deployments
+  %h5{:id => 'deployment_count'}
+  %div{:id => 'deployments'}
 
 .clear
 
 :javascript
+
+  function buildTagBox(val) {
+    text = "";
+    text += "<div class='box info'>";
+      text += "<h4>" + val.code + "</h4>";
+      text += "<ol class='success'>";
+        text += "<li>Code Space: " + val.code_space + "</li>";
+        text += "<li>Study: <a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>";
+      text += "</ol>";
+    text += "</div>";
+    return text;
+  }
+
+  function buildStudyBox(val) {
+    text = "";
+    text += "<div class='box info'>";
+      text += "<h4>" + val.name + "</h4>";
+      text += "<ol class='success'>";
+        text += "<li>Species: " + val.species + "</li>";
+      text += "</ol>";
+    text += "</div>";
+    return text;
+  }
+
+  function buildDeploymentBox(val) {
+    text = "";
+    text += "<div class='box info'>";
+      text += "<h4>" + val.code + "</h4>";
+      text += "<ol class='success'>";
+        text += "<li>Model: " + val.model + "</li>";
+        text += "<li>Study: <a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>";
+      text += "</ol>";
+    text += "</div>";
+    return text;
+  }
 
   $(document).ready(function() {
 
@@ -32,8 +76,9 @@
         dataType: 'json',
         success: function(data){
           var items = [];
+          $("#tag_count").html(data.length + " results")
           $.each(data, function(key, val) {
-            items.push('<tr><td>Tag: ' + val.id + '</td></tr>');
+            items.push(buildTagBox(val));
           });
           $("#tags").html(items.join(''));
         },
@@ -44,15 +89,16 @@
 
       $.ajax({
         type: "GET",
-        url: "#{search_reports_path({:format => :js})}",
+        url: "#{search_deployments_path({:format => :js})}",
         data: "text="+phrase,
         dataType: 'json',
         success: function(data){
           var items = [];
+          $("#deployment_count").html(data.length + " results")
           $.each(data, function(key, val) {
-            items.push('<tr><td>Report: ' + val.id + '</td></tr>');
+            items.push(buildDeploymentBox(val));
           });
-          $("#reports").html(items.join(''));
+          $("#deployments").html(items.join(''));
         },
         error: function(){
           // no tags
@@ -66,8 +112,9 @@
         dataType: 'json',
         success: function(data){
           var items = [];
+          $("#study_count").html(data.length + " results")
           $.each(data, function(key, val) {
-            items.push('<tr><td>Study: ' + val.id + '</td></tr>');
+            items.push(buildStudyBox(val));
           });
           $("#studies").html(items.join(''));
         },
