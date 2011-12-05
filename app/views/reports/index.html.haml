@@ -35,13 +35,12 @@
 
     /* Formating function for extra details */
     function fnFormatDetails(nTr) {
-      //:tag, :description, :method, :name, :phone, :email, :city, :state, :reported, :height, :weight, :fishtype, :found
+      //:tag, :description, :method, :name, :phone, :email, :city, :state, :reported, :height, :fishtype, :found
       var aData = oTable.fnGetData(nTr);
       var sOut = '<table><tbody>';
       sOut += '<tr><td>Description:</td><td>'+aData.description+'</td></tr>';
       sOut += '<tr><td>Location:</td><td>'+aData.location+'</td></tr>';
       sOut += '<tr><td>Length:</td><td>'+aData.length+' inches</td></tr>';
-      sOut += '<tr><td>Weight:</td><td>'+aData.weight+' lbs</td></tr>';
       sOut += '<tr><td>Contact:</td><td>'+aData.name+'</td></tr>';
       sOut += '<tr><td></td><td>'+aData.email+'</td></tr>';
       sOut += '<tr><td></td><td>'+aData.phone+'</td></tr>';

@@ -22,13 +22,14 @@ class Report < ActiveRecord::Base
   belongs_to  :tag_deployment
 
   validates :input_tag, :presence => { :if => lambda {|a| a.input_external_codes.blank? }, :message => "You must enter an internal or external tag ID (or both)"}
-  validates :description, :method, :name, :email, :fishtype, :found, :presence => true
+  validates :description, :method, :name, :email, :fishtype, :didwith, :found, :presence => true
   validates :email, :format => { :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :message => "Invalid Email Address" }
 
 
   set_rgeo_factory_for_column(:location, RGeo::Geographic.spherical_factory(:srid => 4326))
 
   METHODS = ['Commercial Fishing','Recreational Fishing','Not fishing affiliated']
+  DIDWITH = ['Caught and kept the fish', 'Caught and released the fish']
 
   before_create { |record| record.reported ||= Time.now.utc }
 
@@ -65,7 +66,6 @@ end
 #  reported            :datetime
 #  found               :datetime
 #  length              :decimal(6, 2)
-#  weight              :decimal(6, 2)
 #  fishtype            :string(255)
 #  location            :spatial({:srid= indexed
 #  tag_deployment_id   :integer         indexed, indexed

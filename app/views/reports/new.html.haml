@@ -1,77 +1,79 @@
+%p{:class => 'report_text'}
+  Acoustic transmitters, or tags, have been implanted in a variety of species around the Greak Lakes.  These tags allow GLATOS researchers to track the movements of tagged fish, givin ghem great insights into migration patterns, ecology, and spawning behaviours.
+%p{:class => 'report_text'}
+  Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
+%p{:class => 'report_text reward'}
+  %span{:style => 'font-size: 30px; vertical-align: middle;'}
+    *
+  Indicates a required field
+
+%p{:class => "report_text reward"}
+  By providing your contact information below project leads will be able to contact you about returning the tag
+
+%p{:class => "report_text reward", :style => "text-decoration: underline;"}
+  Some projects even provide rewards for returned tags!
+
+%p{:class => "report_text reward"}
+  If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  DO NOT FREEZE.  You may keep the fish!
 
 = semantic_form_for @report, :class => 'report' do |f|
-  = f.semantic_errors
-  = f.inputs do
-    #report-left-side
-      %p{:class => 'report_text'}
-        Acoustic transmitters, or tags, have been implanted in a variety of species around the Greak Lakes.  These tags allow GLATOS researchers to track the movements of tagged fish, givin ghem great insights into migration patterns, ecology, and spawning behaviours.
-      %p{:class => 'report_text'}
-        Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
-      %p{:class => 'report_text reward'}
-        %span{:style => 'font-size: 30px; vertical-align: middle;'}
-          *
-        Indicates a required field
+  = f.inputs :name => "1 - Contact Information", :id => "contact_info" do
 
-      .clear
+    = f.input :name,                          :label => "Full Name"
+    = f.input :address     
 
-      = f.input :input_tag,              :label => "Internal ID Tag Number",   :wrapper_html => { :class => 'left-form-element' }
-      %label{:class => 'custom_label label'}
-        External ID Tag Numbers
-      = f.input :input_external_codes,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => false,          :hint => "External Tag #1", :input_html => { :name => "report[input_external_codes_one]"}
-      = f.input :input_external_codes,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => false,          :hint => "External Tag #2", :input_html => { :name => "report[input_external_codes_two]"}
+    = f.input :phone,       :as => :string,   :label => "Telephone"
+    = f.input :city
+    = f.input :email,       :as => :string,   :hint => "If you don’t have an email address please call John Doe at 555-555-5555 to report the tag."
+    = f.input :state,       :as => :select,   :label => "State/Province",     :collection => State::NAMES
+    = f.input :zipcode,                       :label => "Zip Code"
+    = f.input :newsletter,                    :label => "Subscribe to the GLATOS newsletter"
 
-      = f.input :description,                 :input_html => {  :value => "Water depth, distance from shore, coordinates, etc...", :class => 'default_value'},     :label => "Describe the area where you caught the fish or found the tag", :wrapper_html => { :class => 'left-form-element' }
 
-      .clear
+  = f.inputs :name => "2 - Type of Fish", :id => "fish_type" do
+    = f.input :fishtype,    :as => :radio,  :collection => Fish::TYPES,       :label => false
 
-      %p{:class => "report_text reward"}
-        By providing your contact information below project leads will be able to contact you about returning the tag
+  = f.inputs :name => "3 - How did you find the tag?", :id => "how_found" do
+    = f.input :method,      :as => :radio,  :collection => Report::METHODS,   :label => false
 
-      %p{:class => "report_text reward", :style => "text-decoration: underline;"}
-        Some projects even provide rewards for returned tags!
+  = f.inputs :name => "4 - What did you do with the fish?", :id => "did_with" do
+    = f.input :didwith,      :as => :radio,  :collection => Report::DIDWITH,     :label => false
 
-      = f.input :name,                          :wrapper_html => { :class => 'left-form-element' },     :label => "Full Name"
-      = f.input :address,                       :wrapper_html => { :class => 'right-form-element' }
+  = f.inputs :name => "5 - When did you catch the fish", :id => "when_found" do
+    = f.input :found,       :as => :string,  :label => false,   :input_html => { :readonly => true }
 
-      = f.input :phone,       :as => :string,   :wrapper_html => { :class => 'left-form-element' },     :label => "Telephone"
-      = f.input :city,                          :wrapper_html => { :class => 'right-form-element' }
+  = f.inputs :name => "6 - Where did you catch the fish", :id => "where_found" do
+    = f.input :description, :label => "Describe the area where you caught the fish or found the tag",  :input_html => {  :value => "Water depth, distance from shore, coordinates, etc...", :class => 'default_value'}
 
-      = f.input :email,       :as => :string,   :wrapper_html => { :class => 'left-form-element' },     :hint => "If you don’t have an email address please call John Doe at 555-555-5555 to report the tag."
-      = f.input :state,       :as => :select,   :wrapper_html => { :class => 'tiny-form-element' },     :collection => State::NAMES,            :label => "State/Province"
-      = f.input :zipcode,                       :wrapper_html => { :class => 'tiny-form-element' },                                             :label => "Zip Code"
+  = f.inputs :name => "7 - What was the length of the fish?", :id => "fish_length" do
+    = f.input :length,    :as => :string,     :label => "Fish Length",          :hint => "inches"
 
-      = f.input :newsletter,                    :wrapper_html => { :class => 'full-form-element' },     :label => "Subscribe to the GLATOS newsletter"
 
-    #report-right-side
+  = f.inputs :name => "8 - Tag Information", :id => "tag_information" do
+    = f.input :input_tag,              :label => "Internal ID Tag Number"
+    = f.inputs :name => "External Tags", :id => "external_tags" do
+      = f.input :input_external_codes,   :as => :string,     :label => false,    :hint => "External Tag #1", :input_html => { :name => "report[input_external_codes_one]"}
+      = f.input :input_external_codes,   :as => :string,     :label => false,    :hint => "External Tag #2", :input_html => { :name => "report[input_external_codes_two]"}
 
-      %p{:class => "report_text reward"}
-        If you haven't done so already, immediately remove the internal trasnmitters from the fish and rinse with water.  Store the transmitter at room temperature.  DO NOT FREEZE.  You may keep the fish!
 
-      = f.input :method,      :as => :select,   :wrapper_html => { :class => 'left-form-element' },      :collection => Report::METHODS,   :label => "How did you find the tag?"
-      = f.input :fishtype,    :as => :select,   :wrapper_html => { :class => 'right-form-element' },     :collection => Fish::TYPES,       :label => "What type of fish?"
+  = f.inputs :name => "9 - Did you take any pictures of the fish?", :id => "pictures" do
+    %p If so, please email them to: 
 
-      = f.input :found,       :as => :string,   :wrapper_html => { :class => 'left-form-element' },                                        :label => "When did you find the tag?",   :input_html => { :readonly => true }
+  = f.inputs  :name => "10 - Additional Comments", :id => "comments" do
+    = f.input :comments
 
-      = f.input :length,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => "Fish Length",          :hint => "inches"
-      = f.input :weight,    :as => :string,     :wrapper_html => { :class => 'tiny-form-element' },      :label => "Fish Weight",          :hint => "pounds"
+  .spacer{:style => "height: 20px;"}
 
-      .clear
 
-      %p{:class => 'report_text'}
-        = image_tag("tagged_fish.jpg")
+  %p{:class => 'report_text reward', :style => 'margin-right: 25px; text-align: right;'}
+    %span{:style => 'font-size: 30px; vertical-align: middle;'}
+      *
+    Indicates a required field
 
-      .spacer{:style => "height: 20px;"}
+  %div{:style => 'margin: 20px; float: right; line-height: 30px; font-weight: bold; font-style: italic;'}
+    Review your ID Tag Number before submitting
 
-      = f.commit_button :button_html => { :disable_with => 'Wait...' },   :wrapper_html => { :style => 'margin: 20px; float: right;' }
-      %div{:style => 'margin: 20px; float: right; line-height: 30px; font-weight: bold; font-style: italic;'}
-        Review your ID Tag Number before submitting
-
-      .clear
-
-      %p{:class => 'report_text reward', :style => 'margin-right: 25px; text-align: right;'}
-        %span{:style => 'font-size: 30px; vertical-align: middle;'}
-          *
-        Indicates a required field
+  = f.commit_button :button_html => { :disable_with => 'Wait...' },   :wrapper_html => { :style => 'margin: 20px; float: right;' }
 
 :javascript
 
@@ -103,4 +105,48 @@
       ,showOptions: {direction: 'up' }
       });
 
+    // Fish Type
+    row_str = '<li class="choice"><label for="other_fishtype_input"><input id="report_fishtype_other" name="report[fishtype]" type="radio" value="">Other \
+      <input type="text" id="other_fishtype_input"> \
+    </label></li>';
+    $("#report_fishtype_input > fieldset > ol").append(row_str);
+    $("#other_fishtype_input").keyup(function(val) {
+      $("#report_fishtype_other").attr('checked', true);
+      $("#report_fishtype_other").val($("#other_fishtype_input").val());
+    });
+    var $radios = $('input[name="report[fishtype]"]:radio');
+    if($radios.is(':checked') === false) {
+      $("#other_fishtype_input").val("#{@report.fishtype}");
+      $("#other_fishtype_input").keyup();
+    }
+
+    // Method
+    row_str = '<li class="choice"><label for="other_method_input"><input id="report_method_other" name="report[method]" type="radio" value="">Other \
+      <input type="text" id="other_method_input"> \
+    </label></li>';
+    $("#report_method_input > fieldset > ol").append(row_str);
+    $("#other_method_input").keyup(function(val) {
+      $("#report_method_other").attr('checked', true);
+      $("#report_method_other").val($("#other_method_input").val());
+    });
+    var $radios = $('input[name="report[method]"]:radio');
+    if($radios.is(':checked') === false) {
+      $("#other_method_input").val("#{@report.method}");
+      $("#other_method_input").keyup();
+    }
+
+    // Did With
+    row_str = '<li class="choice"><label for="other_didwith_input"><input id="report_didwith_other" name="report[didwith]" type="radio" value="">Other \
+      <input type="text" id="other_didwith_input"> \
+    </label></li>';
+    $("#report_didwith_input > fieldset > ol").append(row_str);
+    $("#other_didwith_input").keyup(function(val) {
+      $("#report_didwith_other").attr('checked', true);
+      $("#report_didwith_other").val($("#other_didwith_input").val());
+    });
+    var $radios = $('input[name="report[didwith]"]:radio');
+    if($radios.is(':checked') === false) {
+      $("#other_didwith_input").val("#{@report.didwith}");
+      $("#other_didwith_input").keyup();
+    }
   });

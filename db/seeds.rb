@@ -112,6 +112,6 @@ Report.create! :input_tag => Tag.first.code,
                :reported => Time.now.utc,
                :found => Time.now.utc - 1.week,
                :length => 23,
-               :weight => 30,
+               :comments => "Fun fish to catch!",
                :fishtype => Fish::TYPES.first,
                :location => 'POINT(-122 47)'
