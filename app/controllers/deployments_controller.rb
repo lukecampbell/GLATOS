@@ -37,19 +37,19 @@ class DeploymentsController < ApplicationController
         # can adminster the study
         if params[:study_id]
           authorize! :manage, study
-          deps = Deployment.includes(:study, :otn_array).where(["study_id = ?",study]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+          deps = Deployment.includes(:retrieval, :study, :otn_array).where(["study_id = ?",study]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
         else
           authorize! :manage, Study
-          deps = Deployment.includes(:study, :otn_array).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+          deps = Deployment.includes(:retrieval, :study, :otn_array).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
         end
         render :json => {
           :sEcho => params[:sEcho],
           :iTotalRecords => deps.total_count,
           :iTotalDisplayRecords => deps.total_count,
           :aaData => deps.as_json({
-            :only => [:start, :ending, :station, :seasonal, :model],
+            :only => [:start, :station, :seasonal, :model, :frequency],
             :include => { :study => { :only => [:name] } },
-            :methods => [:DT_RowId, :latitude, :longitude, :code]
+            :methods => [:DT_RowId, :latitude, :longitude, :code, :ending]
           })
         }
       }

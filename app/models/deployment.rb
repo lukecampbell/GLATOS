@@ -52,6 +52,10 @@ class Deployment < ActiveRecord::Base
     location.longitude.round(round)
   end
 
+  def ending
+    retrieval.recovered rescue nil
+  end
+
 end
 # == Schema Information
 #

@@ -20,6 +20,8 @@
       var sOut = '<img alt="Map location" width="200" height="200" ';
       sOut    += 'src="http://maps.googleapis.com/maps/api/staticmap?zoom=11&size=200x200&sensor=false&markers=size:small|color:yellow|'+aData.latitude+','+aData.longitude+'"';
       sOut    += '</img>';
+
+      sOut    += "<p>Frequency: " + aData.frequency + " kHz</p>";
       return sOut;
     }
 
@@ -43,7 +45,7 @@
           { "sTitle": "Unique Code (otn_array + station)", "bSortable": false, "mDataProp": "code" },
           { "sTitle": "Model", "sName": "model", "mDataProp": "model" },
           { "sTitle": "Start", "sName": "start", "mDataProp": "start" },
-          { "sTitle": "End", "sName": "end", "mDataProp": "end" },
+          { "sTitle": "End", "sName": "ending", "mDataProp": "ending" },
           { "sTitle": "Seasonal?", "sName": "seasonal", "mDataProp": "seasonal" },
           { "sTitle": "Location", "sName": "location", "mDataProp": null, "fnRender": function (oObj){ return oObj.aData.longitude + ", " + oObj.aData.latitude } },
           { "sTitle": "Actions", "bSortable": false, "sName": "action", "mDataProp": null, "fnRender": function (oObj){ return makeActionButtons(oObj); } }

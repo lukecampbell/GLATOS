@@ -11,11 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206202612) do
+ActiveRecord::Schema.define(:version => 20111206220831) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
-    t.datetime "ending"
     t.integer  "study_id"
     t.spatial  "location",     :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer  "otn_array_id"
@@ -30,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20111206202612) do
   create_table "otn_arrays", :force => true do |t|
     t.string "code"
     t.text   "description"
+    t.string "waterbody"
   end
 
   add_index "otn_arrays", ["code"], :name => "index_otn_arrays_on_code"

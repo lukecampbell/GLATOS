@@ -78,15 +78,17 @@ mrs.user.confirm!
 
 # DEPLOYMENTS
 CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
+  freq = row["FREQUENCY"].to_s.gsub("kHz","").strip
+  freq = freq.empty? ? nil : freq
   Deployment.create!({
     :start => Time.strptime(row["DEPLOY_DATE_TIME"],"%m/%d/%Y").utc,
-    :study_id => Study.find_by_code(row[row.length- 1]).id,
+    :study_id => Study.find_by_code(row["GLATOS_STUDY"]).id,
     :location => "POINT(#{row['DEPLOY_LONG']} #{row['DEPLOY_LAT']})",
-    :otn_array_id => OtnArray.find_by_code(row[1]).id,
+    :otn_array_id => OtnArray.find_by_code(row["OTN_ARRAY"]).id,
     :station => row["STATION_NO"].to_i,
     :model => row["INS_MODEL_NUMBER"],
     :seasonal => row["GLATOS_SEASONAL"] == "YES",
-    :frequency => row["AR_RECEIVE_FREQUENCY"]
+    :frequency => freq
   })
 end
 
