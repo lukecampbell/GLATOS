@@ -31,6 +31,7 @@ group :test do
   gem 'capybara'
   gem 'turn', '< 0.8.3', :require => false
   gem 'email_spec'
+  gem 'launchy'
 end
 
 gem 'rgeo'

@@ -8,7 +8,7 @@ Feature: New Report
     And an approved investigator exists
     And a study exists with user: that user
     And a tag exists with code: "ABC123", study: that study
-    And a tag_deployment exists with external_code: "External-XYZ", tag: that tag
+    And a tag_deployment exists with external_codes: "External-XYZ", tag: that tag
     And I am not logged in
     And no emails have been sent
     And I am on the home page
