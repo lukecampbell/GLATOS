@@ -41,6 +41,7 @@ class Deployment < ActiveRecord::Base
     s = self.attributes.delete_if {|key, value| removals.include?(key) }
     s[:otn_array] = otn_array.code
     s[:code] = code
+    s[:recovered] = ending
     return RGeo::GeoJSON::Feature.new(self.location, self.id, s)
   end
 
