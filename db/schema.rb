@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111205210747) do
+ActiveRecord::Schema.define(:version => 20111206143345) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20111205210747) do
     t.boolean  "newsletter",                                                                                                     :default => false
     t.string   "didwith"
     t.text     "comments"
+    t.decimal  "depth",                                                                            :precision => 6, :scale => 2
   end
 
   add_index "reports", ["input_tag"], :name => "index_reports_on_tag"

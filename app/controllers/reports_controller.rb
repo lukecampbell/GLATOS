@@ -61,13 +61,16 @@ class ReportsController < ApplicationController
     authorize! :create, Report
     first_ext = params[:report].delete(:input_external_codes_one)
     second_ext = params[:report].delete(:input_external_codes_two)
+    location = params[:report].delete(:location)
+    location = location.empty? ? nil : location
     @report = Report.new(params[:report])
     @report.found = Date.strptime(params[:report][:found],"%m/%d/%Y").to_date rescue nil
     @report.input_external_codes = [first_ext,second_ext].compact.reject(&:empty?)
+    @report.location = location.include?("POINT") ? location : "POINT(#{location.gsub(',','' '')})" rescue nil
     if params[:report][:input_tag]
       @report.tag_deployment = Tag.find_match(params[:report][:input_tag]).first.active_deployment rescue nil
-    elsif params[:report][:input_external_codes]
-      @report.tag_deployment = TagDeployment.find_match(params[:report][:input_external_codes])
+    elsif !@report.input_external_codes.empty?
+      @report.tag_deployment = TagDeployment.find_match(@report.input_external_codes)
     end
     if @report.save
       ReportMailer.report_invoice(@report).deliver
