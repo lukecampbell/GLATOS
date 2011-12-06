@@ -1,44 +1,44 @@
-code,Description
-BBI,TBD
-BLL,TBD
-BRS,TBD
-BWA,TBD
-BWB,TBD
-CHR,TBD
-CKI,TBD
-DCK,TBD
-DRM,TBD
-DTR,TBD
-EDS,TBD
-FDT,TBD
-FMP,TBD
-GRD,TBD
-GRS,TBD
-IS1,TBD
-LRC,TBD
-LRP,TBD
-LVD,TBD
-LVU,TBD
-MAU,TBD
-MNB,TBD
-OSC,TBD
-OVP,TBD
-PCH,TBD
-PRS,TBD
-RNS,TBD
-RTR,TBD
-RVR,TBD
-SBI,TBD
-SBO,TBD
-SGR,TBD
-SIC,TBD
-SQR,TBD
-SSM,TBD
-STG,TBD
-STR,TBD
-THB,TBD
-TRN,TBD
-TTB,TBD
-URC,TBD
-WHT,TBD
+code,Description,Waterbody
+BBI,Bois Blanc Island,`
+BLL,Bell Point,St. Marys River
+BRS,Brush Point,St. Marys River
+BWA,Blue Water Bridge (Above),Lake Huron/St. Clair River
+BWB,Blue Water Bridge (Below),St. Clair River
+CHR,Charlotte River,St. Marys River
+CKI,Cook Island,St. Marys River
+DCK,Duck Point,St. Marys River
+DRM,Drummond Island,Lake Huron
+DTR,Detour Passage,Lake Huron
+EDS,Edison Soo Tailrace,St. Marys River
+FDT,False Detour Passage,Lake Huron
+FMP,Forty Mile Point,Lake Huron
+GRD,Garden River,St. Marys River
+GRS,Gros Isle,Detroit River
+IS1,Island Number One,St. Marys River
+LRC,Lower Rock Cut,St. Marys River
+LRP,Little Rapids,St. Marys River
+LVD,Livingston Channel Downbound,Detroit River
+LVU,Livingston Channel Upbound,Detroit River
+MAU,Maumee River,Lake Erie
+MNB,Middle Neebish Channel,St. Marys River
+OSC,Oscoda ,Lake Huron
+OVP,Old Vessel Point,St. Marys River
+PCH,Point Charles,St. Marys River
+PRS,Presque Isle Light,Huron
+RNS,Rains Island,St. Marys River
+RTR,Root River,St. Marys River
+RVR,Riverside Drive,St. Marys River
+SBI,Saginaw Bay (Inner),Lake Huron
+SBO,Saginaw Bay (Outer),Lake Huron
+SGR,Saginaw River,Lake Huron
+SIC,Stoney Island Causeway,Detroit River
+SQR,Squirrel Island,St. Marys River
+SSM,Sault Ste. Marie,St. Marys River
+STG,Sturgeon Point,Lake Huron
+STR,Strible Point,St. Marys River
+THB,Thunder Bay,Lake Huron
+TRN,Trenton Channel,Detroit River
+TTB,Tittabawassee River,Tittabawassee River
+URC,Upper Rock Cut,St. Marys River
+WHT,White Rock,Lake Huron
 MRS,Muskegon River System

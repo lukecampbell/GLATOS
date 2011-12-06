@@ -54,5 +54,5 @@ $ git pull origin master
 $ export LANG=en_US.utf8
 $ bundle install
 $ RAILS_ENV=production rake db:migrate
-$ rake assets:precomile
-$ rvmsudo /etc/init.d/thin Start
+$ rake assets:precompile
+$ rvmsudo /etc/init.d/thin start

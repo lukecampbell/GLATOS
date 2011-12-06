@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206143345) do
+ActiveRecord::Schema.define(:version => 20111206202612) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20111206143345) do
     t.integer  "station"
     t.string   "model"
     t.boolean  "seasonal"
+    t.integer  "frequency"
   end
 
   add_index "deployments", ["location"], :name => "index_deployments_on_location", :spatial => true
@@ -63,6 +64,17 @@ ActiveRecord::Schema.define(:version => 20111206143345) do
   add_index "reports", ["location"], :name => "index_reports_on_location", :spatial => true
   add_index "reports", ["tag_deployment_id"], :name => "index_reports_on_tag_deployment_id"
   add_index "reports", ["tag_deployment_id"], :name => "index_reports_on_tag_id"
+
+  create_table "retrievals", :force => true do |t|
+    t.integer  "deployment_id"
+    t.boolean  "data_downloaded"
+    t.boolean  "ar_confirm"
+    t.datetime "recovered"
+    t.spatial  "location",        :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+  end
+
+  add_index "retrievals", ["deployment_id"], :name => "index_retrievals_on_deployment_id"
+  add_index "retrievals", ["location"], :name => "index_retrievals_on_location", :spatial => true
 
   create_table "studies", :force => true do |t|
     t.string   "name",                      :null => false
