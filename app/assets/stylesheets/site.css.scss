@@ -25,65 +25,6 @@ body {
   /* position: relative; */
 }
 
-#new_report {
-  .report_text {
-    font-weight: bold;
-    font-size: 1.1em;
-    line-height: 1.2em;
-    color: #155494;
-    margin-bottom: 20px;
-  }
-  .reward {
-    color: #ff0000;
-  }
-}
-
-#report-left-side {
-  @include column(11.5);
-  float: left;
-
-  p img {
-    width: 100%;
-  }
-}
-
-#report-right-side {
-  @include column(11.5, true);
-  float: right;
-
-  p img {
-    width: 100%;
-  }
-}
-
-.left-form-element {
-  clear: both;
-  float: left;
-  @include column(5.6);
-}
-
-.right-form-element {
-  float: right;
-  @include column(5.6, true);
-}
-
-
-.small-form-element {
-  text-align: center;
-  float: left;
-  @include column(5, true);
-}
-
-.full-form-element {
-  float: left;
-  @include column(11.2, true);
-}
-
-.tiny-form-element {
-  float: left;
-  @include column(2.8, true);
-}
-
 .caption {
   margin-top  : 5px;
   line-height : 12px;
@@ -101,7 +42,6 @@ body {
   vertical-align: middle;
   margin: 0 30px 0 30px;
 }
-
 
 #search_table {
   @include column(6.7);

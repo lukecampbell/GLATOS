@@ -22,7 +22,7 @@ class Report < ActiveRecord::Base
   belongs_to  :tag_deployment
 
   validates :input_tag, :presence => { :if => lambda {|a| a.input_external_codes.blank? }, :message => "You must enter an internal or external tag ID (or both)"}
-  validates :description, :method, :name, :email, :fishtype, :didwith, :found, :presence => true
+  validates :method, :name, :fishtype, :didwith, :found, :phone, :address, :city, :state, :zipcode, :presence => true
   validates :email, :format => { :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :message => "Invalid Email Address" }
 
 

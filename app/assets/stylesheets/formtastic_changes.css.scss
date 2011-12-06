@@ -1,6 +1,52 @@
+.report_text {
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 1.2em;
+  color: #155494;
+  margin-bottom: 20px;
+}
+
+.reward {
+  color: #ff0000;
+}
+
 .report, .user {
 
-  width: 50%;
+  .left-form-element {
+    float: left;
+    width: 42%;
+  }
+
+  .right-form-element {
+    float: left;
+    width: 42%;
+  }
+
+  .section {
+    width: 100%;
+    margin-top: 30px;
+
+    .left-section {
+      width: 50%;
+      float: left;
+    }
+
+    .right-section {
+      width: 45%;
+      float: left;
+      .full_img img {
+        width: 100%;
+      }
+
+      .custom_label {
+        color: #58595B;
+        float: none;
+        font-weight: bold;
+        width: 100%;
+      }
+    }
+
+  }
 
   .inputs {
     padding: 10px;
@@ -15,6 +61,13 @@
   .input .label {
     float: none;
     width: 100%;
+    color: #58595b;
+    font-weight: bold;
+  }
+
+  .boolean label {
+    margin-top: 15px;
+    padding-left: 0px;
   }
 
   .text textarea {
@@ -26,16 +79,11 @@
     border: 1px solid #BBBBBB;
   }
 
-  .input .label {
-    color: #58595b;
-    font-weight: bold;
-  }
-
   select {
-    margin: 0.5em 0;
-    padding: 3px;
+    padding: 4px;
     background-color: #FFFFFF;
     border: 1px solid #BBBBBB;
+    width: 72%;
   }
 
   .input .inline-hints {
@@ -44,6 +92,19 @@
     font-weight : bold;
     font-style  : italic;
   }
+
+.commit {
+  
+  list-style: none outside none;
+
+  input {
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    margin: 0 0;
+    padding: 10px;
+  }
+}
+
 }
 
 .formtastic .inline-errors {
@@ -51,8 +112,20 @@
     margin: 0.2em 0 0.2em 0.5em;
 }
 
+.formtastic .choices-group {
+  padding: 0 0 0 10%;
+}
+
 .formtastic .stringish input {
   background-color: #FFFFFF;
   border: 1px solid #BBBBBB;
   padding: 5px;
+}
+
+.formtastic .input {
+  margin-bottom: 0.2em;
+}
+
+.formtastic p {
+  margin-bottom: 20px;
 }
