@@ -114,4 +114,5 @@ Report.create! :input_tag => Tag.first.code,
                :length => 23,
                :comments => "Fun fish to catch!",
                :fishtype => Fish::TYPES.first,
-               :location => 'POINT(-122 47)'
+               :location => 'POINT(-122 47)',
+               :didwith => 'Ate it, yummy!'
