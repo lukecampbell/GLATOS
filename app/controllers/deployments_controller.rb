@@ -18,9 +18,9 @@ class DeploymentsController < ApplicationController
       }
       format.geo {
         if params[:study_id]
-          deps = Deployment.includes(:study, :retrieval).where(["study_id = ?",study])
+          deps = Deployment.includes(:study, :retrieval, :otn_array).where(["study_id = ?",study])
         else
-          deps = Deployment.includes(:study, :retrieval).order('study_id ASC')
+          deps = Deployment.includes(:study, :retrieval, :otn_array).order('study_id ASC')
         end
         render :json =>
           deps.as_json({
