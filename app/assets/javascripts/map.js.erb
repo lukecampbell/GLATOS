@@ -8,7 +8,34 @@ var glatosDeployments  = {
   ,ending      : new Date()
   ,frequencies : []
 };
-var deploymentsLayer = new OpenLayers.Layer.Vector('Deployments',{});
+var deploymentsLayer = new OpenLayers.Layer.Vector('Deployments',{
+  styleMap : new OpenLayers.StyleMap({
+    'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+       pointRadius     : 6
+      ,fillColor       : '#e8bb99'
+      ,fillOpacity     : 0.7
+      ,strokeWidth     : 1
+      ,strokeColor     : '#b56529'
+      ,strokeOpacity   : 1
+    }))
+    ,'select' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+       pointRadius     : 6
+      ,fillColor       : '#99e9ae'
+      ,fillOpacity     : 0.7
+      ,strokeWidth     : 1
+      ,strokeColor     : '#1d8538'
+      ,strokeOpacity   : 1
+    }))
+    ,'temporary' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+       pointRadius     : 6
+      ,fillColor       : '#99BBE8'
+      ,fillOpacity     : 0.7
+      ,strokeWidth     : 1
+      ,strokeColor     : '#1558BB'
+      ,strokeOpacity   : 1
+    }))
+  })
+});
 var mouseoverObs;
 var popupObs;
 var hiliteCtll;
