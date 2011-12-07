@@ -48,10 +48,10 @@ function init() {
     ,store            : glatosStudiesStore
     ,height           : 2 * 21.1 + 26 + 11 + 25
     ,border           : false
-    ,autoExpandColumn : 'description'
+    ,autoExpandColumn : 'name'
     ,columns          : [
        glatosStudiesSelModel
-      ,{id : 'description'   ,dataIndex : 'description'   ,renderer : renderReceiversProject}
+      ,{id : 'name'          ,dataIndex : 'name'}
       ,{id : 'receiversCount',dataIndex : 'receiversCount',renderer : renderReceiversCount,align : 'right',width : 70}
     ]
     ,hideHeaders      : true
@@ -130,6 +130,32 @@ function init() {
         grid.suspendEvents();
         grid.getSelectionModel().selectRow(0);
         grid.resumeEvents();
+      }
+    }
+  });
+
+  var glatosFrequenciesSelModel = new Ext.grid.CheckboxSelectionModel({
+    header : ''
+  });
+  var glatosFrequenciesGridPanel = new Ext.grid.GridPanel({
+     id               : 'glatosFrequenciesGridPanel'
+    ,title            : 'Filter by acoustic frequency'
+    ,store            : new Ext.data.ArrayStore({fields : ['frequency']})
+    ,height           : 2 * 21.1 + 26 + 11
+    ,border           : false
+    ,autoExpandColumn : 'frequency'
+    ,columns          : [
+       glatosFrequenciesSelModel
+      ,{id : 'frequency',dataIndex : 'frequency'}
+    ]
+    ,hideHeaders      : true
+    ,loadMask         : true
+    ,deferRowRender   : false
+    ,selModel         : glatosFrequenciesSelModel
+    ,listeners        : {
+      rowclick : function(grid,rowIndex,e) {
+        return; // foo
+        syncGlatos(true);
       }
     }
   });
@@ -269,6 +295,7 @@ function init() {
            introPanel
           ,glatosStudiesGridPanel
           ,glatosSeasonalGridPanel
+          ,glatosFrequenciesGridPanel
           ,glatosProjectStatusesGridPanel
           ,glatosTimesFormPanel
         ]
@@ -322,11 +349,10 @@ function initMap() {
       var json = new OpenLayers.Format.JSON().read(r.responseText);
       var menu = [];
       var minD;
-      // for some reason I can't rely on the store to sort the recs by description,
-      // so do it before adding
+      // for some reason I can't rely on the store to sort the recs by name, so do it before adding
       var studies = {};
       for (var i = 0; i < json.length; i++) {
-        studies[json[i].description] = new glatosStudiesStore.recordType({
+        studies[json[i].name] = new glatosStudiesStore.recordType({
            'id'             : json[i].id
           ,'name'           : json[i].name
           ,'description'    : json[i].description
@@ -358,22 +384,6 @@ function initMap() {
       Ext.getCmp('glatosStudiesGridPanel').setHeight(glatosStudiesStore.getCount() * 21.1 + 26 + 11 + 25);
     }
   });
-}
-
-function renderReceiversProject(val) {
-  if (val.indexOf('Lake Sturgeon') >= 0) {
-    return 'Lake Sturgeon movement/habitat';
-  }
-  else if (val.indexOf('Sea Lamprey') >= 0) {
-    return 'Tracking Sea Lamprey';
-  }
-  else if (val.indexOf('Walleye') >= 0) {
-    return 'Tracking Walleye';
-  }
-  else if (val.indexOf('Lake Trout') >= 0) {
-    return 'Understanding Lake Trout';
-  }
-  return val;
 }
 
 function renderReceiversCount(val,metadata,rec) {
