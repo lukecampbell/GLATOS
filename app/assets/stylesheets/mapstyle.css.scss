@@ -115,3 +115,15 @@
   background-image : url(image-path('blank.png'));
 }
 
+.obsPopup {
+  background : white;
+  padding    : 6px;
+  width      : 315px;
+}
+.obsPopup th {
+  font        : 11px tahoma,helvetica,sans-serif;
+  font-weight : bold;
+}
+.obsPopup td {
+  font        : 11px tahoma,helvetica,sans-serif;
+}

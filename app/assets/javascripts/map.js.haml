@@ -1,9 +1,16 @@
 var map;
 var proj900913 = new OpenLayers.Projection("EPSG:900913");
 var proj4326   = new OpenLayers.Projection("EPSG:4326");
-var glatosStatsStore     = new Ext.data.ArrayStore({fields : []});
-var glatosStudiesStore   = new Ext.data.ArrayStore({fields : []});
-var glatosModelStore     = new Ext.data.ArrayStore({fields : []});
+var glatosStudiesStore = new Ext.data.ArrayStore({fields : []});
+var glatosDeployments  = {
+   features    : []
+  ,start       : new Date()
+  ,ending      : new Date()
+  ,frequencies : []
+};
+var deploymentsLayer = new OpenLayers.Layer.Vector('Deployments',{});
+var mouseoverObs;
+var popupObs;
 
 function init() {
   Ext.QuickTips.init();
@@ -34,7 +41,7 @@ function init() {
   });
 
   var introPanel = new Ext.Panel({
-     height : 65
+     height : 60
     ,border : false
     ,html   : '<table class="smallFont" width="100%"><tr><td align=justify>Place your curser over points on the map to view additional information about projects and receivers.  Use the tools below to filter receivers by project, operating schedule, acoustic frequency, and status.</td></tr></table>'
   });
@@ -46,7 +53,7 @@ function init() {
      id               : 'glatosStudiesGridPanel'
     ,title            : 'Filter by project'
     ,store            : glatosStudiesStore
-    ,height           : 2 * 21.1 + 26 + 11 + 25
+    ,height           : 2 * 21.1 + 26 + 6 + 25
     ,border           : false
     ,autoExpandColumn : 'name'
     ,columns          : [
@@ -70,20 +77,20 @@ function init() {
          text    : 'Reset all filters'
         ,icon    : "#{asset_path 'arrow_refresh.png'}" // brokenImg
         ,handler : function() {
-          return; // foo
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().suspendEvents();
           Ext.getCmp('glatosTimesStart').suspendEvents();
           Ext.getCmp('glatosTimesEnd').suspendEvents();
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosModelsGridPanel').getSelectionModel().selectAll();
+          Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectRow(0)
           Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosTimesStart').setValue(Ext.getCmp('glatosTimesStart').minValue);
-          Ext.getCmp('glatosTimesEnd').setValue(Ext.getCmp('glatosTimesEnd').maxValue);
+          Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
+          Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().resumeEvents();
           Ext.getCmp('glatosTimesStart').resumeEvents();
           Ext.getCmp('glatosTimesEnd').resumeEvents();
+          return; // foo
           syncGlatos(true);
         }
       }
@@ -110,7 +117,7 @@ function init() {
         ,['Seasonal only']
       ]
     })
-    ,height           : 2 * 21.1 + 26 + 11
+    ,height           : 2 * 21.1 + 26 + 6
     ,border           : false
     ,autoExpandColumn : 'name'
     ,columns          : [
@@ -141,7 +148,7 @@ function init() {
      id               : 'glatosFrequenciesGridPanel'
     ,title            : 'Filter by acoustic frequency'
     ,store            : new Ext.data.ArrayStore({fields : ['frequency']})
-    ,height           : 2 * 21.1 + 26 + 11
+    ,height           : 2 * 21.1 + 26 + 6
     ,border           : false
     ,autoExpandColumn : 'frequency'
     ,columns          : [
@@ -176,7 +183,7 @@ function init() {
         ,['Finished']
       ]
     })
-    ,height           : 3 * 21.1 + 26 + 11
+    ,height           : 3 * 21.1 + 26 + 6
     ,border           : false
     ,autoExpandColumn : 'name'
     ,collapsible      : true
@@ -212,7 +219,7 @@ function init() {
   var glatosTimesFormPanel = new Ext.FormPanel({
      id          : 'glatosTimesFormPanel'
     ,title       : 'Filter by time'
-    ,height      : 2 * 21.1 + 26 + 11 + 20
+    ,height      : 2 * 21.1 + 26 + 6 + 20
     ,border      : false
     ,collapsible : true
     ,collapsed   : true
@@ -224,13 +231,13 @@ function init() {
          text    : 'Reset times'
         ,icon    : 'img/arrow_refresh.png'
         ,handler : function() {
-          return; // foo
           Ext.getCmp('glatosTimesStart').suspendEvents();
           Ext.getCmp('glatosTimesEnd').suspendEvents();
-          Ext.getCmp('glatosTimesStart').setValue(Ext.getCmp('glatosTimesStart').minValue);
-          Ext.getCmp('glatosTimesEnd').setValue(Ext.getCmp('glatosTimesEnd').maxValue);
+          Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
+          Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
           Ext.getCmp('glatosTimesStart').resumeEvents();
           Ext.getCmp('glatosTimesEnd').resumeEvents();
+          return; // foo
           syncGlatos(true);
         }
       }
@@ -337,9 +344,75 @@ function initMap() {
          type          : google.maps.MapTypeId.SATELLITE
         ,projection    : proj900913
       })
+      ,deploymentsLayer
     ]
   });
   map.setCenter(new OpenLayers.LonLat(-9367578.6331264,5443194.7163551),6);
+
+  var hiliteCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
+     hover         : true
+    ,highlightOnly : true
+    ,renderIntent  : 'temporary'
+    ,eventListeners : {
+      beforefeaturehighlighted : function(e) {
+        if (mouseoverObs && mouseoverObs.isVisible()) {
+          mouseoverObs.hide();
+        }
+        var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
+        mouseoverObs = new Ext.ToolTip({
+           html         : rec.get('name') + '&nbsp;-&nbsp;Site&nbsp;' + e.feature.attributes.code
+          ,anchor       : 'bottom'
+          ,target       : 'OpenLayers.Geometry.Point_' + (Number(e.feature.id.split('_')[e.feature.id.split('_').length - 1]) - 1)
+          ,hideDelay    : 0
+          ,listeners    : {hide : function(tt) {
+            if (!tt.isDestroyed) {
+              tt.destroy();
+            }
+          }}
+        });
+        mouseoverObs.show();
+      }
+    }
+  });
+  map.addControl(hiliteCtl);
+  hiliteCtl.activate();
+
+  var popupCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
+    eventListeners : {
+      featurehighlighted : function(e) {
+        if (popupObs && popupObs.isVisible()) {
+          popupObs.hide();
+        }
+        var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
+        var tr  = [
+           "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('description') + "</b></td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoDateToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoDateToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'>frequency : " + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' Hz' : 'unknown') + "</td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='http://www.glfc.org/telemetry/overview.php'>GLATOS home page</a> for more information.</font></td></tr>"
+        ];
+        popupObs = new Ext.ToolTip({
+           title     : rec.get('name') + '&nbsp;-&nbsp;Site&nbsp;' + e.feature.attributes.code
+          ,items     : {bodyCssClass : 'obsPopup',html : '<table>' + tr.join('') + '</table>'}
+          ,anchor    : 'bottom'
+          ,width     : 345
+          ,target    : 'OpenLayers.Geometry.Point_' + (Number(e.feature.id.split('_')[e.feature.id.split('_').length - 1]) - 1)
+          ,autoHide  : false
+          ,closable  : true
+          ,listeners : {hide : function(tt) {
+            if (!tt.isDestroyed) {
+              tt.destroy();
+            }
+            if (e.feature.layer) {
+              popupCtl.unselect(e.feature);
+            }
+          }}
+        });
+        popupObs.show();
+      }
+    }
+  });
+  map.addControl(popupCtl);
+  popupCtl.activate();
 
   glatosStudiesStore.fireEvent('beforeload');
   OpenLayers.Request.issue({
@@ -358,7 +431,7 @@ function initMap() {
           ,'description'    : json[i].description
           ,'species'        : json[i].species
           ,'start'          : isoDateToDate(json[i].start)
-          ,'end'            : isoDateToDate(json[i].ending)
+          ,'ending'         : isoDateToDate(json[i].ending)
           ,'url'            : json[i].url
           ,'seasonal'       : json[i].seasonal == 'true'
           ,'code'           : json[i].code
@@ -381,7 +454,66 @@ function initMap() {
       }
       glatosStudiesStore.fireEvent('load');
       Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
-      Ext.getCmp('glatosStudiesGridPanel').setHeight(glatosStudiesStore.getCount() * 21.1 + 26 + 11 + 25);
+      Ext.getCmp('glatosStudiesGridPanel').setHeight(glatosStudiesStore.getCount() * 21.1 + 26 + 6 + 25);
+
+      OpenLayers.Request.issue({
+         method   : 'GET'
+        ,url      : '/deployments.geo'
+        ,callback : function(r) {
+          var json        = new OpenLayers.Format.JSON().read(r.responseText);
+          var models      = {};
+          var frequencies = {};
+          for (var i in json) {
+            if (json[i].geojson) {
+              var wkt = new OpenLayers.Format.WKT();
+              var f   = wkt.read(json[i].geojson.geometry);
+              f.geometry.transform(proj4326,map.getProjectionObject());
+              for (var j in json[i].geojson.properties) {
+                if (json[i].geojson.properties[j]) {
+                  f.attributes[j] = json[i].geojson.properties[j];
+                }
+              }
+              glatosDeployments.features.push(f);
+              if (f.attributes.start && isoDateToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
+                glatosDeployments.start = isoDateToDate(f.attributes.start);
+              }
+              if (f.attributes.recovered && isoDateToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
+                glatosDeployments.ending = isoDateToDate(f.attributes.recovered);
+              }
+              if (f.attributes.model) {
+                models[f.attributes.model] = true;
+              }
+              if (f.attributes.frequency) {
+                frequencies[f.attributes.frequency] = true;
+              }
+            }
+          }
+
+          deploymentsLayer.addFeatures(glatosDeployments.features);
+
+          for (var i in frequencies) {
+            glatosDeployments.frequencies.push(i);
+          }
+          glatosDeployments.frequencies.sort();
+          var sto = Ext.getCmp('glatosFrequenciesGridPanel').getStore();
+          for (var i = 0; i < glatosDeployments.frequencies.length; i++) {
+            sto.add(new sto.recordType({
+              frequency : glatosDeployments.frequencies[i]
+            }));
+          }
+          Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
+          Ext.getCmp('glatosFrequenciesGridPanel').setHeight(sto.getCount() * 21.1 + 26 + 6);
+
+          Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
+          Ext.getCmp('glatosTimesStart').setMinValue(glatosDeployments.start);
+          Ext.getCmp('glatosTimesStart').setMaxValue(glatosDeployments.ending);
+          Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
+          Ext.getCmp('glatosTimesEnd').setMinValue(glatosDeployments.start);
+          Ext.getCmp('glatosTimesEnd').setMaxValue(glatosDeployments.ending);
+          Ext.getCmp('glatosTimesStart').enable();
+          Ext.getCmp('glatosTimesEnd').enable();
+        }
+      });
     }
   });
 }
@@ -407,4 +539,9 @@ function isoDateToDate(s) {
     ,hm[0]
     ,hm[1]
   );
+}
+
+function dateToString(d) {
+  var mon = ['Jan','Feb','Mar','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return mon[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
 }
