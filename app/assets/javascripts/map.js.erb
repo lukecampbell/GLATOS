@@ -75,7 +75,7 @@ function init() {
        '->'
       ,{
          text    : 'Reset all filters'
-        ,icon    : "#{asset_path 'arrow_refresh.png'}" // brokenImg
+        ,icon    : "<%= asset_path 'arrow_refresh.png' %>" // brokenImg
         ,handler : function() {
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().suspendEvents();
           Ext.getCmp('glatosTimesStart').suspendEvents();
@@ -229,7 +229,7 @@ function init() {
        '->'
       ,{
          text    : 'Reset times'
-        ,icon    : 'img/arrow_refresh.png'
+        ,icon    : "<%= asset_path 'arrow_refresh.png' %>"
         ,handler : function() {
           Ext.getCmp('glatosTimesStart').suspendEvents();
           Ext.getCmp('glatosTimesEnd').suspendEvents();
@@ -520,7 +520,7 @@ function initMap() {
 
 function renderReceiversCount(val,metadata,rec) {
   if (val == 'loading') {
-    return "<img height=12 src='img/loading.gif'>"; // brokenImg
+    return "<img height=12 src='<%= asset_path 'loading.gif' %>'>"; // brokenImg
   }
   else {
     return val + ' on map';

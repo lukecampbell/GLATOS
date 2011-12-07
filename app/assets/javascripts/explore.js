@@ -3,4 +3,4 @@
 //= require SearchField
 //= require GeoExt
 //= require util
-//= require map.js.haml
+//= require map
