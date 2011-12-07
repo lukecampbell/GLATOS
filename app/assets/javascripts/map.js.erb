@@ -58,8 +58,8 @@ function init() {
     ,autoExpandColumn : 'name'
     ,columns          : [
        glatosStudiesSelModel
-      ,{id : 'name'          ,dataIndex : 'name'}
-      ,{id : 'receiversCount',dataIndex : 'receiversCount',renderer : renderReceiversCount,align : 'right',width : 70}
+      ,{id : 'name' ,dataIndex : 'name'}
+      ,{id : 'count',dataIndex : 'count',renderer : renderCount,align : 'right',width : 70}
     ]
     ,hideHeaders      : true
     ,loadMask         : true
@@ -75,7 +75,7 @@ function init() {
        '->'
       ,{
          text    : 'Reset all filters'
-        ,icon    : "<%= asset_path 'arrow_refresh.png' %>" // brokenImg
+        ,icon    : "<%= asset_path 'arrow_refresh.png' %>"
         ,handler : function() {
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().suspendEvents();
           Ext.getCmp('glatosTimesStart').suspendEvents();
@@ -334,6 +334,29 @@ function init() {
 }
 
 function initMap() {
+  deploymentsLayer.events.register('featuresadded',this,function(e) {
+    glatosStudiesStore.each(function(rec) {
+      rec.set('count',0);
+      rec.commit();
+    });
+    for (var i = 0; i < e.features.length; i++) {
+      var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.features[i].attributes.study_id));
+      rec.set('count',rec.get('count') + 1);
+      rec.commit();
+    }
+  });
+  deploymentsLayer.events.register('featuresremoved',this,function(e) {
+    glatosStudiesStore.each(function(rec) {
+      rec.set('count',0);
+      rec.commit();
+    });
+    for (var i = 0; i < e.features.length; i++) {
+      var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.features[i].attributes.study_id));
+      rec.set('count',rec.get('count') + 1);
+      rec.commit();
+    }
+  });
+
   map = new OpenLayers.Map('map',{
      projection        : proj900913
     ,displayProjection : proj4326
@@ -348,6 +371,11 @@ function initMap() {
     ]
   });
   map.setCenter(new OpenLayers.LonLat(-9367578.6331264,5443194.7163551),6);
+  map.events.register('moveend',this,function() {
+    if (popupObs && !popupObs.isDestroyed) {
+      popupObs.show();
+    }
+  });
 
   var hiliteCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
      hover         : true
@@ -436,7 +464,7 @@ function initMap() {
           ,'seasonal'       : json[i].seasonal == 'true'
           ,'code'           : json[i].code
           ,'model'          : json[i].model
-          ,'receiversCount' : 'loading'
+          ,'count'          : 0
         });
         var ymd = json[i].start.split('T')[0].split('-');
         var d   = new Date(ymd[0],ymd[1] - 1,ymd[2]);
@@ -461,7 +489,6 @@ function initMap() {
         ,url      : '/deployments.geo'
         ,callback : function(r) {
           var json        = new OpenLayers.Format.JSON().read(r.responseText);
-          var models      = {};
           var frequencies = {};
           for (var i in json) {
             if (json[i].geojson) {
@@ -479,9 +506,6 @@ function initMap() {
               }
               if (f.attributes.recovered && isoDateToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
                 glatosDeployments.ending = isoDateToDate(f.attributes.recovered);
-              }
-              if (f.attributes.model) {
-                models[f.attributes.model] = true;
               }
               if (f.attributes.frequency) {
                 frequencies[f.attributes.frequency] = true;
@@ -518,13 +542,8 @@ function initMap() {
   });
 }
 
-function renderReceiversCount(val,metadata,rec) {
-  if (val == 'loading') {
-    return "<img height=12 src='<%= asset_path 'loading.gif' %>'>"; // brokenImg
-  }
-  else {
-    return val + ' on map';
-  }
+function renderCount(val) {
+  return val + ' on map';
 }
 
 function isoDateToDate(s) {
