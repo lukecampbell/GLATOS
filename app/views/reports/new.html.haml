@@ -191,8 +191,14 @@
     };
     var map = new google.maps.Map(document.getElementById("map"),
         myOptions);
+    var mapMarkers = [];
 
     google.maps.event.addListener(map, 'click', function(event) {
+      // get rid of any other marker(s)
+      for (var i = 0; i < mapMarkers.length; i++){
+       mapMarkers[i].setMap(null);
+      }
+      mapMarkers = [new google.maps.Marker({position : event.latLng,map : map})];
       $("#report_location").val(Math.round(event.latLng.lng()*1000)/1000 + ", " + Math.round(event.latLng.lat()*1000)/1000);
     });
   });
