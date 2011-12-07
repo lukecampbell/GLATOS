@@ -2,4 +2,5 @@
 //= require ext-all
 //= require SearchField
 //= require GeoExt
+//= require map
 //= require util
