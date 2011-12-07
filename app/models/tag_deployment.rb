@@ -5,7 +5,7 @@ class TagDeployment < ActiveRecord::Base
                   :against =>  [ :common_name,
                                  :scientific_name,
                                  :capture_location,
-                                 :external_code,
+                                 :external_codes,
                                  :description,
                                  :release_group,
                                  :release_location
