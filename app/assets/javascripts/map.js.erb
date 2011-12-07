@@ -11,6 +11,9 @@ var glatosDeployments  = {
 var deploymentsLayer = new OpenLayers.Layer.Vector('Deployments',{});
 var mouseoverObs;
 var popupObs;
+var dNow = new Date();
+dNow.setMinutes(0);
+dNow.setSeconds(0);
 
 function init() {
   Ext.QuickTips.init();
@@ -67,8 +70,7 @@ function init() {
     ,selModel         : glatosStudiesSelModel
     ,listeners        : {
       rowclick : function(grid,rowIndex,e) {
-        return; // foo
-        syncGlatos(true);
+        syncGlatos();
       }
     }
     ,tbar             : [
@@ -90,8 +92,7 @@ function init() {
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().resumeEvents();
           Ext.getCmp('glatosTimesStart').resumeEvents();
           Ext.getCmp('glatosTimesEnd').resumeEvents();
-          return; // foo
-          syncGlatos(true);
+          syncGlatos();
         }
       }
     ]
@@ -130,8 +131,7 @@ function init() {
     ,selModel         : glatosSeasonalSelModel
     ,listeners        : {
       rowclick : function(grid,rowIndex,e) {
-        return; // foo
-        syncGlatos(true);
+        syncGlatos();
       }
       ,viewready : function(grid) {
         grid.suspendEvents();
@@ -161,8 +161,7 @@ function init() {
     ,selModel         : glatosFrequenciesSelModel
     ,listeners        : {
       rowclick : function(grid,rowIndex,e) {
-        return; // foo
-        syncGlatos(true);
+        syncGlatos();
       }
     }
   });
@@ -197,8 +196,7 @@ function init() {
     ,selModel         : glatosProjectStatusSelModel
     ,listeners        : {
       rowclick : function(grid,rowIndex,e) {
-        return; // foo
-        syncGlatos(true);
+        syncGlatos();
       }
       ,viewready : function(grid) {
         grid.suspendEvents();
@@ -210,8 +208,7 @@ function init() {
       }
       ,expand    : function() {
         Ext.getCmp('glatosTimesFormPanel').collapse();
-        return; // foo
-        syncGlatos(true);
+        syncGlatos();
       }
     }
   });
@@ -237,8 +234,7 @@ function init() {
           Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
           Ext.getCmp('glatosTimesStart').resumeEvents();
           Ext.getCmp('glatosTimesEnd').resumeEvents();
-          return; // foo
-          syncGlatos(true);
+          syncGlatos();
         }
       }
     ]
@@ -250,8 +246,7 @@ function init() {
         ,allowBlank : false
         ,width      : 100
         ,listeners  : {change : function() {
-          return; // foo
-          syncGlatos(true);
+          syncGlatos();
         }}
       })}
       ,{border : false,columnWidth : 0.10,layout : 'form',html : '-',bodyStyle : 'text-align:center'}
@@ -262,8 +257,7 @@ function init() {
         ,allowBlank : false
         ,width      : 100
         ,listeners  : {change : function() {
-          return; // foo
-          syncGlatos(true);
+          syncGlatos();
         }}
       })}
       ,{border : false,columnWidth : 0.10,layout : 'form',items : new Ext.Button({
@@ -276,8 +270,7 @@ function init() {
       }
       ,expand  : function() {
         Ext.getCmp('glatosProjectStatusesGridPanel').collapse();
-        return; // foo
-        syncGlatos(true);
+        syncGlatos();
       }
     }
   });
@@ -350,11 +343,6 @@ function initMap() {
       rec.set('count',0);
       rec.commit();
     });
-    for (var i = 0; i < e.features.length; i++) {
-      var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.features[i].attributes.study_id));
-      rec.set('count',rec.get('count') + 1);
-      rec.commit();
-    }
   });
 
   map = new OpenLayers.Map('map',{
@@ -414,7 +402,7 @@ function initMap() {
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
         var tr  = [
            "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('description') + "</b></td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoDateToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoDateToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'>frequency : " + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' Hz' : 'unknown') + "</td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='http://www.glfc.org/telemetry/overview.php'>GLATOS home page</a> for more information.</font></td></tr>"
         ];
@@ -458,8 +446,8 @@ function initMap() {
           ,'name'           : json[i].name
           ,'description'    : json[i].description
           ,'species'        : json[i].species
-          ,'start'          : isoDateToDate(json[i].start)
-          ,'ending'         : isoDateToDate(json[i].ending)
+          ,'start'          : isoStringToDate(json[i].start)
+          ,'ending'         : isoStringToDate(json[i].ending)
           ,'url'            : json[i].url
           ,'seasonal'       : json[i].seasonal == 'true'
           ,'code'           : json[i].code
@@ -496,11 +484,11 @@ function initMap() {
               var f       = geojson.read(json[i].geojson)[0];
               f.geometry.transform(proj4326,map.getProjectionObject());
               glatosDeployments.features.push(f);
-              if (f.attributes.start && isoDateToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
-                glatosDeployments.start = isoDateToDate(f.attributes.start);
+              if (f.attributes.start && isoStringToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
+                glatosDeployments.start = isoStringToDate(f.attributes.start);
               }
-              if (f.attributes.recovered && isoDateToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
-                glatosDeployments.ending = isoDateToDate(f.attributes.recovered);
+              if (f.attributes.recovered && isoStringToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
+                glatosDeployments.ending = isoStringToDate(f.attributes.recovered);
               }
               if (f.attributes.frequency) {
                 frequencies[f.attributes.frequency] = true;
@@ -520,6 +508,9 @@ function initMap() {
               frequency : glatosDeployments.frequencies[i]
             }));
           }
+          sto.add(new sto.recordType({
+            frequency : 'Unknown'
+          }));
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosFrequenciesGridPanel').setHeight(sto.getCount() * 21.1 + 26 + 6);
 
@@ -541,7 +532,7 @@ function renderCount(val) {
   return val + ' on map';
 }
 
-function isoDateToDate(s) {
+function isoStringToDate(s) {
   // 2010-01-01T00:00:00Z
   var p = s.split('T');
   var ymd = p[0].split('-');
@@ -556,6 +547,78 @@ function isoDateToDate(s) {
 }
 
 function dateToString(d) {
-  var mon = ['Jan','Feb','Mar','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return mon[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+}
+
+function syncGlatos() {
+  function glatosProjectStatusOK(studiesRec) {
+    if (Ext.getCmp('glatosProjectStatusesGridPanel').collapsed) {
+      return true;
+    }
+    var ok = false;
+    var sel = Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().getSelections();
+    for (var i = 0; i < sel.length; i++) {
+      if (sel[i].get('name') == 'Ongoing') {
+        ok = ok || (studiesRec.get('start') < dNow && dNow < studiesRec.get('ending'));
+      }
+      if (sel[i].get('name') == 'Proposed') {
+        ok = ok || dNow < studiesRec.get('start');
+      }
+      if (sel[i].get('name') == 'Finished') {
+        ok = ok || studiesRec.get('ending') < dNow;
+      }
+    }
+    return ok;
+  }
+
+  deploymentsLayer.removeFeatures(deploymentsLayer.features);
+
+  var studyFilter = {};
+  var sel = Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().getSelections();
+  for (var i = 0; i < sel.length; i++) {
+    if (glatosProjectStatusOK(sel[i])) {
+      studyFilter[sel[i].get('id')] = true;
+    }
+  }
+
+  var seasonalFilter = {};
+  sel = Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().getSelections();
+  for (var i = 0; i < sel.length; i++) {
+    seasonalFilter[sel[i].get('name')] = true;
+  }
+
+  var frequencyFilter = {};
+  sel = Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().getSelections();
+  for (var i = 0; i < sel.length; i++) {
+    frequencyFilter[sel[i].get('frequency')] = true;
+  }
+
+  var timeFilter = [];
+  if (!Ext.getCmp('glatosTimesFormPanel').collapsed && Ext.getCmp('glatosTimesStart').getValue() != '' && Ext.getCmp('glatosTimesEnd').getValue() != '') {
+    timeFilter = [Ext.getCmp('glatosTimesStart').getValue().getTime(),Ext.getCmp('glatosTimesEnd').getValue().getTime()];
+  }
+
+  var f = [];
+  for (var i = 0; i < glatosDeployments.features.length; i++) {
+    var start = isoStringToDate(glatosDeployments.features[i].attributes.start).getTime();
+    var ending = dNow;
+    if (glatosDeployments.features[i].attributes.ending) {
+      ending = isoStringToDate(glatosDeployments.features[i].attributes.ending).getTime();
+    }
+    if (
+      studyFilter[glatosDeployments.features[i].attributes.study_id]
+      && (seasonalFilter['Seasonal only'] ? glatosDeployments.features[i].attributes.seasonal : true)
+      && (glatosDeployments.features[i].attributes.frequency ? frequencyFilter[glatosDeployments.features[i].attributes.frequency] : frequencyFilter['Unknown'])
+      && (timeFilter.length == 2 ? (
+        (timeFilter[0] <= start && start <= timeFilter[1])
+        || (timeFilter[0] <= ending && ending <= timeFilter[1])
+        || (start <= timeFilter[0] && timeFilter[1] <= ending)
+      ) : true)
+    ) {
+      f.push(glatosDeployments.features[i]);
+    } 
+  }
+
+  deploymentsLayer.addFeatures(f);
 }
