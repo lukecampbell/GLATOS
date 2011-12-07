@@ -43,7 +43,8 @@ class Deployment < ActiveRecord::Base
     s[:waterbody] = otn_array.waterbody
     s[:code] = code
     s[:recovered] = ending
-    return RGeo::GeoJSON::Feature.new(self.location, self.id, s)
+    feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
+    RGeo::GeoJSON.encode(feat)
   end
 
   def latitude(round=3)

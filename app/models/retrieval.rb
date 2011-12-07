@@ -13,7 +13,8 @@ class Retrieval < ActiveRecord::Base
   def geojson
     removals = ["location","id","tag_deployment_id"]
     s = self.attributes.delete_if {|key, value| removals.include?(key) }
-    return RGeo::GeoJSON::Feature.new(self.location, self.id, s)
+    feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
+    RGeo::GeoJSON.encode(feat)
   end
 
   def latitude(round=3)
