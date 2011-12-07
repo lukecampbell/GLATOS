@@ -3,4 +3,3 @@
 //= require SearchField
 //= require GeoExt
 //= require util
-//= require map
