@@ -492,14 +492,9 @@ function initMap() {
           var frequencies = {};
           for (var i in json) {
             if (json[i].geojson) {
-              var wkt = new OpenLayers.Format.WKT();
-              var f   = wkt.read(json[i].geojson.geometry);
+              var geojson = new OpenLayers.Format.GeoJSON();
+              var f       = geojson.read(json[i].geojson)[0];
               f.geometry.transform(proj4326,map.getProjectionObject());
-              for (var j in json[i].geojson.properties) {
-                if (json[i].geojson.properties[j]) {
-                  f.attributes[j] = json[i].geojson.properties[j];
-                }
-              }
               glatosDeployments.features.push(f);
               if (f.attributes.start && isoDateToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
                 glatosDeployments.start = isoDateToDate(f.attributes.start);
