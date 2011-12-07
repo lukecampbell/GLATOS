@@ -11,6 +11,8 @@ var glatosDeployments  = {
 var deploymentsLayer = new OpenLayers.Layer.Vector('Deployments',{});
 var mouseoverObs;
 var popupObs;
+var hiliteCtll;
+var popupCtl;
 var dNow = new Date();
 dNow.setMinutes(0);
 dNow.setSeconds(0);
@@ -365,7 +367,7 @@ function initMap() {
     }
   });
 
-  var hiliteCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
+  hiliteCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
      hover         : true
     ,highlightOnly : true
     ,renderIntent  : 'temporary'
@@ -393,7 +395,7 @@ function initMap() {
   map.addControl(hiliteCtl);
   hiliteCtl.activate();
 
-  var popupCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
+  popupCtl = new OpenLayers.Control.SelectFeature(deploymentsLayer,{
     eventListeners : {
       featurehighlighted : function(e) {
         if (popupObs && popupObs.isVisible()) {
@@ -552,6 +554,9 @@ function dateToString(d) {
 }
 
 function syncGlatos() {
+  hiliteCtl.unselectAll();
+  popupCtl.unselectAll();
+
   function glatosProjectStatusOK(studiesRec) {
     if (Ext.getCmp('glatosProjectStatusesGridPanel').collapsed) {
       return true;
