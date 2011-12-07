@@ -29,6 +29,28 @@
 #banner .x-panel-body {
   background-color : transparent;
 }
+#bannerMenu {
+  position : relative;
+  top  : 50px;
+  left : 50%;
+}
+#bannerMenu a {
+  display  : block;
+  position : absolute;
+}
+#bannerMenu a.menu {
+  width  : 90px;
+  height : 30px;
+} 
+#bannerMenu a#exploreLink {
+  left   : 190px;
+}
+#bannerMenu a#reportLink {
+  left   : 294px;
+}
+#bannerMenu a#searchLink {
+  left   : 395px;
+}
 
 .smallFont {
   font       : 11px/13px tahoma,helvetica,sans-serif;
