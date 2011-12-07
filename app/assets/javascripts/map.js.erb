@@ -411,7 +411,7 @@ function initMap() {
           ,target       : 'OpenLayers.Geometry.Point_' + (Number(e.feature.id.split('_')[e.feature.id.split('_').length - 1]) - 1)
           ,hideDelay    : 0
           ,listeners    : {hide : function(tt) {
-            if (!tt.isDestroyed) {
+            if (!tt.isDestroyed && !Ext.isIE) {
               tt.destroy();
             }
           }}
