@@ -10,7 +10,8 @@ class Deployment < ActiveRecord::Base
                   },
                   :associated_against => {
                     :otn_array => [ :code,
-                                    :description
+                                    :description,
+                                    :waterbody
                                   ]
                   }
 
