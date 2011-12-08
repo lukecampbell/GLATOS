@@ -1,8 +1,46 @@
-#linkbox{:class => :horizonal_list}
-  =link_to 'Explore', '/explore'
+#container
+  #background
+    #header
+      #{image_tag asset_path('heading.png')}
 
-#linkbox
-  =link_to 'Search', '/search'
+    #information
+      %p 
+        GLATOSWeb compiles acoustic telemetry project information and helps users learn more about ongoing acoustic telemetry projects in the Great Lakes.  Scientists have been implanting Great Lakes fish with transmitters and, like the GPS on a car, have been tracking fish movement through a network of receivers places on the bottom n the lakes.  The purpose of GLATOS is to help scientists and the public learn more about Great Lakes acoustic telemetry projects and their contribution to research.
 
-#linkbox
-  =link_to 'Report Tag', new_report_path
+    #links
+      #{link_to "What is Acoustic Telemetry?", "http://en.wikipedia.org/wiki/Telemetry"}
+      %br
+      #{link_to "About GLATOS", "http://www.glfc.org/telemetry/"}
+      %br
+      #{link_to "Have Data?", "#"}
+
+    #functions
+      .box{:class => 'globe'}
+        .globelink
+          #{link_to "EXPLORE", explore_path}
+        %p
+          Explore a map of GLATOS projects.
+
+      .box{:class => 'search'}
+        .searchlink
+          #{link_to "SEARCH", search_path}
+        %p
+          Search the GLATOS database by keyword.
+
+      .box{:class => 'found'}
+        .foundlink
+          #{link_to "FOUND A TAG?", new_report_path}
+        %p
+          %span
+            Reward!
+          Click here for instructions on what to do next.
+
+    #footer
+      .left_img
+        #{image_tag asset_path('glfc_logo.png')}
+
+      .login
+        #{link_to "Login or Register to Join the GLATOS Network", new_user_session_path}
+
+      .right_img
+        #{image_tag asset_path('glos_logo.png')}

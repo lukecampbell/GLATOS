@@ -1,0 +1,152 @@
+body {
+  background-color: #1e4680;
+}
+
+#container {
+  @include container;
+  @include blueprint(true);
+  background  : url(image-path('bkgd.jpg')) no-repeat center;
+  font-family: "Myriad pro", "Helvetica Neue", Arial, Helvetica, Tahoma, sans-serif;
+  font-size: 16px;
+}
+
+#background {
+  //@include showgrid;
+  @include column(24, true);
+  height: 100%;
+}
+
+#header {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#information {
+  @include push(4);
+  @include column(16, true);
+  background  : url(image-path('blue_bkgd.png')) no-repeat center;
+  height: 240px;
+  margin-bottom: 0px;
+  margin-top: -25px;
+
+  p {
+    @include push(1);
+    margin-top: 50px;
+    @include column(14, true);
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.1em;
+  }
+}
+
+#links {
+  text-align: center;
+  @include push(8);
+  @include column(8, true);
+  margin-top: -35px;
+  a {
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.6em;
+  }
+  a:visited {
+    font-weight: bold;
+    color: #fff;
+  }
+  a:hover {
+    font-weight: bold;
+    color: #001d3e;
+  }
+}
+
+#functions {
+
+  @include push(4.5);
+
+  a {
+    font-weight: bold;
+    color: #fff;
+  }
+  a:visited {
+    color: #fff;
+  }
+  a:hover {
+    color: #001d3e;
+  }
+
+  .box {
+    @include column(5);
+    height: 168px;
+    p {
+      margin-top: 24px;
+      line-height: 1.2em;
+      color: #001d3e;
+      text-align: center;
+      padding: 5px;
+      font-weight: 600;
+      span {
+        font-weight: 800;
+      }
+    }
+    div {
+      margin-top: 44px;
+      text-align: right;
+    }
+    .globelink {
+      padding-right: 10px;
+    }
+    .searchlink {
+      padding-right: 15px;
+    }
+    .foundlink {
+      padding-right: 3px;
+    }
+  }
+
+  .globe {
+    background: url(image-path('globe_box.png')) no-repeat bottom;
+  }
+
+  .search {
+    background: url(image-path('magnifyne_box.png')) no-repeat bottom;
+  }
+
+  .found {
+    background: url(image-path('fish_box.png')) no-repeat bottom;
+  }
+
+}
+
+#footer {
+  @include column(24);
+  margin-top: 20px;
+  text-align: center;
+
+  .login {
+    @include column(18);
+    line-height: 38px;
+    text-align: center;
+    margin: 0 auto;
+
+    a {
+      color: #001d3e;
+      margin: 0 auto;
+      width: 305px;
+      height: 38px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 12px;
+      background: url('register_but.png') no-repeat center;
+      display:  block;
+    }
+  }
+
+  .right_img {
+    @include column(3, true);
+  }
+  .left_img {
+    @include column(3);
+  }
+
+}
