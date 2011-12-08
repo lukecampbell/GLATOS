@@ -40,8 +40,6 @@ class Deployment < ActiveRecord::Base
   def geojson
     removals = ["location","id","station","otn_array_id"]
     s = self.attributes.delete_if {|key, value| removals.include?(key) }
-    s[:otn_array] = otn_array.code
-    s[:waterbody] = otn_array.waterbody
     s[:code] = code
     s[:recovered] = ending
     feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)

@@ -25,7 +25,10 @@ class DeploymentsController < ApplicationController
         render :json =>
           deps.as_json({
             :only => [nil],
-            :methods => [:geojson]
+            :methods => [:geojson],
+            :include => { :otn_array => 
+              { :only => [:code, :description, :waterbody] }
+            }
           })
       }
       format.dataTable {
