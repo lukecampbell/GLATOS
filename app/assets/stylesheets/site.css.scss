@@ -9,20 +9,60 @@ body {
   background-color: #1e4680;
 }
 
-#background {
-  background  : url('greatlakes.png') no-repeat center;
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 26px;
+  margin: 10px 0;
+
 }
 
 #content {
-  padding             : 20px;
   background-color    : #eee;
-  @include opacity(0.9);
-
+  padding: 40px;
+  margin-top: 30px;
 }
 
-#block {
-  /* To bring everything to the top, uncomment this */
-  /* position: relative; */
+.header {
+  @include column(24,true);
+  height: 50px;
+  background  : url(image-path('header.jpg')) no-repeat center;
+}
+
+#navigation {
+
+  color: #fff;
+  font-size: 18px;
+  line-height: 30px;
+  background-color: #555;
+  text-align: right;
+  @include column(24);
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    
+  }
+
+  .left {
+    @include prepend(1);
+    @include column(9);
+    @include append(2);
+  }
+
+  .pipe {
+    padding: 0 5px 0 8px;
+  }
+
+  .right {
+    @include prepend(2);
+    @include column(9, true);
+    ul {
+      float: right;
+    }
+  }
+
+
 }
 
 .caption {
@@ -72,7 +112,22 @@ body {
     margin-bottom: 10px;
     padding: 10px;
   }
+}
 
+.devise_links {
+  margin-top: 20px;
+  font-size: 10px;
+}
 
-
+#signin {
+  .login {
+    @include prepend(2);
+    @include column(11);
+    font-size: 16px;
+  }
+  .form {
+    @include column(8, true);
+    border-left: 1px solid #000;
+    padding-left: 15px;
+  }
 }

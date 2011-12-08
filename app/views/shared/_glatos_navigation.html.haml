@@ -1,0 +1,12 @@
+.horizontal-list
+  %ul
+    %li
+      = link_to('Explore', explore_path)
+      %span{:class => 'pipe'}
+        |
+    %li
+      = link_to('Search', search_path)
+      %span{:class => 'pipe'}
+        |
+    %li
+      = link_to('Report', new_report_path)

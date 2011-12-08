@@ -1,4 +1,3 @@
-
 %html
   %head
     %title= Glatos
@@ -15,16 +14,17 @@
     #container
 
       .header
-        %h1 GLATOS
-        #navigation
+      .clear
+      #navigation
+        .left
           = render 'shared/navigation'
+        .right
+          = render 'shared/glatos_navigation'
 
-      - flash.each do |name, msg|
-        = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+      #content
+        - flash.each do |name, msg|
+          = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
 
-      #background
-        #content
-          #block
-            = yield
+        = yield
 
       .footer

@@ -1,11 +1,12 @@
 #container {
   @include container;
-  //@include showgrid;
+  @include showgrid;
   //@include blueprint(true);
 }
 
 .horizontal-list {
   @include horizontal-list;
+  overflow: visible;
 }
 
 .alert { @extend .error }

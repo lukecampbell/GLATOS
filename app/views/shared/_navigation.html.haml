@@ -1,11 +1,15 @@
-#navigation{:class => 'horizontal-list'}
+.horizontal-list
   %ul
     - if user_signed_in?
       %li
         = link_to('Logout', destroy_user_session_path, :method=>'delete')
+        %span{:class => 'pipe'}
+          |
     - else
       %li
         = link_to('Login', new_user_session_path)
+        %span{:class => 'pipe'}
+          |
 
 
     - if user_signed_in?

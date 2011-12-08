@@ -93,18 +93,20 @@
     font-style  : italic;
   }
 
-.commit {
-  
-  list-style: none outside none;
-
-  input {
-    background-color: #FFFFFF;
-    border: 1px solid #BBBBBB;
-    margin: 0 0;
-    padding: 10px;
-  }
 }
 
+#new_report {
+  .commit {
+    
+    list-style: none outside none;
+
+    input {
+      background-color: #FFFFFF;
+      border: 1px solid #BBBBBB;
+      margin: 0 0;
+      padding: 10px;
+    }
+  }
 }
 
 .formtastic .inline-errors {
@@ -128,4 +130,13 @@
 
 .formtastic p {
   margin-bottom: 20px;
+}
+
+.commit {
+  input {
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    margin: 0 0;
+    padding: 3px 5px;
+  }
 }
