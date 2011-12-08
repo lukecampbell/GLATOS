@@ -1,0 +1,25 @@
+%h1 #{@study.name}
+%br
+Code: #{@study.code}
+%br
+Start: #{@study.start.to_date}
+%br
+Ending: #{@study.ending.to_date}
+%br
+URL: #{link_to @study.url, @study.url}
+%br
+Species: #{@study.species}
+
+%br
+%br
+
+%h2
+  Contact:
+Name: #{@study.user.name}
+%br
+Email: #{@study.user.email}
+%br
+Telephone: #{@study.user.phone}
+
+
+

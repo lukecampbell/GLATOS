@@ -15,4 +15,11 @@ class StudiesController < ApplicationController
     end
   end
 
+  def show
+    @study = Study.includes(:user, :deployments, :tags).find(params[:id])
+    respond_to do |format|
+      format.html
+    end
+  end
+
 end

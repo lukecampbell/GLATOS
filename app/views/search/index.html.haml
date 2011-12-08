@@ -42,7 +42,9 @@
   function buildStudyBox(val) {
     text = "";
     text += "<div class='box info'>";
-      text += "<h4>" + val.name + "</h4>";
+      text += "<h4>";
+      text += "<a href='/studies/" + val.id + "'>" + val.name + "</a>";
+      text += "</h4>";
       text += "<ol class='success'>";
         text += "<li>Species: " + val.species + "</li>";
       text += "</ol>";
