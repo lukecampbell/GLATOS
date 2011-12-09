@@ -40,7 +40,14 @@
         #{image_tag asset_path('glfc_logo.png')}
 
       .login
-        #{link_to "Login or Register to Join the GLATOS Network", new_user_session_path}
+        #flashes
+          - flash.each do |name, msg|
+            = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+
+        - if current_user
+          = render 'shared/navigation'
+        - else
+          = link_to('Login or Register to Join the GLATOS Network', new_user_session_path)
 
       .right_img
         #{image_tag asset_path('glos_logo.png')}

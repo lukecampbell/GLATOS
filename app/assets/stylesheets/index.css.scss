@@ -123,6 +123,13 @@ body {
   margin-top: 20px;
   text-align: center;
 
+  #flashes {
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 16px;
+  }
+
   .login {
     @include column(18);
     line-height: 38px;
@@ -142,11 +149,11 @@ body {
     }
   }
 
-  .right_img {
-    @include column(3, true);
-  }
   .left_img {
     @include column(3);
+  }
+  .right_img {
+    @include column(3, true);
   }
 
 }
