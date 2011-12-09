@@ -7,21 +7,25 @@
 
 .clear
 
--if can? :manage, Tag
-  #search_table
-    %h3 Tags
-    %h5{:id => 'tag_count'}
-    %div{:id => 'tags'}
+#search_tables
+  - table_class = 'two_wide'
+  -if can? :manage, Tag
+    - table_class = 'three_wide'
 
-#search_table
-  %h3 Studies
-  %h5{:id => 'study_count'}
-  %div{:id => 'studies'}
+    #search_table{:class => "#{table_class}"}
+      %h3 Tags
+      %h5{:id => 'tag_count'}
+      %div{:id => 'tags'}
 
-#search_table
-  %h3 Deployments
-  %h5{:id => 'deployment_count'}
-  %div{:id => 'deployments'}
+  #search_table{:class => "#{table_class}"}
+    %h3 Studies
+    %h5{:id => 'study_count'}
+    %div{:id => 'studies'}
+
+  #search_table{:class => "#{table_class}_last"}
+    %h3 Deployments
+    %h5{:id => 'deployment_count'}
+    %div{:id => 'deployments'}
 
 .clear
 

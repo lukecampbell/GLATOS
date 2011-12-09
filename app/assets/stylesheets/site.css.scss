@@ -83,12 +83,30 @@ h2 {
   margin: 0 30px 0 30px;
 }
 
+.three_wide {
+  @include column(7);
+}
+.three_wide_last {
+  @include column(7, true);
+}
+
+.two_wide {
+  @include column(10.5);
+}
+.two_wide_last {
+  margin-left: 8px;
+  @include column(10.5,true);
+}
+
+#search_tables {
+  margin-top: 20px;
+}
+
 #search_table {
-  @include column(6.7);
-  margin: 10px;
-  float: left;
-  padding: 10px;
+
+  background-color: #fff;
   border: 2px solid #ccc;
+  padding: 4px;
 
   h3 {
     font-size: large;
