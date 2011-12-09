@@ -11,11 +11,11 @@
     = f.input :state
     = f.input :zipcode
     = f.input :phone
-    = f.input :requested_role, :as => :radio, :collection => User::REGISTERABLE_ROLES.map{|r|["#{r.humanize} - #{User::ROLE_MAP[r.to_sym]}",r]}, :label => "Requested Role", :selected => User::REGISTERABLE_ROLES.first, :hint => "Requesting a role other than 'Public' will require approval by GLATOS and will not be effective immediately"
+    = f.input :requested_role, :as => :radio, :collection => User::REGISTERABLE_ROLES.map{|r|["#{r.humanize} - #{User::ROLE_MAP[r.to_sym]}",r]}, :label => "Requested Role", :selected => User::REGISTERABLE_ROLES.first, :hint => "Requesting a role other than 'General' will require approval by GLATOS and will not be effective immediately"
     = f.input :password, :label => "Password", :hint => "Leave blank if you don't want to change it"
     = f.input :password_confirmation
     = f.input :current_password, :label => "Current Password", :hint => "We need your current password to confirm your changes"
   = f.buttons do
-    = f.submit "Update"
+    = f.commit_button "Update"
 
 %br
