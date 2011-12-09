@@ -20,7 +20,7 @@
     .left-section
       = f.inputs :name => "1 - Contact Information", :id => "contact_info" do
 
-        = f.input :name,                          :label => "Full Name"
+        = f.input :name,                          :label => "Full Name", :input_html => {  :class => "updater"}
         = f.input :address     
 
         
@@ -85,18 +85,57 @@
 
     .right-section
       = f.inputs :name => "8 - Did you take any pictures of the fish?", :id => "pictures" do
-        %p If so, please email them to: 
+        .radios
+          %input{:type => :radio, :value => 'yes', :id => 'picture_yes', :name => 'pictures'}
+            Yes
+          %input{:type => :radio, :value => 'no', :id => 'picture_no', :name => 'pictures'}
+            No
+          #picture_explain
+            %span Please email the images to: report@glatos.org and paste this text into the body of the email:
+            %textarea{:id => 'picture_paste', :style => 'display: block;', :readonly => "true"}
 
   .clear
   .section
     .left-section
-      = f.inputs :name => "9 - Tag Information (see photos on right)", :id => "tag_information" do
+      = f.inputs :name => "9 - Tag Information (see photo on right)", :id => "tag_information" do
+        .radios
+          %p
+            %span{:class => 'report_text'}
+              Does the fish have an internal tag?
+            %br
+            %input{:type => :radio, :value => 'yes', :id => 'internal_yes', :name => 'internal_found'}
+              Yes
+            %input{:type => :radio, :value => 'no', :id => 'internal_no', :name => 'internal_found'}
+              No
+          %p{:id => 'internal_read', :style => 'display: none;'}
+            %span{:class => 'report_text'}
+              Is the Tag ID legible?
+            %br
+            %input{:type => :radio, :value => 'yes', :id => 'internal_read_yes', :name => 'internal_readable'}
+              Yes
+            %input{:type => :radio, :value => 'no', :id => 'internal_read_no', :name => 'internal_readable'}
+              No
+          #internal_tag
+            = f.input :input_tag,              :label => "Internal ID Tag Number", :input_html => {  :class => "updater"}
+        
+        %br
+        
+        .radios
+          %p{:id => 'external_found'}
+            %span{:class => 'report_text'}
+              Does the fish have any external tags?
+              %br
+              (a fish may have 0 or more)
+            %br
+            %input{:type => :radio, :value => 'yes', :id => 'external_yes', :name => 'external_found'}
+              Yes
+            %input{:type => :radio, :value => 'no', :id => 'external_no', :name => 'external_found'}
+              No
+          #external_tags
+            = f.input :input_external_codes_one,   :as => :string,     :label => false,    :hint => "External Tag #1", :input_html => { :name => "report[input_external_codes_one]", :class => "updater external_tag"}
+            = f.input :input_external_codes_two,   :as => :string,     :label => false,    :hint => "External Tag #2", :input_html => { :name => "report[input_external_codes_two]", :class => "updater external_tag"}
 
-        = f.input :input_tag,              :label => "Internal ID Tag Number"
-        %span{:class => 'custom_label'}
-          A fish may also have one or more external tags
-        = f.input :input_external_codes,   :as => :string,     :label => false,    :hint => "External Tag #1", :input_html => { :name => "report[input_external_codes_one]"}
-        = f.input :input_external_codes,   :as => :string,     :label => false,    :hint => "External Tag #2", :input_html => { :name => "report[input_external_codes_two]"}
+
     .right-section
       %p{:class => "report_text"}
         If you haven't done so already, immediately remove the internal transmitters from the fish and rinse with water.  Store the transmitter at room temperature.
@@ -106,12 +145,12 @@
       %p{:class => 'full_img'}
         = image_tag("tagged_fish.jpg")
       %p{:class => "report_text reward"}
-        Note: Rewards are given for the INTERNAL tags only!
+        Note: Rewards are offered for the INTERNAL tags only!
 
   .clear
   .section
     = f.inputs  :name => "10 - Additional Comments", :id => "comments" do
-      = f.input :comments
+      = f.input :comments, :input_html => {  :class => "updater"}
 
   .section
     %p{:class => 'report_text reward'}
@@ -119,14 +158,14 @@
       %br
       Review your ID Tag Number before submitting
 
-    = f.commit_button :button_html => { :disable_with => 'Wait...' },  :input_html => { :style => 'margin: 20px;' }
+    = f.commit_button :button_html => { :value => 'Submit Tag Report', :disable_with => 'Wait...' },  :input_html => { :style => 'margin: 20px;' }
 
   .clear
 
 :javascript
 
   $(document).ready(function() {
-    
+
     $( "#report_found" ).datepicker({
        buttonImage: "#{asset_path 'small_calendar.png'}"
       ,changeMonth: true
@@ -182,6 +221,20 @@
       $("#other_didwith_input").keyup();
     }
 
+    // Picture stuff
+    $("#picture_no").click(function() {
+      $("#picture_explain").hide();
+    });
+
+    $("#picture_no").click();
+
+    $("#picture_yes").click(function() {
+      $("#picture_explain").show();
+    });
+    $(".updater").keyup(function() {
+      updateEmailBody();
+    });
+
     // Google Maps
     var latlng = new google.maps.LatLng(45.287, -84.050);
     var myOptions = {
@@ -201,6 +254,58 @@
       mapMarkers = [new google.maps.Marker({position : event.latLng,map : map})];
       $("#report_location").val(Math.round(event.latLng.lng()*1000)/1000 + ", " + Math.round(event.latLng.lat()*1000)/1000);
     });
+
+    // Tag radios
+    $("#internal_yes").click(function() {
+      $("#internal_read").show();
+      $("input:radio[name='internal_readable']").removeAttr("checked");
+
+      $("#report_input_tag").removeAttr('readonly');
+      if ($("#report_input_tag").val() == "NO INTERNAL TAG") {
+        $("#report_input_tag").val("");
+      }
+    })
+    $("#internal_no").click(function() {
+      $("#report_input_tag").val("NO INTERNAL TAG");
+      $("#report_input_tag").attr("readonly","readonly");
+      $("#internal_read").hide();
+    })
+
+    $("#internal_read_yes").click(function() {
+      $("#report_input_tag").removeAttr('readonly');
+      if ($("#report_input_tag").val() == "TAG NOT LEGIBLE") {
+        $("#report_input_tag").val("");
+      }
+    });
+    $("#internal_read_no").click(function() {
+      $("#report_input_tag").val("TAG NOT LEGIBLE");
+      $("#report_input_tag").attr("readonly","readonly");
+    });
+
+    $("#external_no").click(function() {
+      $(".external_tag").val("").attr("readonly","readonly");
+    });
+    $("#external_yes").click(function() {
+      $(".external_tag").removeAttr('readonly');
+    });
+
   });
+
+  function updateEmailBody() {
+    var c = "";
+    c += "Name: " + $("#report_name").val();
+    c += "\n";
+    c += "\n";
+    c += "Internal Tag: " + $("#report_input_tag").val();
+    c += "\n";
+    var excodes = $("#report_input_external_codes_one").val() + "," + $("#report_input_external_codes_two").val();
+    c += "External Tag(s): " + excodes;
+    c += "\n";
+    c += "\n";
+    c += "Comments: " + $("#report_comments").val() + "\n";
+    
+    $("#picture_paste").val(c);
+  }
+  updateEmailBody();
 
 = javascript_include_tag "http://maps.googleapis.com/maps/api/js?sensor=false"

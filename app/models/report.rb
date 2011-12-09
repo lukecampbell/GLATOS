@@ -28,7 +28,7 @@ class Report < ActiveRecord::Base
 
   set_rgeo_factory_for_column(:location, RGeo::Geographic.spherical_factory(:srid => 4326))
 
-  METHODS = ['Commercial Fishing','Recreational Fishing','Not fishing affiliated']
+  METHODS = ['Caught - Commercial Fishing','Caught - Recreational Fishing','Caught - Tribal Fishing']
   DIDWITH = ['Caught and kept the fish', 'Caught and released the fish']
 
   before_create { |record| record.reported ||= Time.now.utc }
@@ -39,6 +39,14 @@ class Report < ActiveRecord::Base
 
   def input_external_codes
     read_attribute(:input_external_codes).split(",") rescue nil
+  end
+
+  def input_external_codes_one
+    input_external_codes.first rescue nil
+  end
+
+  def input_external_codes_two
+    input_external_codes.second rescue nil
   end
 
   def input_external_codes=(codes)
