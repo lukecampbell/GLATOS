@@ -1,3 +1,4 @@
+var mainPanel;
 var map;
 var proj900913 = new OpenLayers.Projection("EPSG:900913");
 var proj4326   = new OpenLayers.Projection("EPSG:4326");
@@ -304,18 +305,16 @@ function init() {
     }
   });
 
-  new Ext.Viewport({
-     layout : 'border'
-    ,items  : [
-      new Ext.Panel({
-         region : 'north'
-        ,id     : 'banner'
-        ,html   : '<div id="bannerMenu"><a href="/explore" id="exploreLink" class="menu"></a><a href="/reports/new" id="reportLink" class="menu"></a><a href="/search" id="searchLink" class="menu"></a></div>'
-        ,height : 81
-        ,border : false
-      })
-      ,new Ext.Panel({
+  var mainPanel = new Ext.Panel({
+     layout   : 'border'
+    ,renderTo : 'mainPanel'
+    ,width    : 400
+    ,height   : 400
+    ,hidden   : true
+    ,items    : [
+       new Ext.Panel({
          region      : 'west'
+        ,id          : 'controlPanel'
         ,width       : 275
         ,title       : 'GLATOSWeb Explore Tool'
         ,collapsible : true
@@ -353,6 +352,20 @@ function init() {
       })
     ]
   });
+
+  // lapkok
+  document.getElementById('banner').innerHTML = '<div id="bannerMenu"><a href="/explore" id="exploreLink" class="menu"></a><a href="/reports/new" id="reportLink" class="menu"></a><a href="/search" id="searchLink" class="menu"></a></div>';
+
+  window.onresize = function(e) {
+    // lapkok (the 81)
+    mainPanel.setSize(getVPSize()[0],getVPSize()[1] - 81);
+    mainPanel.doLayout();
+    if (!mainPanel.isVisible()) {
+      mainPanel.show();
+    }
+  }
+
+  window.onresize();
 }
 
 function initMap() {
