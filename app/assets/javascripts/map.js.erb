@@ -446,7 +446,13 @@ function initMap() {
         var tr  = [
            "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('description') + "</b></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'>frequency : " + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' Hz' : 'unknown') + "</td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><table class='obsInnerPopup'>"
+            ,"<tr><td>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
+            ,"<tr><td>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' MHz' : 'unknown') + "</td></tr>"
+            ,"<tr><td>code</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.code + "</td></tr>"
+            ,"<tr><td>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
+            ,(e.feature.attributes.otn_array.waterbody ? "<tr><td>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
+          ,"</table></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='http://www.glfc.org/telemetry/overview.php'>GLATOS home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
