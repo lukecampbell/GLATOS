@@ -443,7 +443,7 @@ function initMap() {
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><table class='obsInnerPopup'>"
             ,"<tr><td>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
-            ,"<tr><td>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' MHz' : 'unknown') + "</td></tr>"
+            ,"<tr><td>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
             ,"<tr><td>code</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.code + "</td></tr>"
             ,"<tr><td>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
             ,(e.feature.attributes.otn_array.waterbody ? "<tr><td>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
@@ -549,7 +549,7 @@ function initMap() {
           var sto = Ext.getCmp('glatosFrequenciesGridPanel').getStore();
           for (var i = 0; i < glatosDeployments.frequencies.length; i++) {
             sto.add(new sto.recordType({
-              frequency : glatosDeployments.frequencies[i]
+              frequency : glatosDeployments.frequencies[i] + ' KHz'
             }));
           }
           sto.add(new sto.recordType({
@@ -638,7 +638,7 @@ function syncGlatos() {
   var frequencyFilter = {};
   sel = Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().getSelections();
   for (var i = 0; i < sel.length; i++) {
-    frequencyFilter[sel[i].get('frequency')] = true;
+    frequencyFilter[sel[i].get('frequency').replace(' KHz','')] = true;
   }
 
   var timeFilter = [];
