@@ -115,7 +115,7 @@ function init() {
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectRow(0)
+          Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectAll()
           Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
@@ -129,12 +129,7 @@ function init() {
   });
 
   var glatosSeasonalSelModel = new Ext.grid.CheckboxSelectionModel({
-     header       : ''
-    ,singleSelect : true
-    // make sure 1 row is selected
-    ,listeners    : {rowdeselect : function(selModel,idx) {
-      selModel.selectRow((idx  + 1) % 2);
-    }}
+     header : ''
   });
   var glatosSeasonalGridPanel = new Ext.grid.GridPanel({
      id               : 'glatosSeasonalGridPanel'
@@ -165,7 +160,7 @@ function init() {
       }
       ,viewready : function(grid) {
         grid.suspendEvents();
-        grid.getSelectionModel().selectRow(0);
+        grid.getSelectionModel().selectAll();
         grid.resumeEvents();
       }
     }
@@ -660,7 +655,10 @@ function syncGlatos() {
     }
     if (
       studyFilter[glatosDeployments.features[i].attributes.study_id]
-      && (seasonalFilter['Seasonal only'] ? glatosDeployments.features[i].attributes.seasonal : true)
+      && (
+        (seasonalFilter['Year-round'] ? !glatosDeployments.features[i].attributes.seasonal : false)
+        || (seasonalFilter['Seasonal only'] ? glatosDeployments.features[i].attributes.seasonal : false)
+      )
       && (glatosDeployments.features[i].attributes.frequency ? frequencyFilter[glatosDeployments.features[i].attributes.frequency] : frequencyFilter['Unknown'])
       && (timeFilter.length == 2 ? (
         (timeFilter[0] <= start && start <= timeFilter[1])
