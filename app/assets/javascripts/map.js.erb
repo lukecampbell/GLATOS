@@ -44,6 +44,7 @@ var popupCtl;
 var dNow = new Date();
 dNow.setMinutes(0);
 dNow.setSeconds(0);
+var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
 
 function init() {
   Ext.QuickTips.init();
@@ -514,7 +515,7 @@ function initMap() {
       }
       glatosStudiesStore.fireEvent('load');
       Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
-      Ext.getCmp('glatosStudiesGridPanel').setHeight(glatosStudiesStore.getCount() * 21.1 + 26 + 6 + 25);
+      Ext.getCmp('glatosStudiesGridPanel').setHeight((glatosStudiesStore.getCount() <= maxOptionsPerFilter ? glatosStudiesStore.getCount() : maxOptionsPerFilter) * 21.1 + 26 + 6 + 25);
 
       OpenLayers.Request.issue({
          method   : 'GET'
@@ -556,7 +557,7 @@ function initMap() {
             frequency : 'Unknown'
           }));
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosFrequenciesGridPanel').setHeight(sto.getCount() * 21.1 + 26 + 6);
+          Ext.getCmp('glatosFrequenciesGridPanel').setHeight((sto.getCount() <= maxOptionsPerFilter ? sto.getCount() : maxOptionsPerFilter) * 21.1 + 26 + 6);
 
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesStart').setMinValue(glatosDeployments.start);
