@@ -1,0 +1,61 @@
+%h2
+  Search for Tags
+
+%p Enter a comma seperated list of tags you would like to search for.  These can be both internal and external tags.
+
+%textarea{:class => 'tags_input'}
+%br
+
+%button{:class => 'searcher'} Search
+.clear
+%span{:style => 'font-size: 80%;'}
+  Example: A69-9002-4807 (full code space), 31942 (internal tag), 4257 (external tag)
+
+#search_tag_table{:style => "margin: 10px;"}
+  %h5{:id => 'tag_count'}
+  %br
+  %div{:id => 'tags'}
+.clear
+
+:javascript
+
+  function buildTagBox(val) {
+    text = "";
+    text += "<div class='box info'>";
+      text += "<h4>" + val.code + "</h4>";
+      text += "<ol class='success'>";
+        text += "<li>Code Space: " + val.code_space + "</li>";
+        text += "<li>Study: <a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>";
+      text += "</ol>";
+    text += "</div>";
+    return text;
+  }
+
+  $(document).ready(function() {
+
+    $(".searcher").click(function(e) {
+      e.preventDefault();
+
+      var phrase = $(".tags_input").val();
+
+      $.ajax({
+        type: "GET",
+        url: "#{multi_tag_search_path({:format => :js})}",
+        data: "text="+phrase,
+        dataType: 'json',
+        success: function(data){
+          var items = [];
+          $("#tag_count").html(data.length + " results")
+          $.each(data, function(key, val) {
+            items.push(buildTagBox(val));
+          });
+          $("#tags").html(items.join(''));
+        },
+        error: function(){
+          // no tags
+        }
+      });
+
+    });
+
+  });

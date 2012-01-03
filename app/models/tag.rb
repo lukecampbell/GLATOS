@@ -8,6 +8,12 @@ class Tag < ActiveRecord::Base
                     :trigram => {}
                   }
 
+  pg_search_scope :exact_match,
+                  :against => [:serial, :code, :code_space],
+                  :using => {
+                    :tsearch => {:any_word => true}
+                  }
+
   has_many      :tag_deployments, :dependent => :destroy
 
   belongs_to    :study

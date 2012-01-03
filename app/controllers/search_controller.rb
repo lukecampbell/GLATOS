@@ -4,6 +4,24 @@ class SearchController < ApplicationController
 
   end
 
+  def tag
+
+  end
+
+  def match_tags
+    z_tags = params[:text].split(",").map(&:strip)
+    tags = Tag.exact_match(z_tags.join(" "))
+    tags += TagDeployment.includes(:tag).exact_match(z_tags).map(&:tag)
+    # TODO: Do we need only return tags the user can manage?
+    # tags.select! { |t| can? :manage, t }
+    render :json => tags.uniq.as_json({
+                      :only => [:id, :code, :code_space],
+                      :include => {:study => {
+                        :only => [:id, :name]
+                      }}
+                    })
+  end
+
   def tags
     tags = Tag.includes(:study).search_all(params[:text])
     deps = TagDeployment.includes({:tag => :study}).search_all(params[:text]).map(&:tag)

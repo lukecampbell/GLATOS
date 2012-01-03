@@ -14,6 +14,12 @@ class TagDeployment < ActiveRecord::Base
                     :tsearch => {:prefix => true},
                     :trigram => {}
                   }
+  
+  pg_search_scope :exact_match,
+                  :against => [:external_codes],
+                  :using => {
+                    :tsearch => {:any_word => true}
+                  }
 
   belongs_to :tag
 

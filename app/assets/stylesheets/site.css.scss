@@ -164,3 +164,7 @@ h2 {
     }
   }
 }
+
+.tags_input {
+  @include column(12);
+}
