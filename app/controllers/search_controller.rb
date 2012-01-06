@@ -5,7 +5,7 @@ class SearchController < ApplicationController
   end
 
   def tag
-
+    authorize! :manage, Tag
   end
 
   def match_tags

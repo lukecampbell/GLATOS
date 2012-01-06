@@ -3,26 +3,21 @@
 
 %input{:class => 'phrase'}
 
-%button{:class => 'searcher'} Search
+%button{:class => 'searcher commit'} Search
+
+- if can? :manage, Tag
+  Looking for the 
+  = link_to("tag search?", tag_search_path)
 
 .clear
 
 #search_tables
-  - table_class = 'two_wide'
-  -if can? :manage, Tag
-    - table_class = 'three_wide'
-
-    #search_table{:class => "#{table_class}"}
-      %h3 Tags
-      %h5{:id => 'tag_count'}
-      %div{:id => 'tags'}
-
-  #search_table{:class => "#{table_class}"}
+  .search_table{:class => "two_wide"}
     %h3 Studies
     %h5{:id => 'study_count'}
     %div{:id => 'studies'}
 
-  #search_table{:class => "#{table_class}_last"}
+  .search_table{:class => "two_wide_last"}
     %h3 Deployments
     %h5{:id => 'deployment_count'}
     %div{:id => 'deployments'}
@@ -30,18 +25,6 @@
 .clear
 
 :javascript
-
-  function buildTagBox(val) {
-    text = "";
-    text += "<div class='box info'>";
-      text += "<h4>" + val.code + "</h4>";
-      text += "<ol class='success'>";
-        text += "<li>Code Space: " + val.code_space + "</li>";
-        text += "<li>Study: <a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>";
-      text += "</ol>";
-    text += "</div>";
-    return text;
-  }
 
   function buildStudyBox(val) {
     text = "";
@@ -77,24 +60,6 @@
 
       $.ajax({
         type: "GET",
-        url: "#{search_tags_path({:format => :js})}",
-        data: "text="+phrase,
-        dataType: 'json',
-        success: function(data){
-          var items = [];
-          $("#tag_count").html(data.length + " results")
-          $.each(data, function(key, val) {
-            items.push(buildTagBox(val));
-          });
-          $("#tags").html(items.join(''));
-        },
-        error: function(){
-          // no tags
-        }
-      });
-
-      $.ajax({
-        type: "GET",
         url: "#{search_deployments_path({:format => :js})}",
         data: "text="+phrase,
         dataType: 'json',
@@ -107,7 +72,7 @@
           $("#deployments").html(items.join(''));
         },
         error: function(){
-          // no tags
+          // no deployments
         }
       });
 
@@ -125,7 +90,7 @@
           $("#studies").html(items.join(''));
         },
         error: function(){
-          // no tags
+          // no studies
         }
       });
 

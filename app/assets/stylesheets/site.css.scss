@@ -61,8 +61,6 @@ h2 {
       float: right;
     }
   }
-
-
 }
 
 .caption {
@@ -83,13 +81,6 @@ h2 {
   margin: 0 30px 0 30px;
 }
 
-.three_wide {
-  @include column(7);
-}
-.three_wide_last {
-  @include column(7, true);
-}
-
 .two_wide {
   @include column(10.5);
 }
@@ -100,35 +91,34 @@ h2 {
 
 #search_tables {
   margin-top: 20px;
-}
+  .search_table {
 
-#search_table {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    padding: 4px;
 
-  background-color: #fff;
-  border: 2px solid #ccc;
-  padding: 4px;
+    h3 {
+      font-size: large;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 4px;
+    }
 
-  h3 {
-    font-size: large;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 4px;
-  }
+    h4 {
+      font-size: large;
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-  h4 {
-    font-size: large;
-    text-align: center;
-    margin-bottom: 10px;
-  }
+    h5 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-  h5 {
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  .box {
-    margin-bottom: 10px;
-    padding: 10px;
+    .box {
+      margin-bottom: 10px;
+      padding: 10px;
+    }
   }
 }
 
@@ -173,4 +163,23 @@ h2 {
   .choice {
     margin-left: 2em;
   }
+}
+
+button {
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    margin: 0 0;
+    padding: 3px 5px;
+}
+
+.phrase {
+  background-color: #FFFFFF;
+  border: 1px solid #BBBBBB;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.searcher {
+  margin-right: 40px;
+  padding: 4px;
 }
