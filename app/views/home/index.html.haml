@@ -37,11 +37,8 @@
 
     #footer
       .left_img
-        #{image_tag asset_path('glfc_logo.png')}
-
-      .center_img
         #{image_tag asset_path('glr.png')}
-
+        
       .login
 
         -##flashes
@@ -54,5 +51,8 @@
         - else
           = link_to('Login or Register to Join the GLATOS Network', new_user_session_path, :class => 'login_home_button')
 
+      .center_img
+        #{image_tag asset_path('glfc_logo.png')}
+        
       .right_img
         #{image_tag asset_path('glos_logo.png')}
