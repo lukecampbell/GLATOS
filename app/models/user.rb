@@ -38,6 +38,8 @@ class User < ActiveRecord::Base
   def inactive_message
     if !approved?
       I18n.t("devise.failure.not_approved")
+    elsif !confirmed?
+      I18n.t("devise.failure.unconfirmed")
     else
       super # Use whatever other message
     end
