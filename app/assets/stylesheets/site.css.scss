@@ -168,3 +168,9 @@ h2 {
 .tags_input {
   @include column(12);
 }
+
+#user_requested_role_input, #user_role_input {
+  .choice {
+    margin-left: 2em;
+  }
+}
