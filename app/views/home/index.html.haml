@@ -39,15 +39,20 @@
       .left_img
         #{image_tag asset_path('glfc_logo.png')}
 
+      .center_img
+        #{image_tag asset_path('glr.png')}
+
       .login
-        #flashes
-          - flash.each do |name, msg|
-            = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+
+        -##flashes
+          -#- flash.each do |name, msg|
+            -#= content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
 
         - if current_user
-          = render 'shared/navigation'
+          = link_to('Logout', destroy_user_session_path, :method => :get)
+          = link_to('Edit account', edit_user_registration_path)
         - else
-          = link_to('Login or Register to Join the GLATOS Network', new_user_session_path)
+          = link_to('Login or Register to Join the GLATOS Network', new_user_session_path, :class => 'login_home_button')
 
       .right_img
         #{image_tag asset_path('glos_logo.png')}

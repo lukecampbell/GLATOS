@@ -44,7 +44,8 @@ body {
   text-align: center;
   @include push(8);
   @include column(8, true);
-  margin-top: -35px;
+  margin-top: -45px;
+  margin-bottom: 10px;
   a {
     font-weight: bold;
     color: #fff;
@@ -63,6 +64,7 @@ body {
 #functions {
 
   @include push(4.5);
+  margin-bottom: 15px;
 
   a {
     font-weight: bold;
@@ -119,8 +121,8 @@ body {
 }
 
 #footer {
-  @include column(24);
-  margin-top: 20px;
+  @include column(24,true);
+  margin-top: 0px;
   text-align: center;
 
   #flashes {
@@ -131,21 +133,24 @@ body {
   }
 
   .login {
-    @include column(18);
-    line-height: 38px;
-    text-align: center;
-    margin: 0 auto;
+    @include prepend(1);
+    @include column(8);
+    @include append(1);
+    line-height: 36px;
+    margin-left: -10px;
 
     a {
       color: #001d3e;
-      margin: 0 auto;
-      width: 305px;
-      height: 38px;
+      width: 300px;
+      height: 35px;
       font-weight: bold;
       text-decoration: none;
       font-size: 12px;
-      background: url('register_but.png') no-repeat center;
+      margin-bottom: 8px;
+      background: url(image-path('blueback.png'));
       display:  block;
+      border: 1px solid #001d3e;
+      border-top: 5px solid #001d3e;
     }
   }
 
@@ -154,6 +159,12 @@ body {
   }
   .right_img {
     @include column(3, true);
+    float: center;
+  }
+  .center_img {
+    @include column(8);
+    text-align: center;
+    height: 125px;
   }
 
 }
