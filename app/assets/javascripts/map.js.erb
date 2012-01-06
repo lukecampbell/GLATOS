@@ -44,6 +44,7 @@ var popupCtl;
 var dNow = new Date();
 dNow.setMinutes(0);
 dNow.setSeconds(0);
+var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
 
 function init() {
   Ext.QuickTips.init();
@@ -115,7 +116,7 @@ function init() {
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectRow(0)
+          Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectAll()
           Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
@@ -129,12 +130,7 @@ function init() {
   });
 
   var glatosSeasonalSelModel = new Ext.grid.CheckboxSelectionModel({
-     header       : ''
-    ,singleSelect : true
-    // make sure 1 row is selected
-    ,listeners    : {rowdeselect : function(selModel,idx) {
-      selModel.selectRow((idx  + 1) % 2);
-    }}
+     header : ''
   });
   var glatosSeasonalGridPanel = new Ext.grid.GridPanel({
      id               : 'glatosSeasonalGridPanel'
@@ -165,7 +161,7 @@ function init() {
       }
       ,viewready : function(grid) {
         grid.suspendEvents();
-        grid.getSelectionModel().selectRow(0);
+        grid.getSelectionModel().selectAll();
         grid.resumeEvents();
       }
     }
@@ -446,7 +442,13 @@ function initMap() {
         var tr  = [
            "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('description') + "</b></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'>frequency : " + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' Hz' : 'unknown') + "</td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><table class='obsInnerPopup'>"
+            ,"<tr><td>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
+            ,"<tr><td>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
+            ,"<tr><td>code</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.code + "</td></tr>"
+            ,"<tr><td>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
+            ,(e.feature.attributes.otn_array.waterbody ? "<tr><td>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
+          ,"</table></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='http://www.glfc.org/telemetry/overview.php'>GLATOS home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
@@ -513,7 +515,7 @@ function initMap() {
       }
       glatosStudiesStore.fireEvent('load');
       Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
-      Ext.getCmp('glatosStudiesGridPanel').setHeight(glatosStudiesStore.getCount() * 21.1 + 26 + 6 + 25);
+      Ext.getCmp('glatosStudiesGridPanel').setHeight((glatosStudiesStore.getCount() <= maxOptionsPerFilter ? glatosStudiesStore.getCount() : maxOptionsPerFilter) * 21.1 + 26 + 6 + 25);
 
       OpenLayers.Request.issue({
          method   : 'GET'
@@ -548,14 +550,14 @@ function initMap() {
           var sto = Ext.getCmp('glatosFrequenciesGridPanel').getStore();
           for (var i = 0; i < glatosDeployments.frequencies.length; i++) {
             sto.add(new sto.recordType({
-              frequency : glatosDeployments.frequencies[i]
+              frequency : glatosDeployments.frequencies[i] + ' KHz'
             }));
           }
           sto.add(new sto.recordType({
             frequency : 'Unknown'
           }));
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosFrequenciesGridPanel').setHeight(sto.getCount() * 21.1 + 26 + 6);
+          Ext.getCmp('glatosFrequenciesGridPanel').setHeight((sto.getCount() <= maxOptionsPerFilter ? sto.getCount() : maxOptionsPerFilter) * 21.1 + 26 + 6);
 
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesStart').setMinValue(glatosDeployments.start);
@@ -637,7 +639,7 @@ function syncGlatos() {
   var frequencyFilter = {};
   sel = Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().getSelections();
   for (var i = 0; i < sel.length; i++) {
-    frequencyFilter[sel[i].get('frequency')] = true;
+    frequencyFilter[sel[i].get('frequency').replace(' KHz','')] = true;
   }
 
   var timeFilter = [];
@@ -654,7 +656,10 @@ function syncGlatos() {
     }
     if (
       studyFilter[glatosDeployments.features[i].attributes.study_id]
-      && (seasonalFilter['Seasonal only'] ? glatosDeployments.features[i].attributes.seasonal : true)
+      && (
+        (seasonalFilter['Year-round'] ? !glatosDeployments.features[i].attributes.seasonal : false)
+        || (seasonalFilter['Seasonal only'] ? glatosDeployments.features[i].attributes.seasonal : false)
+      )
       && (glatosDeployments.features[i].attributes.frequency ? frequencyFilter[glatosDeployments.features[i].attributes.frequency] : frequencyFilter['Unknown'])
       && (timeFilter.length == 2 ? (
         (timeFilter[0] <= start && start <= timeFilter[1])

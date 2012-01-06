@@ -155,3 +155,15 @@ body {
 .obsPopup td {
   font        : 11px tahoma,helvetica,sans-serif;
 }
+
+.obsInnerPopup {
+  padding-left : 60px;
+  width        : 280px;
+}
+.obsInnerPopup td {
+  vertical-align : top;
+}
+.obsInnerPopupVal {
+  padding-left   : 20px;
+  vertical-align : top;
+}
