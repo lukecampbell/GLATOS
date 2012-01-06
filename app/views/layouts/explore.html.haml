@@ -7,18 +7,16 @@
 
   %body{:onload => "Ext.onReady(function(){init()})"}
 
-    -#.header
-      -#%h1 GLATOS
-      -##navigation
-        -#= render 'shared/navigation'
+    .header
 
-    -#- flash.each do |name, msg|
-      -#= content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+    #navigation
+      .left
+        = render 'shared/navigation'
+      .right
+        = render 'shared/glatos_navigation'
 
     = yield
 
     = javascript_include_tag 'http://maps.google.com/maps/api/js?sensor=false'
     = javascript_include_tag '/javascripts/OpenLayers.js'
     = javascript_include_tag :explore
-
-    .footer

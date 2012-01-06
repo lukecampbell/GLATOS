@@ -1,10 +1,12 @@
 body {
   overflow : hidden;
+  background-color: #1E4680;
+  font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
 }
 
 #loading-mask {
   position: absolute;
-  top: 0;
+  top: 80px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -24,38 +26,6 @@ body {
   font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
   color: #444444;
   font-size: 12px;
-}
-
-#banner {
-  height     : 81px;
-  width      : 100%;
-  text-align : center;
-  background : url(image-path('glatosBanner.jpg')) no-repeat center top;
-}
-#banner .x-panel-body {
-  background-color : transparent;
-}
-#bannerMenu {
-  position : relative;
-  top  : 50px;
-  left : 50%;
-}
-#bannerMenu a {
-  display  : block;
-  position : absolute;
-}
-#bannerMenu a.menu {
-  width  : 90px;
-  height : 30px;
-} 
-#bannerMenu a#exploreLink {
-  left   : 190px;
-}
-#bannerMenu a#reportLink {
-  left   : 294px;
-}
-#bannerMenu a#searchLink {
-  left   : 395px;
 }
 
 .smallFont {
@@ -166,4 +136,50 @@ body {
 .obsInnerPopupVal {
   padding-left   : 20px;
   vertical-align : top;
+}
+
+.header {
+  width: 960px;
+  background  : url(image-path('header.jpg')) no-repeat center;
+  height: 50px;
+  margin: 0 auto;
+}
+
+#navigation {
+  color: #fff;
+  font-size: 18px;
+  line-height: 30px;
+  background-color: #555;
+  text-align: right;
+  width: 960px;
+  margin: 0 auto;
+  height: 30px;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    
+  }
+
+  .left {
+    @include prepend(1);
+    @include column(9);
+    @include append(2);
+  }
+
+  .pipe {
+    padding: 0 5px 0 8px;
+  }
+
+  .right {
+    @include prepend(2);
+    @include column(9, true);
+    ul {
+      float: right;
+    }
+  }
+}
+
+#mainPanel {
+  clear: both;
 }

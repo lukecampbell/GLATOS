@@ -349,12 +349,8 @@ function init() {
     ]
   });
 
-  // lapkok
-  document.getElementById('banner').innerHTML = '<div id="bannerMenu"><a href="/explore" id="exploreLink" class="menu"></a><a href="/reports/new" id="reportLink" class="menu"></a><a href="/search" id="searchLink" class="menu"></a></div>';
-
   window.onresize = function(e) {
-    // lapkok (the 81)
-    mainPanel.setSize(getVPSize()[0],getVPSize()[1] - 81);
+    mainPanel.setSize(getVPSize()[0],getVPSize()[1] - 80);
     mainPanel.doLayout();
     if (!mainPanel.isVisible()) {
       mainPanel.show();
