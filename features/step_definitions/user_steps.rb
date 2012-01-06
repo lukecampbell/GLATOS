@@ -12,8 +12,6 @@ Given /^I am logged in as an approved user$/ do
   Given %{I sign in as "#{user.email}/#{user.password}"}
 end
 
-
-
 Then /^I should be already signed in$/ do
   visit root_path
   And %{I should see "Logout"}
@@ -27,7 +25,7 @@ Given /^I am signed up as "(.*)\/(.*)"$/ do |email, password|
   And %{I fill in "Password confirmation" with "#{password}"}
   And %{I press "Sign up"}
   Then %{I should see "You have signed up successfully. If enabled, a confirmation was sent to your e-mail."}
-  And %{I am logout}
+  And %{I am logged out}
 end
 
 Then /^I sign out$/ do
@@ -53,7 +51,6 @@ end
 
 Then /^I should be signed in$/ do
   visit root_path
-  And %{I should see "Edit account"}
   And %{I should see "Logout"}
   And %{I should not see "Login"}
 end
@@ -64,7 +61,7 @@ end
 
 Then /^I should be signed out$/ do
   visit root_path
-  And %{I should see "Request GLATOS Account"}
   And %{I should see "Login"}
+  And %{I should see "Register to Join the GLATOS Network"}
   And %{I should not see "Logout"}
 end

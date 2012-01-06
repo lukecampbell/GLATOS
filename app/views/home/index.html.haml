@@ -41,13 +41,12 @@
         
       .login
 
-        -##flashes
-          -#- flash.each do |name, msg|
-            -#= content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+        #flashes
+          - flash.each do |name, msg|
+            = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
 
         - if current_user
           = link_to('Logout', destroy_user_session_path, :method => :get)
-          = link_to('Edit account', edit_user_registration_path)
         - else
           = link_to('Login or Register to Join the GLATOS Network', new_user_session_path, :class => 'login_home_button')
 

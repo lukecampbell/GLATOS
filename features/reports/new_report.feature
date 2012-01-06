@@ -16,7 +16,7 @@ Feature: New Report
 
   Scenario: User fills in valid data
     Given I fill in a valid report
-    And I press "Create Report"
+    And I press "Submit Tag Report"
     Then I should see "Thank you for submitting a Report!"
     And a report should exist with tag_deployment: that tag_deployment
     And "report_submitted@glatos.org" should receive 1 email
@@ -28,7 +28,7 @@ Feature: New Report
     Given I fill in a valid report
     And I fill in "Internal ID Tag Number" with ""
     And I fill in "report[input_external_codes_one]" with "External-XYZ"
-    And I press "Create Report"
+    And I press "Submit Tag Report"
     Then I should see "Thank you for submitting a Report!"
     And a report should exist with tag_deployment: that tag_deployment
     And "report_submitted@glatos.org" should receive 1 email
@@ -41,7 +41,7 @@ Feature: New Report
     Given I fill in a valid report
     And I fill in "Internal ID Tag Number" with ""
     And I fill in "report[input_external_codes_two]" with "External-XYZ"
-    And I press "Create Report"
+    And I press "Submit Tag Report"
     Then I should see "Thank you for submitting a Report!"
     And a report should exist with tag_deployment: that tag_deployment
     And "report_submitted@glatos.org" should receive 1 email
@@ -53,7 +53,7 @@ Feature: New Report
   Scenario: Admin should get an email when a valid Report is submitted and the tag is not matched
     Given I fill in a valid report
     And I fill in "Internal ID Tag Number" with "NOT-ABC123"
-    And I press "Create Report"
+    And I press "Submit Tag Report"
     Then "investigator@glatos.org" should receive 0 emails
     And "admin@test.com" should receive 1 email
     When I open the email
@@ -62,7 +62,7 @@ Feature: New Report
 
   Scenario: Investigator should get an email when a valid Report is submitted and the tag is matched
     Given I fill in a valid report
-    And I press "Create Report"
+    And I press "Submit Tag Report"
     Then "admin@test.com" should receive 0 emails
     And "investigator@glatos.org" should receive 1 email
     When I open the email

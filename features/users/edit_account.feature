@@ -4,9 +4,11 @@ Feature: Edit Account
   I want to be able to edit my account
 
   Background:
-    Given an approved user exists
+    Given a admin user exists
+    And an approved user exists
     And I am logged in as an approved user
     And I go to the edit account page
+    And no emails have been sent
 
   Scenario: User can change their password
     When I fill in the following:
@@ -40,8 +42,6 @@ Feature: Edit Account
     Then I should see "Password doesn't match confirmation"
 
   Scenario: User can request a role change
-    Given an admin user exists
-    And no emails have been sent
     When I fill in the following:
         | Current Password           | please          |
     And I choose "Investigator"

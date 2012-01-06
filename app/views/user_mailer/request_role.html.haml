@@ -4,7 +4,7 @@
   = @user.name
   = @user.email
   = @user.organization
-  = "Current Role: #{@user.role.humanize}"
+  = "Current Role: #{@user.role.humanize}" if @user.role
   = "Newly Requested Role: #{@user.requested_role.humanize}"
 
 %p You can approve this users's role upgrade through the link below:
