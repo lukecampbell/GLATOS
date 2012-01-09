@@ -1,6 +1,8 @@
 Glatos::Application.routes.draw do
 
   root :to => 'home#index'
+  match '/about' => 'home#about', :as => :about, :via => :get
+  match '/acoustic_telemetry' => 'home#acoustic_telemetry', :as => :acoustic_telemetry, :via => :get
 
   devise_for :users
 

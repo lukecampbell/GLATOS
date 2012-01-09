@@ -13,8 +13,15 @@ h2 {
   font-size: 22px;
   font-weight: bold;
   line-height: 26px;
-  margin: 10px 0;
+  margin: 20px 0 10px 0;
+}
 
+p {
+  line-height: 2em;
+}
+
+strong {
+  font-weight: bold;
 }
 
 #content {
@@ -131,7 +138,7 @@ h2 {
   .login {
     @include prepend(2);
     @include column(11);
-    font-size: 16px;
+    font-size: 14px;
   }
   .form {
     @include column(8, true);
@@ -182,4 +189,31 @@ button {
 .searcher {
   margin-right: 40px;
   padding: 4px;
+}
+
+ol.mission {
+  padding-left: 4em;
+  margin: 10px;
+  line-height: 2.4em;
+}
+
+
+div#acoustic_telemetry {
+  
+  p {
+    margin: 1.2em 0;
+  }
+
+  span.headtitle {
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  ul {
+    margin: 10px;
+    padding-left: 2em;
+    line-height:2em;
+
+  }
+
 }

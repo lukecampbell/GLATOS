@@ -1,0 +1,44 @@
+#acoustic_telemetry
+
+  %h2
+    What is acoustic telemetry?
+
+  %ul
+    %li
+      %span{:class => 'headtitle'}
+        Acoustic:
+      relating to sound
+    %li
+      %span{:class => 'headtitle'}
+        Telemetry:
+      measurement from a distance
+
+  %p
+    Researchers use acoustic telemetry to collect information about fish movements (e.g., migration patterns, habitat use, survival).  An acoustic telemetry system consists of two main components:  #{link_to 'transmitters', '#transmitters'} and #{link_to 'receivers', '#receivers'}.
+
+  %p{:id => 'transmitters'}
+    %strong
+      Transmitters 
+    are electronic tags that broadcast a series of “pings” (sound pulses) into the surrounding water.  Tags are either surgically implanted or attached externally to a fish of interest so that once released into the wild, a tagged fish can be “heard” by any receiver within range.  The range can vary from a few meters to more than a kilometer.   The signal typically transmits once every minute or two.
+
+  %p{:id => 'receivers'}
+    %strong
+      Receivers
+    are small, data-logging computers anchored near the bottom of a lake or stream or the ocean that “listen” for tagged fish.  When a signal is identified, the tag’s unique ID code is saved with the date and time.  The data from any single receiver provide a record of each visit to that location by a tagged fish.  Researchers often deploy many receivers over large regions to understand the movement patterns of tagged fish.
+
+  #{image_tag 'actel.png'}
+
+  %br
+  %br
+  %br
+  %h2
+    Beyond Presence-Absence
+
+  %p
+    %strong
+      Sensor Tags:
+    Some transmitters incorporate sensors that monitor biological and/or environmental information that is transmitted along with ID code. The most common sensors are: pressure (for determining depth), temperature, and acceleration (for monitoring swimming behavior). These sensors allow researchers to remotely monitor both the internal and external environment of fishes, allowing them to address biological questions that were previously difficult (or impossible) to answer.
+  %p
+    %strong
+      Fine-Scale Positioning:
+    A major advancement in acoustic telemetry is the ability to fine-scale position fishes using an array of closely located receivers. While the detection range for a presence-absence telemetry array can be more than a kilometer, positional arrays can position fish to within a few meters of their true location. Like GPS technology, a positional array uses the difference in time it takes for a signal to be “heard” by three or more receivers to “triangulate” the position of a fish.  The resulting fish “tracks” can provide new insights into fish behavior.
