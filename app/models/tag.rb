@@ -23,7 +23,7 @@ class Tag < ActiveRecord::Base
   scope :find_match, lambda { |code| where("code ILIKE ? OR code_space ILIKE ?", "%#{code}%","%#{code}%").limit(1) }
 
   def active_deployment
-    tag_deployments.order("release_date DESC").limit(1).first
+    tag_deployments.order("release_date DESC").limit(1).first rescue nil
   end
 
   def active_deployment_json
