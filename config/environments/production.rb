@@ -47,6 +47,7 @@ Glatos::Application.configure do
   config.assets.precompile += %w( admin.js admin.css )
   config.assets.precompile += %w( explore.js explore.css )
   config.assets.precompile += %w( ie7.css ie6.css )
+  config.assets.precompile += %w( printing.css )
 
   config.action_mailer.default_url_options = { :host => 'glatos.org' }
   config.action_mailer.delivery_method = :smtp
