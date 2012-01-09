@@ -56,6 +56,7 @@ class User < ActiveRecord::Base
   end
 
 end
+#
 # == Schema Information
 #
 # Table name: users
@@ -81,4 +82,11 @@ end
 #  name                   :string(255)
 #  organization           :string(255)
 #  requested_role         :string(255)
+#  address                :string(255)
+#  city                   :string(255)
+#  state                  :string(255)
+#  zipcode                :string(8)
+#  phone                  :string(255)
+#  newsletter             :boolean         default(FALSE)
 #
+

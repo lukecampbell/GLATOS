@@ -25,3 +25,16 @@ class Retrieval < ActiveRecord::Base
     location.longitude.round(round)
   end
 end
+#
+# == Schema Information
+#
+# Table name: retrievals
+#
+#  id              :integer         not null, primary key
+#  deployment_id   :integer         indexed
+#  data_downloaded :boolean
+#  ar_confirm      :boolean
+#  recovered       :datetime
+#  location        :spatial({:srid= indexed
+#
+

@@ -17,12 +17,12 @@ class Study < ActiveRecord::Base
   validates   :user, :presence => true
 
 end
+#
 # == Schema Information
 #
 # Table name: studies
 #
 #  id          :integer         not null, primary key
-#  code        :string(20)      not null
 #  name        :string(255)     not null
 #  description :text
 #  start       :datetime
@@ -30,4 +30,6 @@ end
 #  url         :string(255)
 #  species     :string(255)
 #  user_id     :integer
+#  code        :string(20)      not null
 #
+

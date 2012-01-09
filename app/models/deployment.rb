@@ -60,17 +60,19 @@ class Deployment < ActiveRecord::Base
   end
 
 end
+#
 # == Schema Information
 #
 # Table name: deployments
 #
 #  id           :integer         not null, primary key
 #  start        :datetime
-#  ending       :datetime
 #  study_id     :integer
 #  location     :spatial({:srid= indexed
 #  otn_array_id :integer
 #  station      :integer
 #  model        :string(255)
 #  seasonal     :boolean
+#  frequency    :integer
 #
+

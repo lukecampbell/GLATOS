@@ -58,26 +58,34 @@ class Report < ActiveRecord::Base
   end
 
 end
+#
 # == Schema Information
 #
 # Table name: reports
 #
-#  id                  :integer         not null, primary key
-#  input_tag           :string(255)     not null, indexed
-#  description         :text
-#  method              :string(255)
-#  name                :string(255)
-#  phone               :string(255)
-#  email               :string(255)
-#  city                :string(255)
-#  state               :string(255)
-#  reported            :datetime
-#  found               :datetime
-#  length              :decimal(6, 2)
-#  fishtype            :string(255)
-#  location            :spatial({:srid= indexed
-#  tag_deployment_id   :integer         indexed, indexed
-#  contacted           :boolean
-#  resolved            :boolean
-#  input_external_code :string(255)
+#  id                   :integer         not null, primary key
+#  input_tag            :string(255)     not null, indexed
+#  description          :text
+#  method               :string(255)
+#  name                 :string(255)
+#  phone                :string(255)
+#  email                :string(255)
+#  city                 :string(255)
+#  state                :string(255)
+#  reported             :datetime
+#  found                :datetime
+#  length               :decimal(6, 2)
+#  fishtype             :string(255)
+#  location             :spatial({:srid= indexed
+#  tag_deployment_id    :integer         indexed, indexed
+#  contacted            :boolean
+#  resolved             :boolean
+#  input_external_codes :string(255)
+#  address              :string(255)
+#  zipcode              :string(8)
+#  newsletter           :boolean         default(FALSE)
+#  didwith              :string(255)
+#  comments             :text
+#  depth                :decimal(6, 2)
 #
+

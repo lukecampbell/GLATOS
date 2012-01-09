@@ -27,6 +27,7 @@ class Tag < ActiveRecord::Base
   end
 
 end
+#
 # == Schema Information
 #
 # Table name: tags
@@ -43,3 +44,4 @@ end
 #  type         :string(255)
 #  description  :text
 #
+

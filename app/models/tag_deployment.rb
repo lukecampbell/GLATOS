@@ -60,6 +60,7 @@ class TagDeployment < ActiveRecord::Base
   end
 
 end
+#
 # == Schema Information
 #
 # Table name: tag_deployments
@@ -100,5 +101,6 @@ end
 #  release_location                          :string(255)
 #  release_geo                               :spatial({:srid= indexed
 #  release_date                              :datetime
-#  external_code                             :string(255)
+#  external_codes                            :string(255)
 #
+
