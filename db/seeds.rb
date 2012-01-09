@@ -35,9 +35,13 @@ end
 
 
 # STUDIES
-stm = Study.create! :code => "STM",
+stm = Study.create! :code => "SMRSL",
                     :name => "Sea Lamprey Project",
-                    :description => "Tracking Sea Lamprey migration through the St. Marys River",
+                    :title => "Spatial distribution and abundance of adult sea lampreys during spawning migration through the St. Marys River",
+                    :description => "The sea lamprey (Petromyzon marinus) is an invasive parasite in the Laurentian Great Lakes that has devastated native fish communities.  Control efforts (e.g., removal via trapping, pesticide application, and sterilization) have substantially reduced their negative effects on the ecosystem.  However, sea lamprey populations remain above target levels in Lake Huron.  The St. Marys River is Lake Huron's largest tributary and greatest source of parasitic sea lamprey.  Trapping there occurs at an upstream rapids area near the outflow of Lake Superior.  Population assessment and control may be improved by capturing lampreys closer to Lake Huron or in tributaries that are currently not trapped.  Our objectives are 1) to measure the fraction of the sea lamprey population that encounter and are captured in existing traps and 2) to determine if lampreys use distinct pathways during upstream migration through the lower river.  Up to 400 adult sea lampreys will be acoustically tagged and released in to the lower St. Marys River during spring spawning runs in 2010-2012.  A detailed movement history for each tagged lamprey will be collected using a network of 80 acoustic receivers (Vemco VR2W) in the St. Marys River and tributaries.",
+                    :benefits => "Results should aid in the development of improved sea lamprey assessment and control methods in Great Lakes tributaries.",
+                    :organizations => ["U.S. Geological Survey, Great Lakes Science Center", "Great Lakes Fishery Commission", "U.S. Fish and Wildlife Service, Marquette Biological Station","Department of Fisheries and Oceans Canada, Sea Lamprey Control Center"],
+                    :funding => ["Greak Lakes Restoration Initiative"],
                     :url => "http://www.glfc.org/telemetry/sealamprey.php",
                     :start => Time.utc(2010,1,1),
                     :ending => Time.utc(2012,12,1),

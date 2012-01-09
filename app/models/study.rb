@@ -16,6 +16,30 @@ class Study < ActiveRecord::Base
 
   validates   :user, :presence => true
 
+  def organizations
+    read_attribute(:organizations).split("=;=") rescue []
+  end
+
+  def organizations=(orgs)
+    if orgs.is_a? String
+      write_attribute(:organizations, orgs)
+    elsif orgs.is_a? Array
+      write_attribute(:organizations, orgs.join("=;="))
+    end
+  end
+
+  def funding
+    read_attribute(:funding).split("=;=") rescue []
+  end
+
+  def funding=(funds)
+    if funds.is_a? String
+      write_attribute(:funding, funds)
+    elsif funds.is_a? Array
+      write_attribute(:funding, funds.join("=;="))
+    end
+  end
+
 end
 #
 # == Schema Information

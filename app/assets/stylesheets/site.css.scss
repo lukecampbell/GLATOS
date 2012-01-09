@@ -250,3 +250,25 @@ div#search_tag_table {
     @include column(7,true);
   }
 }
+
+div#study_page {
+
+  div#listings {
+    @include column(12.5);
+    .lineitem {
+      line-height: 1.4em;
+      margin-bottom: 1.4em;
+      span {
+        font-weight: bold;
+      }
+      ol {
+        padding-left: 4em;
+      }
+    }
+  }
+
+  div#images {
+    @include column(10.5, true);
+  }
+
+}

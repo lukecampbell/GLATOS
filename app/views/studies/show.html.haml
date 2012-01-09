@@ -1,25 +1,65 @@
-%h1 #{@study.name}
-%br
-Code: #{@study.code}
-%br
-Start: #{@study.start.to_date}
-%br
-Ending: #{@study.ending.to_date}
-%br
-URL: #{link_to @study.url, @study.url}
-%br
-Species: #{@study.species}
+#study_page
 
-%br
-%br
+  %h2 #{@study.name}
 
-%h2
-  Contact:
-Name: #{@study.user.name}
-%br
-Email: #{@study.user.email}
-%br
-Telephone: #{@study.user.phone}
+  #listings
+    .lineitem
+      %span
+        Project Title:
+      #{@study.title}
 
 
+    .lineitem
+      %span
+        GLATOS Project Code:
+      #{@study.code}
+
+    .lineitem
+      %span
+        Project Duration:
+      #{@study.start.strftime("%B %Y")} - #{@study.ending.strftime("%B %Y")}
+
+    .lineitem
+      %span
+        Project Description:
+      #{@study.description}
+
+    .lineitem
+      %span
+        Management Benefits:
+      #{@study.benefits}
+
+    .lineitem
+      %span
+        Investigator:
+      %br
+      #{@study.user.name}
+      %br
+      #{@study.user.organization}
+      Email: #{@study.user.email}
+
+    .lineitem
+      %span
+        Participating Organizations:
+      %ol
+        - @study.organizations.each do |org|
+          %li
+            #{org}
+
+    .lineitem
+      %span
+        Funding:
+      %ol
+        - @study.funding.each do |fund|
+          %li
+            #{fund}
+
+    .lineitem
+      %span
+        External URL:
+      #{link_to @study.url, @study.url}
+
+  #images
+
+  .clear
 
