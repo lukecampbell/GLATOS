@@ -26,6 +26,10 @@ class Tag < ActiveRecord::Base
     tag_deployments.order("release_date DESC").limit(1).first
   end
 
+  def active_deployment_json
+    active_deployment.as_json({:only => [:release_date, :external_codes, :length, :weight, :age, :sex, :common_name]})
+  end
+
 end
 #
 # == Schema Information

@@ -213,7 +213,40 @@ div#acoustic_telemetry {
     margin: 10px;
     padding-left: 2em;
     line-height:2em;
+  }
+}
 
+.highlight { background-color: yellow }
+
+div#search_tag_table {
+  h3 {
+    font-weight: bold;
+    font-size: 2em;
+    margin: 10px 0 1em 5px;
+    vertical-align: top;
   }
 
+  h4,h5 {
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 2em;
+  }
+
+  div.searchbox {
+    display:block;
+    line-height: 1.43em;
+    border: 1px solid #1e4680;
+    margin-top: 10px;
+    background-color: #fff;
+    @include column(7);
+    padding-bottom: 5px;
+
+    ol {
+      padding-left: 2em;
+    }
+  }
+
+  div.last_searchbox {
+    @include column(7,true);
+  }
 }

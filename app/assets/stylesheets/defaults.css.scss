@@ -1,6 +1,6 @@
 #container {
   @include container;
-  @include showgrid;
+  //@include showgrid;
   //@include blueprint(true);
 }
 
