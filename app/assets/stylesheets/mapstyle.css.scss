@@ -28,9 +28,10 @@ body {
   font-size: 12px;
 }
 
-.smallFont {
+.smallFont td {
   font       : 11px/13px tahoma,helvetica,sans-serif;
   text-align : justify;
+  padding : 3px 5px 4px 5px;
 }
 
 #glatosStudiesGridPanel {
@@ -127,15 +128,14 @@ body {
 }
 
 .obsInnerPopup {
-  padding-left : 60px;
-  width        : 280px;
-}
-.obsInnerPopup td {
   vertical-align : top;
+  padding-left   : 60px;
+  width          : 100px;
 }
 .obsInnerPopupVal {
-  padding-left   : 20px;
+  padding-left   : 15px;
   vertical-align : top;
+  width          : 180px;
 }
 
 .header {
@@ -182,4 +182,11 @@ body {
 
 #mainPanel {
   clear: both;
+}
+
+#changeBasemap {
+  position : absolute;
+  right : 5px;
+  top : 5px;
+  z-index : 10000;
 }

@@ -46,6 +46,19 @@ dNow.setMinutes(0);
 dNow.setSeconds(0);
 var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
 
+if (typeof Range.prototype.createContextualFragment == "undefined") {
+    Range.prototype.createContextualFragment = function(html) {
+        var doc = this.startContainer.ownerDocument;
+        var container = doc.createElement("div");
+        container.innerHTML = html;
+        var frag = doc.createDocumentFragment(), n;
+        while ( (n = container.firstChild) ) {
+            frag.appendChild(n);
+        }
+        return frag;
+    };
+}
+
 function init() {
   Ext.QuickTips.init();
 
@@ -77,7 +90,7 @@ function init() {
   var introPanel = new Ext.Panel({
      height : 60
     ,border : false
-    ,html   : '<table class="smallFont" width="100%"><tr><td align=justify>Place your curser over points on the map to view additional information about projects and receivers.  Use the tools below to filter receivers by project, operating schedule, acoustic frequency, and status.</td></tr></table>'
+    ,html   : '<table class="smallFont" width="100%"><tr><td>Place your curser over points on the map to view additional information about projects and receivers.  Use the tools below to filter receivers by project, operating schedule, acoustic frequency, and status.</td></tr></table>'
   });
 
   var glatosStudiesSelModel = new Ext.grid.CheckboxSelectionModel({
@@ -329,12 +342,21 @@ function init() {
         ,id        : 'mapPanel'
         ,items     : {
            border    : false
-          ,html      : '<div id="map"></div>'
+          ,html      : '<div id="map"><div id="changeBasemap"></div></div>'
           ,listeners : {afterrender : function() {
             initMap();
             if (Ext.isIE) {
               Ext.getCmp('mapPanel').fireEvent('bodyresize');
             }
+            new Ext.Button({
+               renderTo : 'changeBasemap'
+              ,text     : 'Change map<br>background'
+              ,scale    : 'large'
+              ,icon     : "<%= asset_path 'map.png' %>"
+              ,handler  : function() {
+                map.baseLayer.name == 'Google Satellite' ? map.setBaseLayer(map.getLayersByName('Google Map')[0]) : map.setBaseLayer(map.getLayersByName('Google Satellite')[0]);
+              }
+            });
           }}
         }
         ,listeners : {bodyresize : function() {
@@ -390,6 +412,11 @@ function initMap() {
         ,projection    : proj900913
         ,maxZoomLevel  : maxZoomLevel
       })
+      ,new OpenLayers.Layer.Google('Google Map',{
+         type          : google.maps.MapTypeId.MAP
+        ,projection    : proj900913
+        ,maxZoomLevel  : maxZoomLevel
+      })
       ,deploymentsLayer
     ]
   });
@@ -438,14 +465,14 @@ function initMap() {
         var tr  = [
            "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('description') + "</b></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'><table class='obsInnerPopup'>"
-            ,"<tr><td>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
-            ,"<tr><td>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
-            ,"<tr><td>code</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.code + "</td></tr>"
-            ,"<tr><td>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
-            ,(e.feature.attributes.otn_array.waterbody ? "<tr><td>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
+          ,"<tr><td colspan=2 style='text-align:center'><table width='100%'>"
+            ,"<tr><td class='obsInnerPopup'>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
+            ,"<tr><td class='obsInnerPopup'>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
+            ,"<tr><td class='obsInnerPopup'>code</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.code + "</td></tr>"
+            ,"<tr><td class='obsInnerPopup'>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
+            ,(e.feature.attributes.otn_array.waterbody ? "<tr><td class='obsInnerPopup'>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
           ,"</table></td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='http://www.glfc.org/telemetry/overview.php'>GLATOS home page</a> for more information.</font></td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='/'>GLATOS home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
            title     : rec.get('name') + '&nbsp;-&nbsp;Site&nbsp;' + e.feature.attributes.code
@@ -455,14 +482,16 @@ function initMap() {
           ,target    : 'OpenLayers.Geometry.Point_' + (Number(e.feature.id.split('_')[e.feature.id.split('_').length - 1]) - 1)
           ,autoHide  : false
           ,closable  : true
-          ,listeners : {hide : function(tt) {
-            if (!tt.isDestroyed) {
-              tt.destroy();
+          ,listeners : {
+            hide : function(tt) {
+              if (!tt.isDestroyed) {
+                tt.destroy();
+              }
+              if (e.feature.layer) {
+                popupCtl.unselect(e.feature);
+              }
             }
-            if (e.feature.layer) {
-              popupCtl.unselect(e.feature);
-            }
-          }}
+          }
         });
         popupObs.show();
       }
