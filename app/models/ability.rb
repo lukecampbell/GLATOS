@@ -26,6 +26,7 @@ class Ability
     can :manage, Study, :user_id => @user.id
     can :manage, Tag, :study => { :user_id => @user.id }
     can :manage, Deployment, :study => { :user_id => @user.id }
+    can :manage, Submission
   end
 
   def admin
