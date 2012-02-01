@@ -17,7 +17,7 @@ Feature: New Report
   Scenario: User fills in valid data
     Given I fill in a valid report
     And I press "Submit Tag Report"
-    Then I should see "Thank you for submitting a Report!"
+    Then I should see "Submission complete. Thank you for your cooperation."
     And a report should exist with tag_deployment: that tag_deployment
     And "report_submitted@glatos.org" should receive 1 email
     When I open the email
@@ -29,7 +29,7 @@ Feature: New Report
     And I fill in "Internal ID Tag Number" with ""
     And I fill in "report[input_external_codes_one]" with "External-XYZ"
     And I press "Submit Tag Report"
-    Then I should see "Thank you for submitting a Report!"
+    Then I should see "Submission complete. Thank you for your cooperation."
     And a report should exist with tag_deployment: that tag_deployment
     And "report_submitted@glatos.org" should receive 1 email
     When I open the email
@@ -42,7 +42,7 @@ Feature: New Report
     And I fill in "Internal ID Tag Number" with ""
     And I fill in "report[input_external_codes_two]" with "External-XYZ"
     And I press "Submit Tag Report"
-    Then I should see "Thank you for submitting a Report!"
+    Then I should see "Submission complete. Thank you for your cooperation."
     And a report should exist with tag_deployment: that tag_deployment
     And "report_submitted@glatos.org" should receive 1 email
     When I open the email
