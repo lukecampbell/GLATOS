@@ -13,4 +13,8 @@ class HomeController < ActionController::Base
     render :layout => 'application'
   end
 
+  def have_data
+    render :layout => 'application'
+  end
+
 end
