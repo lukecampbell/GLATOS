@@ -2,10 +2,16 @@ class Study < ActiveRecord::Base
   include PgSearch
 
   pg_search_scope :search_all,
-                  :against => [:code, :name, :description, :species],
+                  :against => [:code, :name, :description, :species, :benefits, :objectives, :organizations, :funding],
                   :using => {
                     :tsearch => {:prefix => true},
                     :trigram => {}
+                  },
+                  :associated_against => {
+                    :user =>  [ :name,
+                                :organization,
+                                :email
+                              ]
                   }
 
   belongs_to  :user
