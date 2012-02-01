@@ -169,6 +169,7 @@ strong {
 }
 
 .tags_input {
+  padding: 5px;
   @include column(12);
 }
 
@@ -188,7 +189,6 @@ button {
 .phrase {
   background-color: #FFFFFF;
   border: 1px solid #BBBBBB;
-  padding: 5px;
   margin-right: 10px;
 }
 

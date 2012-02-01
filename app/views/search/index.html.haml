@@ -1,15 +1,20 @@
 %h2
   Search
 
-%input{:class => 'phrase'}
+%p Enter a search term to query Studies and Deployments in the GLATOSWeb system.
 
-%button{:class => 'searcher commit'} Search
+%textarea{:class => 'tags_input'}
+
+%button{:class => 'searcher'} Search
 
 - if can? :manage, Tag
   Looking for the 
   = link_to("tag search?", tag_search_path)
 
 .clear
+
+%span{:style => 'font-size: 80%; font-weight: bold;'}
+  Example: Sturgeon (species), "St Marys River" (location)
 
 #search_tables
   .search_table{:class => "two_wide"}
@@ -56,7 +61,7 @@
     $(".searcher").click(function(e) {
       e.preventDefault();
 
-      var phrase = $(".phrase").val();
+      var phrase = $(".tags_input").val();
 
       $.ajax({
         type: "GET",
