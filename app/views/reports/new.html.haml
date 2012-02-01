@@ -71,10 +71,10 @@
         = f.input :depth,       :label => "Depth of water",   :hint => "feet"
         = f.input :location, :as => :string,   :label => "Coordinates (click approximate location on map)",  :input_html => {  :readonly => "readonly"}
   
-    .right-section
-      %p{:class => "report_text"}
-        %br
-      #map{:style => "width: 100%; height: 240px;"}
+    .right-section{:style => "margin-top: 30px;"}
+      %label{:style => "color: #58595B; font-weight: bold;"}
+        Zoom in and out of the map until you locate the approximate location the tag was recovered.  Click on that location.
+      #map{:style => "width: 100%; height: 220px; margin-top: 10px;"}
 
   .clear
   .section
