@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
 
   def inactive_message
     if !approved?
-      I18n.t("devise.failure.not_approved")
+      I18n.t("devise.failure.not_approved_capital")
     elsif !confirmed?
       I18n.t("devise.failure.unconfirmed")
     else

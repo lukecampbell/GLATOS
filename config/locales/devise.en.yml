@@ -22,6 +22,7 @@ en:
       timeout: 'Your session expired, please sign in again to continue.'
       inactive: 'Your account was not activated yet.'
       not_approved: 'your account has not been approved by an Administrator yet.'
+      not_approved_capital: 'Your account has not been approved by an Administrator yet.'
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'
