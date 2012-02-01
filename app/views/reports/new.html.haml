@@ -185,7 +185,7 @@
       $("#report_fishtype_other").val($("#other_fishtype_input").val());
     });
     var $radios = $('input[name="report[fishtype]"]:radio');
-    if($radios.is(':checked') === false) {
+    if(($radios.is(':checked') === false) && ("#{@report.fishtype}" != "")) {
       $("#other_fishtype_input").val("#{@report.fishtype}");
       $("#other_fishtype_input").keyup();
     }
@@ -200,7 +200,7 @@
       $("#report_method_other").val($("#other_method_input").val());
     });
     var $radios = $('input[name="report[method]"]:radio');
-    if($radios.is(':checked') === false) {
+    if(($radios.is(':checked') === false) && ("#{@report.method}" != "")) {
       $("#other_method_input").val("#{@report.method}");
       $("#other_method_input").keyup();
     }
@@ -215,7 +215,7 @@
       $("#report_didwith_other").val($("#other_didwith_input").val());
     });
     var $radios = $('input[name="report[didwith]"]:radio');
-    if($radios.is(':checked') === false) {
+    if(($radios.is(':checked') === false) && ("#{@report.didwith}" != "")) {
       $("#other_didwith_input").val("#{@report.didwith}");
       $("#other_didwith_input").keyup();
     }
