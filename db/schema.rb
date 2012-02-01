@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120109202837) do
+ActiveRecord::Schema.define(:version => 20120201183430) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(:version => 20120109202837) do
     t.text     "organizations"
     t.text     "funding"
     t.text     "information"
+    t.text     "objectives"
   end
 
   create_table "tag_deployments", :force => true do |t|

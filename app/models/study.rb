@@ -28,6 +28,18 @@ class Study < ActiveRecord::Base
     end
   end
 
+  def objectives
+    read_attribute(:objectives).split("=;=") rescue []
+  end
+
+  def objectives=(objs)
+    if objs.is_a? String
+      write_attribute(:objectives, objs)
+    elsif objs.is_a? Array
+      write_attribute(:objectives, objs.join("=;="))
+    end
+  end
+
   def funding
     read_attribute(:funding).split("=;=") rescue []
   end

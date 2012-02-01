@@ -36,7 +36,16 @@
       #{@study.user.name}
       %br
       #{@study.user.organization}
-      Email: #{@study.user.email}
+      %br
+      #{@study.user.email}
+
+    .lineitem
+      %span
+        Objectives:
+      %ol
+        - @study.objectives.each do |obj|
+          %li
+            #{obj}
 
     .lineitem
       %span

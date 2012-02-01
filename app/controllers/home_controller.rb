@@ -6,6 +6,7 @@ class HomeController < ActionController::Base
   end
 
   def about
+    @studies = Study.select([:id,:code,:name])
     render :layout => 'application'
   end
 

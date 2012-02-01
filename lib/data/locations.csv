@@ -1,5 +1,5 @@
 code,Description,Waterbody
-BBI,Bois Blanc Island,`
+BBI,Bois Blanc Island,
 BLL,Bell Point,St. Marys River
 BRS,Brush Point,St. Marys River
 BWA,Blue Water Bridge (Above),Lake Huron/St. Clair River
@@ -40,5 +40,5 @@ THB,Thunder Bay,Lake Huron
 TRN,Trenton Channel,Detroit River
 TTB,Tittabawassee River,Tittabawassee River
 URC,Upper Rock Cut,St. Marys River
-WHT,White Rock,Lake Huron
-MRS,Muskegon River System
+WHT,White Rock,Lake Huron,
+MRS,Muskegon River System,
