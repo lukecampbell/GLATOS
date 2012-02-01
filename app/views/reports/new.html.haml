@@ -1,16 +1,15 @@
-%p{:class => 'report_text reward'}
-  Fish caught with a jaw tag should be reported to the 
-  %a{:href => 'http://www.michigandnr.com/taggedfish/'}
-    Michigan Department of Natural Resources
-  or the 
-  %a{:href => 'http://ohiodnr.gov/Home/FishingSubhomePage/fisheriesmanagementplaceholder/taggedfish/tabid/21914/Default.aspx'}
-    Ohio Department of Natural Resources 
-
+%p{:class => 'report_text'}
+  Did you catch a tagged fish?  …find a tag?  Claim your reward using the form below!  A researcher will contact you to arrange reward delivery and tag return.  Please remember:  tags are electronic devices and may contain important data - please 
+  %span{:class => 'report_text reward'}
+    do not freeze
+  and handle with care!
 
 %p{:class => 'report_text'}
-  Acoustic transmitters, or tags, have been implanted in a variety of species around the Greak Lakes.  These tags allow GLATOS researchers to track the movements of tagged fish, givin ghem great insights into migration patterns, ecology, and spawning behaviours.
-%p{:class => 'report_text'}
-  Tags are essential to successful implementation of fish telemetry projects, so if you find a tag, please take the time to fill out the information below so that we can let our researches know.
+  Note:  Fish caught with a jaw tag should not be reported here, but should be reported to the 
+  = link_to "Michigan DNR","http://www.michigandnr.com/taggedfish/"
+  or the
+  = link_to "Ohio DNR","http://ohiodnr.gov/Home/FishingSubhomePage/fisheriesmanagementplaceholder/taggedfish/tabid/21914/Default.aspx"
+
 %p{:class => 'report_text reward'}
   * Indicates a required field
 
@@ -34,16 +33,16 @@
         .clear
 
         = f.input :email,       :as => :string,   :hint => "If you don’t have an email address please call John Doe at 555-555-5555 to report the tag.",  :wrapper_html => {:class => "left-form-element"}
-        = f.input :newsletter,                    :label => "Subscribe to the GLATOS newsletter",  :wrapper_html => {:class => "right-form-element"}
+        = f.input :newsletter,                    :label => "Subscribe to the GLATOS email list",  :wrapper_html => {:class => "right-form-element"}
 
 
 
     .right-section
       %p{:class => "report_text"}
-        By providing your contact information, project leads will be able to contact you about returning the tag
-      %p{:class => "report_text", :style => "text-decoration: underline;"}
-        Some projects even provide rewards for returned INTERNAL tags!
-  
+        Your name and address are required so that we may process and mail your reward.  Information you provide will only be used for that purpose; it will not be shared.  
+      %p{:class => "report_text"}
+        If you prefer to report your tag by phone, call the Hammond Bay Biological Station, 989-734-4768.
+
   .clear
   .section
     .left-section

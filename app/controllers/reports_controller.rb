@@ -80,8 +80,8 @@ class ReportsController < ApplicationController
         ReportMailer.unmatched_report_notification(@report).deliver
       end
       respond_to do |format|
-        flash["notice"] = "Thank you for submitting a Report!"
-        format.html { redirect_to :action => :info }
+        flash["notice"] = "Submission complete. Thank you for your cooperation."
+        format.html { redirect_to :action => :show, :id => @report.id }
       end
     else
       respond_to do |format|
@@ -106,6 +106,13 @@ class ReportsController < ApplicationController
     status = @report.update_attributes(params[:report]) ? 200 : 500
     respond_to do |format|
       format.js { render :json => nil, :status => status}
+    end
+  end
+
+  def show
+    @report = Report.includes({:tag_deployment => {:tag => {:study => :user}}}).find(params[:id])
+    respond_to do |format|
+      format.html
     end
   end
 

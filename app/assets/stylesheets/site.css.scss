@@ -285,3 +285,19 @@ div#study_page {
   }
 
 }
+
+div#show_report {
+
+  p {
+    margin: 1.2em 0;
+  }
+
+  ul.titles {
+    @include column(8);
+    text-align: right;
+  }
+
+  ul.values {
+    @include column(8, true);
+  }
+}
