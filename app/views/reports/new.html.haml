@@ -83,15 +83,8 @@
         = f.input :length,    :as => :string,     :label => "Fish Length",          :hint => "inches"
 
     .right-section
-      = f.inputs :name => "8 - Did you take any pictures of the fish?", :id => "pictures" do
-        .radios
-          %input{:type => :radio, :value => 'yes', :id => 'picture_yes', :name => 'pictures'}
-            Yes
-          %input{:type => :radio, :value => 'no', :id => 'picture_no', :name => 'pictures'}
-            No
-          #picture_explain
-            %span Please email the images to: report@glatos.org and paste this text into the body of the email:
-            %textarea{:id => 'picture_paste', :style => 'display: block;', :readonly => "true"}
+      = f.inputs  :name => "8 - Additional Comments", :id => "comments" do
+        = f.input :comments, :input_html => {  :class => "updater"}
 
   .clear
   .section
@@ -148,8 +141,15 @@
 
   .clear
   .section
-    = f.inputs  :name => "10 - Additional Comments", :id => "comments" do
-      = f.input :comments, :input_html => {  :class => "updater"}
+    = f.inputs :name => "10 - Did you take any pictures of the fish?", :id => "pictures" do
+      .radios
+        %input{:type => :radio, :value => 'yes', :id => 'picture_yes', :name => 'pictures'}
+          Yes
+        %input{:type => :radio, :value => 'no', :id => 'picture_no', :name => 'pictures'}
+          No
+        #picture_explain
+          %span Please email the images to: report@glatos.org and paste this text into the body of the email:
+          %textarea{:id => 'picture_paste', :style => 'display: block;', :readonly => "true"}
 
   .section
     %p{:class => 'report_text reward'}
