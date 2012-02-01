@@ -5,7 +5,7 @@ body {
 #container {
   @include container;
   @include blueprint(true);
-  background  : url(image-path('bkgd.jpg')) no-repeat center;
+  background  : url(image-path('bkgd.jpg')) no-repeat top center;
   font-family: "Myriad pro", "Helvetica Neue", Arial, Helvetica, Tahoma, sans-serif;
   font-size: 16px;
 }
