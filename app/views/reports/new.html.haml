@@ -215,7 +215,7 @@
       $("#report_didwith_other").val($("#other_didwith_input").val());
     });
     var $radios = $('input[name="report[didwith]"]:radio');
-    if(($radios.is(':checked') === false) && ("#{@report.didwith}" != "")) {
+    if(($radios.is(':checked') === false) && ("#{@report.didwith}" != "")) { 
       $("#other_didwith_input").val("#{@report.didwith}");
       $("#other_didwith_input").keyup();
     }
