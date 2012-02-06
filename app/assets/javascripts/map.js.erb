@@ -463,7 +463,7 @@ function initMap() {
         }
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
         var tr  = [
-           "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('description') + "</b></td></tr>"
+           "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('title') + "</b></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><table width='100%'>"
             ,"<tr><td class='obsInnerPopup'>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
@@ -514,6 +514,7 @@ function initMap() {
         studies[json[i].name] = new glatosStudiesStore.recordType({
            'id'             : json[i].id
           ,'name'           : json[i].name
+          ,'title'          : json[i].title
           ,'description'    : json[i].description
           ,'species'        : json[i].species
           ,'start'          : isoStringToDate(json[i].start)
