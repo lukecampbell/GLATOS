@@ -46,7 +46,7 @@ dNow.setMinutes(0);
 dNow.setSeconds(0);
 var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
 
-if (Ext.isIE && parseFloat(navigator.appVersion.split("MSIE")[1]) >= 9 && typeof Range.prototype.createContextualFragment == "undefined") {
+if (Ext.isIE && (parseFloat(navigator.appVersion.split("MSIE")[1]) >= 9) && (typeof Range.prototype.createContextualFragment == "undefined")) {
     Range.prototype.createContextualFragment = function(html) {
         var doc = this.startContainer.ownerDocument;
         var container = doc.createElement("div");
@@ -129,7 +129,7 @@ function init() {
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectAll()
+          Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);

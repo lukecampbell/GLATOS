@@ -7,8 +7,8 @@ function getVPSize() {
  
  if (typeof window.innerWidth != 'undefined')
  {
-      viewportwidth = window.innerWidth,
-      viewportheight = window.innerHeight
+      viewportwidth = window.innerWidth;
+      viewportheight = window.innerHeight;
  }
  
 // IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
@@ -17,16 +17,16 @@ function getVPSize() {
      && typeof document.documentElement.clientWidth !=
      'undefined' && document.documentElement.clientWidth != 0)
  {
-       viewportwidth = document.documentElement.clientWidth,
-       viewportheight = document.documentElement.clientHeight
+       viewportwidth = document.documentElement.clientWidth;
+       viewportheight = document.documentElement.clientHeight;
  }
  
  // older versions of IE
  
  else
  {
-       viewportwidth = document.getElementsByTagName('body')[0].clientWidth,
-       viewportheight = document.getElementsByTagName('body')[0].clientHeight
+       viewportwidth = document.getElementsByTagName('body')[0].clientWidth;
+       viewportheight = document.getElementsByTagName('body')[0].clientHeight;
  }
  return [viewportwidth,viewportheight];
 }
@@ -37,7 +37,7 @@ function getVPSize() {
   convertDMS = function(coordinate, type, spaceOnly) {
     var coords = new Array();
 
-    abscoordinate = Math.abs(coordinate)
+    abscoordinate = Math.abs(coordinate);
     coordinatedegrees = Math.floor(abscoordinate);
 
     coordinateminutes = (abscoordinate - coordinatedegrees)/(1/60);
