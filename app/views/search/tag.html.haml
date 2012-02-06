@@ -18,33 +18,19 @@ Looking for the
   %h5{:id => 'tag_count'}
   %br
   %div{:id => 'tags'}
+
+#done{:style => "padding: 20px;"}
+  #choices
+  .clear
+
 .clear
+
+%table{:id => :table}
 
 :javascript
 
-  function buildTagBox(val,lastbox_class) {
-    text = "";
-    text += "<div class='searchbox " + lastbox_class + "'>";
-      text += "<h3 class='searchable'>" + val.code + "</h3>";
-      text += "<ol>";
-        text += "<li>Code Space: <span class='searchable'>" + val.code_space + "</span></li>";
-        text += "<li>Study: <a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>";
-        if (!jQuery.isEmptyObject(val.active_deployment_json)) {
-          text += "<h4>Active Deployment</h4>";
-          text += "<li><ol>"
-          text += "<li>External Codes: <span class='searchable'>" + val.active_deployment_json.external_codes + "</span></li>";
-          text += "<li>Release Date: " + val.active_deployment_json.release_date + "</li>";
-          text += "<li>Common Name: " + val.active_deployment_json.common_name + "</li>";
-          text += "<li>Length: " + val.active_deployment_json.length + "</li>";
-          text += "<li>Weight: " + val.active_deployment_json.weight + "</li>";
-          text += "<li>Age: " + val.active_deployment_json.age + "</li>";
-          text += "<li>Sex: " + val.active_deployment_json.sex + "</li>";
-          text += "</ol></li>"
-        } else {
-          text += "<h4>No Active Deployment</h4>";
-        }
-      text += "</ol>";
-    text += "</div>";
+  function makeStudyLink(oObj) {
+    var text = "<a href='/studies/" + oObj.aData.study.id + "' target='_blank'>Link</a>";
     return text;
   }
 
@@ -64,19 +50,8 @@ Looking for the
           var items = [];
           $("#tag_count").html(data.length + " results")
           var count = 1;
-          $.each(data, function(key, val) {
-            lastbox_class = "";
-            if (count % 3 == 0) {
-              lastbox_class = "last_searchbox";  
-            }
-            items.push(buildTagBox(val,lastbox_class));
-            count++;
-          });
-          $('#tags').html(items.join(''));
-          // Highlight the search terms
-          $.each(phrase.split(','),function(k,v) {
-            $('.searchable').highlight(v.split(' '));
-          });
+
+          $('#table').dataTable().fnAddData(data);
         },
         error: function(){
           // no tags
@@ -84,5 +59,25 @@ Looking for the
       });
 
     });
+
+    var oTable = $('#table').dataTable({
+      "sPaginationType": "full_numbers",
+      "aoColumns": [
+        { "sTitle": "Project", "sName": "project", "mDataProp": "study.name" },
+        { "sTitle": "Code Space", "sName": "code_space", "mDataProp": "code_space" },
+        { "sTitle": "Code", "sName": "code", "mDataProp": "code" },
+        { "sTitle": "External Codes", "sName": "external_codes", "mDataProp": "active_deployment_json.external_codes" },
+        { "sTitle": "Release Location", "sName": "release_location", "mDataProp": "active_deployment_json.release_location" },
+        { "sTitle": "Principal Investigator", "sName": "pi", "mDataProp": "study.user.name" },
+        { "sTitle": "Principal Investigator", "sName": "pi", "mDataProp": "study.user.email" },
+        { "sTitle": "Study Page", "sName": "site", "mDataProp": null, "bSortable": false, "fnRender": function (oObj){ return makeStudyLink(oObj); } },
+      ],
+    });
+
+    var oTableTools = new TableTools( oTable, {
+      "sSwfPath": "#{image_path 'copy_csv_xls_pdf.swf'}",
+    });
+    
+    $('#choices').after( oTableTools.dom.container );
 
   });

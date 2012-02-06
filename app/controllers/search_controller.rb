@@ -1,5 +1,7 @@
 class SearchController < ApplicationController
 
+  layout 'search'
+
   def index
 
   end
@@ -20,7 +22,10 @@ class SearchController < ApplicationController
                       :include => 
                         {
                           :study => {
-                            :only => [:id, :name]
+                            :only => [:id, :name],
+                            :include => {:user => {
+                              :only => [:name, :email]
+                            }}
                           },
                         }
                       })
