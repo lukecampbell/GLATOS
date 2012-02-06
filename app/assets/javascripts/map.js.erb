@@ -472,7 +472,7 @@ function initMap() {
             ,"<tr><td class='obsInnerPopup'>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
             ,(e.feature.attributes.otn_array.waterbody ? "<tr><td class='obsInnerPopup'>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
           ,"</table></td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='/'>GLATOS home page</a> for more information.</font></td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='/studies/" + e.feature.attributes.study_id + "'>project home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
            title     : rec.get('name') + '&nbsp;-&nbsp;Site&nbsp;' + e.feature.attributes.code
