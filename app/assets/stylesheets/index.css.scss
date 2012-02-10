@@ -16,18 +16,13 @@ body {
   height: 100%;
 }
 
-#header {
-  margin-top: 20px;
-  text-align: center;
-}
-
 #information {
   @include push(4);
   @include column(16, true);
   background  : url(image-path('blue_bkgd.png')) no-repeat center;
   height: 240px;
   margin-bottom: 0px;
-  margin-top: -25px;
+  margin-top: 185px;
 
   p {
     @include push(1);
@@ -152,17 +147,23 @@ body {
     }
   }
 
-  .left_img {
-    text-align: center;
+  .left_images {
     @include column(8);
-  }
-  .right_img {
-    text-align: left;
-    @include column(3, true);
-  }
-  .center_img {
-    text-align: left;
-    @include column(3);
-  }
+    text-align: center;
+    .top_img {
+      @include column(8);
+    }
 
+    .bottom_img {
+      @include column(8);
+      text-align: center;
+      margin-top:5px;
+      .left_img {
+        @include column(4);
+      }
+      .right_img {
+        @include column(4,true);
+      }
+    }
+  }
 }
