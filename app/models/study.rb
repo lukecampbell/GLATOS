@@ -23,38 +23,46 @@ class Study < ActiveRecord::Base
   validates   :user, :presence => true
 
   def organizations
-    read_attribute(:organizations).split("=;=") rescue []
+    get_array(:organizations)
   end
 
   def organizations=(orgs)
-    if orgs.is_a? String
-      write_attribute(:organizations, orgs)
-    elsif orgs.is_a? Array
-      write_attribute(:organizations, orgs.join("=;="))
-    end
+    set_array(orgs, :organizations)
   end
 
   def objectives
-    read_attribute(:objectives).split("=;=") rescue []
+    get_array(:objectives)
   end
 
   def objectives=(objs)
-    if objs.is_a? String
-      write_attribute(:objectives, objs)
-    elsif objs.is_a? Array
-      write_attribute(:objectives, objs.join("=;="))
-    end
+    set_array(objs, :objectives)
   end
 
   def funding
-    read_attribute(:funding).split("=;=") rescue []
+    get_array(:funding)
   end
 
   def funding=(funds)
-    if funds.is_a? String
-      write_attribute(:funding, funds)
-    elsif funds.is_a? Array
-      write_attribute(:funding, funds.join("=;="))
+    set_array(funds, :funding)
+  end
+
+  def investigators
+    get_array(:investigators)
+  end
+
+  def investigators=(inves)
+    set_array(inves, :investigators)
+  end
+
+  def get_array(sym)
+    read_attribute(sym).split("=;=") rescue []
+  end
+
+  def set_array(setme, sym)
+    if setme.is_a? String
+      write_attribute(sym, setme)
+    elsif setme.is_a? Array
+      write_attribute(sym, setme.join("=;="))
     end
   end
 

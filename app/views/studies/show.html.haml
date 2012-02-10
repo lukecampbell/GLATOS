@@ -39,13 +39,13 @@
 
     .lineitem
       %span
-        Investigator:
-      %br
-      #{@study.user.name}
-      %br
-      #{@study.user.organization}
-      %br
-      #{@study.user.email}
+        Investigators:
+      %ol
+        %li 
+          = "#{@study.user.name} (#{@study.user.organization}) - #{@study.user.email}"
+        - @study.investigators.each do |inv|
+          %li
+            #{inv}
 
     .lineitem
       %span

@@ -45,7 +45,8 @@ stm = Study.create! :code => "SMRSL",
                     :start => Time.utc(2010,1,1),
                     :ending => Time.utc(2012,12,1),
                     :species => Fish::TYPES[3],
-                    :user => User.create!(:name => "Chris Holbrook", :organization => 'U.S. Geological Survey, Hammond Bay Biological Station', :email => 'cholbrook@usgs.gov', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+                    :user => User.create!(:name => "Chris Holbrook", :organization => 'U.S. Geological Survey, Hammond Bay Biological Station', :email => 'cholbrook@usgs.gov', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => ["Charles Krueger (Great Lakes Fishery Commission)","Roger Bergstedt (U.S. Geological Survey)","Jessica Barber (U.S. Fish and Wildlife Service)","Rod MacDonald (Fisheries and Oceans Canada)"]
 
 hec = Study.create! :code => "HECWL",
                     :name => "Huron Erie Walleye Spatial Ecology",
@@ -59,7 +60,8 @@ hec = Study.create! :code => "HECWL",
                     :start => Time.utc(2010,6,1),
                     :ending => Time.utc(2014,12,1),
                     :species => Fish::TYPES[0],
-                    :user => User.create!(:name => "John Dettmers", :organization => 'Great Lakes Fishery Commission', :email => 'jdettmers@glfc.org', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+                    :user => User.create!(:name => "John Dettmers", :organization => 'Great Lakes Fishery Commission', :email => 'jdettmers@glfc.org', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => ["Chris Vandergoot (Ohio DNR)","Dave Fielder (Michigan DNR)","Steven Cooke (Carleton University)","Todd Hayden (Carleton University)","Chris Holbrook (U.S. Geological Survey)"]
 
 drm = Study.create! :code => "DRMLT",
                     :name => "Drummond Island lake trout spawning",
@@ -73,7 +75,8 @@ drm = Study.create! :code => "DRMLT",
                     :start => Time.utc(2010,8,1),
                     :ending => Time.utc(2014,8,1),
                     :species => Fish::TYPES[1],
-                    :user => User.create!(:name => "Thomas Binder", :organization => 'Great Lakes Fishery Commission and Michigan State University', :email => 'tr.binder@gmail.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+                    :user => User.create!(:name => "Thomas Binder", :organization => 'Great Lakes Fishery Commission and Michigan State University', :email => 'tr.binder@gmail.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => ["Charles Krueger (Great Lakes Fishery Commission)","Stephen Riley (U.S. Geological Survey)","Charles Bronte (U.S. Fish and Wildlife Service)","Mark Ebener (Chippewa Ottawa Resource Authority)","Chirstopher Holbrook (U.S. Geological Survey)","Ji He (Michigan DNR)","Roger Bergstedt (U.S. Geological Survey)"]
 
 mrs = Study.create! :code => "MRS",
                     :name => "Lake Sturgeon Project",
@@ -87,7 +90,8 @@ mrs = Study.create! :code => "MRS",
                     :start => Time.utc(2010,1,1),
                     :ending => Time.utc(2012,12,1),
                     :species => Fish::TYPES[2],
-                    :user => User.create!(:name => "MRS Admin 9", :email => 'user9@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+                    :user => User.create!(:name => "MRS Admin 9", :email => 'user9@asascience.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => []
 
 hst = Study.create! :code => "HECST",
                     :name => "Lake sturgeon metapopulation structure",
@@ -101,7 +105,9 @@ hst = Study.create! :code => "HECST",
                     :start => Time.utc(2012,1,1),
                     :ending => Time.utc(2017,12,31),
                     :species => Fish::TYPES[2],
-                    :user => User.create!(:name => "Darryl W. Hondorp", :organization => 'United States Geological Survey, Great Lakes Science Center', :email => 'dhondorp@usgs.gov', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+                    :user => User.create!(:name => "Darryl W. Hondorp", :organization => 'United States Geological Survey, Great Lakes Science Center', :email => 'dhondorp@usgs.gov', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => ["Charles Krueger (Great Lakes Fishery Commission)","Chris Holbrook (U.S. Geological Survey)","James Boase (U.S. Fish and Wildlife Service)","Michael Thomas (Michigan DNR)","Edward Roseman (U.S. Geological Survey)","Richard Drouin (Ontario MNR)"]
+
 
 dfo = Study.create! :code => "DFOWS",
                     :name => "Direct movement of nonindigenous fishes",
@@ -115,7 +121,8 @@ dfo = Study.create! :code => "DFOWS",
                     :start => Time.utc(2011,4,1),
                     :ending => Time.utc(2016,4,1),
                     :species => "",
-                    :user => User.create!(:name => "Nicholas Mandrak", :organization => 'Fisheries and Oceans Canada', :email => 'nicholas.mandrak@dfo-mpo.gc.ca', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true)
+                    :user => User.create!(:name => "Nicholas Mandrak", :organization => 'Fisheries and Oceans Canada', :email => 'nicholas.mandrak@dfo-mpo.gc.ca', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => ["Thomas Pratt (Fisheries and Oceans Canada)","Marten Koops (Fisheries and Oceans Canada)"]
 
 
 stm.user.confirm!
