@@ -48,3 +48,5 @@ gem 'haml-rails'
 
 gem 'formtastic'
 gem 'pg_search'
+
+gem "paperclip", "~> 2.0"

@@ -60,6 +60,7 @@ GEM
     childprocess (0.2.2)
       ffi (~> 1.0.6)
     chunky_png (1.2.5)
+    cocaine (0.2.1)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
       railties (~> 3.1.0)
@@ -140,6 +141,11 @@ GEM
       net-ssh (>= 1.99.1)
     nokogiri (1.5.0)
     orm_adapter (0.0.5)
+    paperclip (2.6.0)
+      activerecord (>= 2.3.0)
+      activesupport (>= 2.3.2)
+      cocaine (>= 0.0.2)
+      mime-types
     pg (0.11.0)
     pg_search (0.4)
       activerecord (>= 3)
@@ -255,6 +261,7 @@ DEPENDENCIES
   kaminari
   launchy
   minitest
+  paperclip (~> 2.0)
   pg
   pg_search
   pickle

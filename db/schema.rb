@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120210185918) do
+ActiveRecord::Schema.define(:version => 20120210195653) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -77,14 +77,14 @@ ActiveRecord::Schema.define(:version => 20120210185918) do
   add_index "retrievals", ["location"], :name => "index_retrievals_on_location", :spatial => true
 
   create_table "studies", :force => true do |t|
-    t.string   "name",                        :null => false
+    t.string   "name",                                  :null => false
     t.text     "description"
     t.datetime "start"
     t.datetime "ending"
     t.string   "url"
     t.string   "species"
     t.integer  "user_id"
-    t.string   "code",          :limit => 20, :null => false
+    t.string   "code",                    :limit => 20, :null => false
     t.text     "title"
     t.text     "benefits"
     t.text     "organizations"
@@ -92,6 +92,26 @@ ActiveRecord::Schema.define(:version => 20120210185918) do
     t.text     "information"
     t.text     "objectives"
     t.text     "investigators"
+    t.string   "img_first_file_name"
+    t.string   "img_first_content_type"
+    t.integer  "img_first_file_size"
+    t.datetime "img_first_updated_at"
+    t.string   "img_second_file_name"
+    t.string   "img_second_content_type"
+    t.integer  "img_second_file_size"
+    t.datetime "img_second_updated_at"
+    t.string   "img_third_file_name"
+    t.string   "img_third_content_type"
+    t.integer  "img_third_file_size"
+    t.datetime "img_third_updated_at"
+    t.string   "img_fourth_file_name"
+    t.string   "img_fourth_content_type"
+    t.integer  "img_fourth_file_size"
+    t.datetime "img_fourth_updated_at"
+    t.string   "img_fifth_file_name"
+    t.string   "img_fifth_content_type"
+    t.integer  "img_fifth_file_size"
+    t.datetime "img_fifth_updated_at"
   end
 
   create_table "tag_deployments", :force => true do |t|

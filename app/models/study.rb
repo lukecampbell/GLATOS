@@ -14,6 +14,12 @@ class Study < ActiveRecord::Base
                               ]
                   }
 
+  has_attached_file :img_first, :styles => { :medium => "360" }
+  has_attached_file :img_second, :styles => { :medium => "360" }
+  has_attached_file :img_third, :styles => { :medium => "360" }
+  has_attached_file :img_fourth, :styles => { :medium => "360" }
+  has_attached_file :img_fifth, :styles => { :medium => "360" }
+
   belongs_to  :user
 
   has_many    :deployments
