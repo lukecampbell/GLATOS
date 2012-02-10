@@ -4,3 +4,4 @@
 //= require GeoExt
 //= require map
 //= require util
+//= require site
