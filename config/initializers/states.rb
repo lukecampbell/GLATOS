@@ -1,13 +1,22 @@
 class State
   NAMES =
     [
+      [ "Alberta", "AB"],
+      [ "British Columbia", "BC"],
       [ "Illinois", "IL" ],
+      [ "Manitoba", "MB"],
       [ "Michigan", "MI" ],
       [ "New York", "NY" ],
+      [ "Newfoundland And Labrador", "NL"],
+      [ "Nova Scotia", "NS"],
+      [ "New Brunswick", "NB"],
       [ "Ohio", "OH" ],
-      [ "Pennsylvania", "PA" ],
-      [ "Wisconsin", "WI" ],
       [ "Ontario", "ON"],
+      [ "Pennsylvania", "PA" ],
+      [ "Price Edward Island", "PE"],
+      [ "Quebec", "QC"],
+      [ "Saskatchewan", "SK"],
+      [ "Wisconsin", "WI" ],
 
       [ "Alabama", "AL" ],
       [ "Alaska", "AK" ],
