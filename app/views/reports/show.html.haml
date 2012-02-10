@@ -4,46 +4,61 @@
 
     %p Here is information about the tag you reported:
 
-    %ul{:class => 'titles'}
-      %li GLATOS_PROJECT
-      %li PROJECT_TITLE
-      %li COMMON_NAME
-      %li TAG_CODE_SPACE
-      %li TAG_ID_CODE
-      %li GLATOS_EXTERNAL_TAGS
-      %li RELEASE_LOCATION
-      %li UTC_RELEASE_DATE_TIME
-      %li LENGTH 
-      %li WEIGHT
-      %li PRINCIPAL_INVESTIGATOR 
-      %li PI_EMAIL 
-      %li PROJECT_PAGE
-
-    %ul{:class => 'values'}
-      %li 
-        = @report.tag_deployment.tag.study.name || "None"
-      %li
-        = @report.tag_deployment.tag.study.title || "None"
-      %li
-        = @report.tag_deployment.common_name || "None"
-      %li
-        = @report.tag_deployment.tag.code_space || "None"
-      %li
-        = @report.tag_deployment.tag.code || "None"
-      %li
-        = @report.tag_deployment.external_codes || "None"
-      %li
-        = @report.tag_deployment.release_location || "None"
-      %li
-        = @report.tag_deployment.release_date.strftime("%Y-%m-%d") || "None"
-      %li
-        = @report.tag_deployment.length || "None"
-      %li
-        = @report.tag_deployment.weight || "None"
-      %li
-        = @report.tag_deployment.tag.study.user.name || "None"
-      %li 
-        = @report.tag_deployment.tag.study.user.email || "None"
-      %li
-        = link_to @report.tag_deployment.tag.study.name, study_path(@report.tag_deployment.tag.study) || "None"
+    %table
+      %tbody
+        %tr
+          %td{:class => "label"}
+            GLATOS Project Name
+          %td
+            = link_to @report.tag_deployment.tag.study.name, study_path(@report.tag_deployment.tag.study.id)
+        %tr
+          %td{:class => "label"}
+            GLATOS Project Title
+          %td
+            = @report.tag_deployment.tag.study.title
+        %tr
+          %td{:class => "label"}
+            Species Name
+          %td
+            = @report.tag_deployment.common_name
+        %tr
+          %td{:class => "label"}
+            Full Tag Code
+          %td
+            = @report.tag_deployment.tag.code_space
+        %tr
+          %td{:class => "label"}
+            Tag Code
+          %td
+            = @report.tag_deployment.tag.code
+        %tr
+          %td{:class => "label"}
+            External Tags
+          %td
+            = @report.tag_deployment.external_codes
+        %tr
+          %td{:class => "label"}
+            Release Location
+          %td
+            = @report.tag_deployment.release_location
+        %tr
+          %td{:class => "label"}
+            Release Date
+          %td
+            = @report.tag_deployment.release_date.strftime("%Y-%m-%d")
+        %tr
+          %td{:class => "label"}
+            Length (inches)
+          %td
+            = @report.tag_deployment.length
+        %tr
+          %td{:class => "label"}
+            Weight (pounds)
+          %td
+            = @report.tag_deployment.weight
+        %tr
+          %td{:class => "label"}
+            Project Investigators
+          %td
+            = "#{@report.tag_deployment.tag.study.user.name} (#{@report.tag_deployment.tag.study.user.email})"
     .clear

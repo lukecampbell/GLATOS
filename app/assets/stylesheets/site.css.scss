@@ -288,17 +288,33 @@ div#study_page {
 
 div#show_report {
 
+  table {
+    @include column(18,true);
+    background-color: #fafafa;
+    border: 1px #000000 solid;
+    border-collapse: collapse;
+    border-spacing: 0px;
+  }
+
+  td {
+    @include column(14,true);
+    border-bottom: 1px #6699CC dotted;
+    text-align: left;
+    color: #404040;
+    background-color: #fafafa;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 12px;
+    padding-right: 10px;
+  }
+
+  td.label {
+    @include column(4);
+    font-weight: bold;
+  }
+
   p {
     margin: 1.2em 0;
-  }
-
-  ul.titles {
-    @include column(8);
-    text-align: right;
-  }
-
-  ul.values {
-    @include column(8, true);
   }
 }
 
