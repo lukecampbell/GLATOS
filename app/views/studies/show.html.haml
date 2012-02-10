@@ -26,6 +26,14 @@
 
     .lineitem
       %span
+        Objectives:
+      %ol
+        - @study.objectives.each do |obj|
+          %li
+            #{obj}
+
+    .lineitem
+      %span
         Management Benefits:
       #{@study.benefits}
 
@@ -38,14 +46,6 @@
       #{@study.user.organization}
       %br
       #{@study.user.email}
-
-    .lineitem
-      %span
-        Objectives:
-      %ol
-        - @study.objectives.each do |obj|
-          %li
-            #{obj}
 
     .lineitem
       %span
