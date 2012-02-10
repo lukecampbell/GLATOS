@@ -68,7 +68,7 @@
     .left-section
       = f.inputs :name => "6 - Where did you catch the fish?", :id => "where_found" do
         = f.input :description, :label => "Capture Location Description (e.g., north of Blue Water Bridge)"
-        = f.input :depth,       :label => "Depth of water",   :hint => "feet"
+        = f.input :depth,       :label => "Depth of water (feet)"
         = f.input :location, :as => :string,   :label => "Coordinates (click approximate location on map)",  :input_html => {  :readonly => "readonly"}
   
     .right-section{:style => "margin-top: 30px;"}
@@ -80,7 +80,7 @@
   .section
     .left-section
       = f.inputs :name => "7 - What was the length of the fish?", :id => "fish_length" do
-        = f.input :length,    :as => :string,     :label => "Fish Length",          :hint => "inches"
+        = f.input :length,    :as => :string,     :label => "Fish Length (inches)"
 
     .right-section
       = f.inputs  :name => "8 - Additional Comments", :id => "comments" do
