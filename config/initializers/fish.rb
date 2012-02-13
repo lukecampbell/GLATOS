@@ -4,7 +4,8 @@ class Fish
       "Walleye",
       "Lake Trout",
       "Sturgeon",
-      "Sea Lamprey"
+      "Sea Lamprey",
+      "Asian Carp"
     ]
 
   SCITYPES =
@@ -12,7 +13,8 @@ class Fish
       "Sander vitreus",
       "Salvelinus namaycush",
       "Acipenser fulvescens",
-      "Petromyzon marinus"
+      "Petromyzon marinus",
+      "Hypophthalmichthys nobilis"
     ]
 
   SEX =

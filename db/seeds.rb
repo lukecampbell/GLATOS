@@ -1,5 +1,6 @@
 # USERS
 require 'csv'
+require 'open-uri'
 
 User.destroy_all
 Report.destroy_all
@@ -131,12 +132,31 @@ dfo = Study.create! :code => "DFOWS",
                     :img_third => File.open("#{Rails.root}/doc/project_images/DFOWS_3.jpg"),
                     :img_fourth => File.open("#{Rails.root}/doc/project_images/DFOWS_4.jpg")
 
+crs = Study.create! :code => "CRSAC",
+                    :name => "CAWS Asian Carp Telemetry",
+                    :title => "Asian Carp Monitoring and Rapid Response Plan for the CAWS - Telemetry Study",
+                    :description => "To be updated",
+                    :benefits => "To be updated",
+                    :organizations => ["Asian Carp Regional Coordinating Committee","White House Council on Environmental Quality","US Environmental Protection Agency"],
+                    :objectives => ["To be updated"],
+                    :funding => ["To be updated"],
+                    :url => "http://asiancarp.us",
+                    :start => Time.utc(2011,1,1),
+                    :ending => Time.utc(2012,12,1),
+                    :species => Fish::TYPES[4],
+                    :user => User.create!(:name => "Kelly Baerwaldt", :organization => 'US Army Corps of Engineers', :email => 'kyle.wilcox@rpsgroup.com', :password => ENV['WEB_ADMIN_PASSWORD'], :password_confirmation => ENV['WEB_ADMIN_PASSWORD'], :role => "investigator", :approved => true),
+                    :investigators => [""],
+                    :img_first => open("http://asiancarp.us/images/highlights/ACRCC.jpg"),
+                    :img_second => open("http://www.csmonitor.com/var/ezflow_site/storage/images/media/images/0106-aillinoiscarp-asian-carp-great-lakes-full/7187516-1-eng-US/0106-AILLINOISCARP-Asian-Carp-Great-Lakes-full_full_600.jpg")
+
+
 stm.user.confirm!
 hec.user.confirm!
 drm.user.confirm!
 mrs.user.confirm!
 hst.user.confirm!
 dfo.user.confirm!
+crs.user.confirm!
 
 # DEPLOYMENTS
 CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
