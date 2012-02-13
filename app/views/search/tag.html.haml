@@ -45,6 +45,11 @@ Looking for the
     return text;
   }
 
+  function getFullName(oObj) {
+    var text = oObj.aData.study.user.name + " (" + oObj.aData.study.user.email + ")";
+    return text;
+  }
+
   $(document).ready(function() {
 
     $(".searcher").click(function(e) {
@@ -82,8 +87,9 @@ Looking for the
         { "sTitle": "Code", "sName": "code", "mDataProp": "code" },
         { "sTitle": "External Codes", "sName": "external_codes", "mDataProp": "active_deployment_json.external_codes" },
         { "sTitle": "Release Location", "sName": "release_location", "mDataProp": "active_deployment_json.release_location" },
-        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.name" },
-        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.email" },
+        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.name",
+          "fnCellRender": function (oObj){ return getFullName(oObj); },
+          "fnRender": function (oObj){ return getFullName(oObj); },},
         { "sTitle": "Study Page", "sName": "site", "mDataProp": null, "bSortable": false, 
           "fnCellRender": function (oObj){ return getStudyLink(oObj); },
           "fnRender": function (oObj){ return makeStudyLink(oObj); },
