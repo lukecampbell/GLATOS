@@ -77,7 +77,7 @@
           $("#deployments").html(items.join(''));
         },
         error: function(){
-          // no deployments
+          $("#deployment_count").html("There was a problem retreiving any matching Deployments");
         }
       });
 
@@ -95,7 +95,7 @@
           $("#studies").html(items.join(''));
         },
         error: function(){
-          // no studies
+          $("#study_count").html("There was a problem retreiving any matching Studies");
         }
       });
 

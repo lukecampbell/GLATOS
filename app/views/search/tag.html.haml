@@ -70,7 +70,7 @@ Looking for the
           $('#table').dataTable().fnAddData(data);
         },
         error: function(){
-          // no tags
+          $("#tag_count").html("There was a problem with your search.  Please try again.")
         }
       });
 
