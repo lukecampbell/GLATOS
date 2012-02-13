@@ -22,16 +22,16 @@ Looking for the
 
 #search_tag_table
   %h5{:id => 'tag_count'}
-  %br
-  %div{:id => 'tags'}
 
-#done{:style => "padding: 20px;"}
-  #choices
+#table_contents{:style => 'display: none;'}
+
+  #done{:style => "padding: 20px;"}
+    #choices
+    .clear
+
   .clear
 
-.clear
-
-%table{:id => :table}
+  %table{:id => :table}
 
 :javascript
 
@@ -68,6 +68,7 @@ Looking for the
           var count = 1;
 
           $('#table').dataTable().fnAddData(data);
+          $('#table_contents').show();
         },
         error: function(){
           $("#tag_count").html("There was a problem with your search.  Please try again.")

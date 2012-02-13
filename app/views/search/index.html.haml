@@ -16,7 +16,7 @@
 %span{:style => 'font-size: 80%; font-weight: bold;'}
   Examples: Sturgeon (species), "St Marys River" (location), Holbrook (investigator)
 
-#search_tables
+#search_tables{:style => 'display: none;'}
   .search_table{:class => "two_wide"}
     %h3 Studies
     %h5{:id => 'study_count'}
@@ -93,9 +93,11 @@
             items.push(buildStudyBox(val));
           });
           $("#studies").html(items.join(''));
+          $('#search_tables').show();
         },
         error: function(){
           $("#study_count").html("There was a problem retreiving any matching Studies");
+          $('#search_tables').show();
         }
       });
 
