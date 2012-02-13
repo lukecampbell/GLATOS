@@ -168,8 +168,18 @@ strong {
   }
 }
 
+#tag_count {
+  @include column(24);
+  text-align: center;
+}
+
+.search_hint_list {
+  margin-left: 5em;
+}
+
 .tags_input {
   padding: 5px;
+  height: 8em;
   @include column(12);
 }
 

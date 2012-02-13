@@ -11,7 +11,7 @@ class SearchController < ApplicationController
   end
 
   def match_tags
-    z_tags = params[:text].split(",").map(&:strip)
+    z_tags = params[:text].split(" ").map(&:strip)
     tags = Tag.includes(:tag_deployments).includes(:study).exact_match(z_tags.join(" "))
     tags += TagDeployment.includes({:tag => :study}).exact_match(z_tags).map(&:tag)
     # TODO: Do we need only return tags the user can manage?

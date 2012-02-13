@@ -1,7 +1,7 @@
 %h2
   Search for Tags
 
-%p Enter a comma seperated list of tags you would like to search for.  These can be both internal and external tags.
+%p Enter tags you would like to search, one per line.  These can be both internal and external tags.
 
 %textarea{:class => 'tags_input'}
 
@@ -12,7 +12,13 @@ Looking for the
 .clear
 
 %span{:style => 'font-size: 80%; font-weight: bold;'}
-  Example: A69-9002-4807 (full code space), 31942 (internal tag), 4257 (external tag)
+  Example:
+  .search_hint_list
+    A69-9002-4807 (full code space)
+    %br
+    31942 (internal tag)
+    %br
+    4257 (external tag)
 
 #search_tag_table
   %h5{:id => 'tag_count'}
