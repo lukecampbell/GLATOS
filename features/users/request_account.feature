@@ -36,7 +36,7 @@ Feature: Request Account
     Then "admin@test.com" should receive 0 emails
     And "user@test.com" should receive 1 email
     When I open the email
-    And I should see "Confirm my account" in the email body
+    Then I should see "Confirm my account" in the email body
     When I follow "Confirm my account" in the email
     Then I should be signed in
 
@@ -50,12 +50,24 @@ Feature: Request Account
     And I press "Sign up"
     Then "admin@test.com" should receive 1 email
     When I open the email
-    And I should see "A new account was requested on GLATOS Web" in the email body
+    Then I should see "A new account was requested on GLATOS Web" in the email body
     And I should see "Testy McUserton" in the email body
     Given I am logged in as an admin
     And I follow "User Administration" in the email
     Then I should be on the user admin page
 
+  @javascript
+  Scenario: User receives an email when their account is approved for the first time
+    Given an unapproved investigator exists
+    And I am logged in as an admin
+    And I am on the user admin page
+    Then I should see "Investigator User"
+    And I should see "investigator@glatos.org"
+    And the user should not be approved
+    Given no emails have been sent
+    When I follow "Approve" 
+    Then "investigator@glatos.org" should receive 1 email
+    
   Scenario: User signs up with invalid email
     And I fill in the following:
         | Name                  | Testy McUserton |

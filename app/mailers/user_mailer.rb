@@ -12,4 +12,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => recips, :subject => "[GLATOS] Role Upgrade Request")
   end
 
+  def account_approved(user)
+    @user = user
+    recips = user.email
+    mail(:to => recips, :subject => "[GLATOS] Account Approved")
+  end
+
 end

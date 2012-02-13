@@ -10,7 +10,10 @@ class UserObserver < ActiveRecord::Observer
       else
         user.role = user.requested_role
       end
+    elsif user.approved_changed? && user.approved && User.exists?(user.id)
+      UserMailer.account_approved(user).deliver
     end
+      
   end
 
   def after_create(user)
