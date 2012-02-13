@@ -62,6 +62,9 @@ Looking for the
 
     var oTable = $('#table').dataTable({
       "sPaginationType": "full_numbers",
+      "oLanguage": {
+        "sSearch": "Filter Results:"
+      },
       "aoColumns": [
         { "sTitle": "Project", "sName": "project", "mDataProp": "study.name" },
         { "sTitle": "Code Space", "sName": "code_space", "mDataProp": "code_space" },
