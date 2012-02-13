@@ -1,7 +1,7 @@
 %h2
   Search
 
-%p Enter a search term to query Studies and Deployments in the GLATOSWeb system.
+%p Enter a search term to query Studies in the GLATOSWeb system.
 
 %textarea{:class => 'tags_input'}
 
@@ -21,12 +21,11 @@
     %h3 Studies
     %h5{:id => 'study_count'}
     %div{:id => 'studies'}
-
-  .search_table{:class => "two_wide_last"}
-    %h3 Deployments
-    %h5{:id => 'deployment_count'}
-    %div{:id => 'deployments'}
-
+  -#
+    .search_table{:class => "two_wide_last"}
+      %h3 Deployments
+      %h5{:id => 'deployment_count'}
+      %div{:id => 'deployments'}
 .clear
 
 :javascript
