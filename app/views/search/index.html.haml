@@ -31,27 +31,51 @@
 
 :javascript
 
+  function buildRow(label, value) {
+    var text = "";
+    text += "<tr>";
+      text += "<td class='label'>";
+        text += label
+      text += "</td>";
+      text += "<td>";
+        text += value;
+      text += "</td>";
+    text += "</tr>";
+    return text;
+  }
+  
   function buildStudyBox(val) {
     text = "";
-    text += "<div class='box info'>";
+    text += "<div class='info'>";
       text += "<h4>";
-      text += "<a href='/studies/" + val.id + "'>" + val.name + "</a>";
+        text += "<a href='/studies/" + val.id + "'>" + val.name + "</a>";
       text += "</h4>";
-      text += "<ol class='success'>";
-        text += "<li>Species: " + val.species + "</li>";
-      text += "</ol>";
+
+      // TABLE
+      text += "<table>";
+        text += "<tbody>";
+          text += buildRow("Species", val.species);
+          text += buildRow("Title", val.title);
+        text += "</tbody>";
+      text += "</table>";
+
     text += "</div>";
     return text;
   }
 
   function buildDeploymentBox(val) {
     text = "";
-    text += "<div class='box info'>";
+    text += "<div class='info'>";
       text += "<h4>" + val.code + "</h4>";
-      text += "<ol class='success'>";
-        text += "<li>Model: " + val.model + "</li>";
-        text += "<li>Study: <a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>";
-      text += "</ol>";
+
+      // TABLE
+      text += "<table>";
+        text += "<tbody>";
+          text += buildRow("Model", val.model);
+          text += buildRow("Study", "<a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>");
+        text += "</tbody>";
+      text += "</table>";
+
     text += "</div>";
     return text;
   }
