@@ -36,7 +36,12 @@ Looking for the
 :javascript
 
   function makeStudyLink(oObj) {
-    var text = "<a href='/studies/" + oObj.aData.study.id + "' target='_blank'>Link</a>";
+    var text = "<a href='" + getStudyLink(oObj) + "' target='_blank'>Link</a>";
+    return text;
+  }
+
+  function getStudyLink(oObj) {
+    var text = "#{root_url}" + "studies/" + oObj.aData.study.id;
     return text;
   }
 
@@ -77,9 +82,12 @@ Looking for the
         { "sTitle": "Code", "sName": "code", "mDataProp": "code" },
         { "sTitle": "External Codes", "sName": "external_codes", "mDataProp": "active_deployment_json.external_codes" },
         { "sTitle": "Release Location", "sName": "release_location", "mDataProp": "active_deployment_json.release_location" },
-        { "sTitle": "Principal Investigator", "sName": "pi", "mDataProp": "study.user.name" },
-        { "sTitle": "Principal Investigator", "sName": "pi", "mDataProp": "study.user.email" },
-        { "sTitle": "Study Page", "sName": "site", "mDataProp": null, "bSortable": false, "fnRender": function (oObj){ return makeStudyLink(oObj); } },
+        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.name" },
+        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.email" },
+        { "sTitle": "Study Page", "sName": "site", "mDataProp": null, "bSortable": false, 
+          "fnCellRender": function (oObj){ return getStudyLink(oObj); },
+          "fnRender": function (oObj){ return makeStudyLink(oObj); },
+        },
       ],
     });
 
