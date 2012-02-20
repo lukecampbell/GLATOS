@@ -13,14 +13,10 @@ div.olLayerDiv {
    -moz-user-select: none;
 }
 
-.olLayerGoogleCopyright {
-    left: 2px;
-    bottom: 2px;  
+div.olLayerGoogleCopyright, div.olLayerGooglePoweredBy {
+  display: none !important;
 }
-.olLayerGooglePoweredBy {
-    left: 2px;
-    bottom: 15px;   
-}
+
 .olControlAttribution {
     font-size: smaller; 
     right: 3px; 
