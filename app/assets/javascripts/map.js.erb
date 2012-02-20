@@ -355,13 +355,14 @@ function init() {
              title       : 'Filter by status, date, or year'
             ,id          : 'glatosStatusTimePanel'
             ,border      : false
-            ,bodyStyle   : 'padding: 7px 7px 7px 7px'
+            ,bodyStyle   : 'padding:5px 5px 0'
             ,items       : [
               new Ext.form.FieldSet({
                  title          : '&nbsp;Status&nbsp;'
                 ,id             : 'glatosProjectStatusesFieldSet'
                 ,items          : glatosProjectStatusesGridPanel
                 ,checkboxToggle : true
+                ,autoHeight     : true
                 ,listeners      : {render : function() {
                   this.addListener('collapse',function() {
                     checkOneFilter(this.id,false);
