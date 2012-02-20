@@ -468,7 +468,6 @@ function initMap() {
           ,"<tr><td colspan=2 style='text-align:center'><table width='100%'>"
             ,"<tr><td class='obsInnerPopup'>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
-            ,"<tr><td class='obsInnerPopup'>code</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.code + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
             ,(e.feature.attributes.otn_array.waterbody ? "<tr><td class='obsInnerPopup'>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
           ,"</table></td></tr>"
