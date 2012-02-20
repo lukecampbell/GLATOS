@@ -438,7 +438,7 @@ function initMap() {
         }
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
         mouseoverObs = new Ext.ToolTip({
-           html         : rec.get('name') + '&nbsp;-&nbsp;Site&nbsp;' + e.feature.attributes.code
+           html         : '<font style="font-weight:bold">' + e.feature.attributes.code + '</font>&nbsp;-&nbsp;' + rec.get('name')
           ,anchor       : 'bottom'
           ,target       : 'OpenLayers.Geometry.Point_' + (Number(e.feature.id.split('_')[e.feature.id.split('_').length - 1]) - 1)
           ,hideDelay    : 0
