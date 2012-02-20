@@ -105,7 +105,7 @@ function init() {
     ,autoExpandColumn : 'name'
     ,columns          : [
        glatosStudiesSelModel
-      ,{id : 'name' ,dataIndex : 'name'}
+      ,{id : 'name' ,dataIndex : 'name' ,renderer : renderProjectName}
       ,{id : 'count',dataIndex : 'count',renderer : renderCount,align : 'right',width : 70}
     ]
     ,hideHeaders      : true
@@ -596,6 +596,11 @@ function initMap() {
       });
     }
   });
+}
+
+function renderProjectName(val,metadata) {
+  metadata.attr = 'ext:qtip="' + val + '"';
+  return val;
 }
 
 function renderCount(val) {
