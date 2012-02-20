@@ -133,6 +133,10 @@ function init() {
           Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
+          if (Ext.getCmp('glatosYearsComboBox').getStore().getCount() > 0) {
+            Ext.getCmp('glatosYearsComboBox').setValue(Ext.getCmp('glatosYearsComboBox').getStore().getAt(0).get('year'));
+          }
+          checkOneFilter('glatosProjectStatusesFieldSet',true);
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().resumeEvents();
           Ext.getCmp('glatosTimesStart').resumeEvents();
           Ext.getCmp('glatosTimesEnd').resumeEvents();
@@ -210,7 +214,6 @@ function init() {
   });
   var glatosProjectStatusesGridPanel = new Ext.grid.GridPanel({
      id               : 'glatosProjectStatusesGridPanel'
-    ,title            : 'Filter by status'
     ,store            : new Ext.data.ArrayStore({
       fields : [
         'name'
@@ -221,10 +224,9 @@ function init() {
         ,['Finished']
       ]
     })
-    ,height           : 3 * 21.1 + 26 + 6
+    ,height           : 65
     ,border           : false
     ,autoExpandColumn : 'name'
-    ,collapsible      : true
     ,columns          : [
        glatosProjectStatusSelModel
       ,{id : 'name',dataIndex : 'name'}
@@ -242,76 +244,92 @@ function init() {
         grid.getSelectionModel().selectAll();
         grid.resumeEvents();
       }
-      ,collapse  : function() {
-        Ext.getCmp('glatosTimesFormPanel').expand();
-      }
-      ,expand    : function() {
-        Ext.getCmp('glatosTimesFormPanel').collapse();
-        syncGlatos();
-      }
     }
   });
 
-  var glatosTimesFormPanel = new Ext.FormPanel({
+  var glatosTimesFormPanel = new Ext.Panel({
      id          : 'glatosTimesFormPanel'
-    ,title       : 'Filter by time'
-    ,height      : 2 * 21.1 + 26 + 6 + 20
+    ,height      : 55
     ,border      : false
-    ,collapsible : true
-    ,collapsed   : true
-    ,labelWidth  : 1
-    ,layout      : 'column'
-    ,tbar             : [
-       '->'
-      ,{
-         text    : 'Reset times'
-        ,icon    : "<%= asset_path 'arrow_refresh.png' %>"
-        ,handler : function() {
-          Ext.getCmp('glatosTimesStart').suspendEvents();
-          Ext.getCmp('glatosTimesEnd').suspendEvents();
-          Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
-          Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
-          Ext.getCmp('glatosTimesStart').resumeEvents();
-          Ext.getCmp('glatosTimesEnd').resumeEvents();
+    ,items       : [
+      new Ext.FormPanel({
+         border      : false
+        ,labelWidth  : 1
+        ,layout      : 'column'
+        ,items       : [
+          {border : false,columnWidth : 0.48,layout : 'form',items : new Ext.form.DateField({
+             id         : 'glatosTimesStart'
+            ,disabled   : true
+            ,showToday  : false
+            ,allowBlank : false
+            ,width      : 100
+            ,listeners  : {change : function() {
+              syncGlatos();
+            }}
+          })}
+          ,{border : false,columnWidth : 0.05,layout : 'form',html : '-',bodyStyle : 'text-align:center'}
+          ,{border : false,columnWidth : 0.47,layout : 'form',items : new Ext.form.DateField({
+             id         : 'glatosTimesEnd'
+            ,disabled   : true
+            ,showToday  : false
+            ,allowBlank : false
+            ,width      : 100
+            ,listeners  : {change : function() {
+              syncGlatos();
+            }}
+          })}
+        ]
+      })
+      ,new Ext.FormPanel({
+         layout      : 'column'
+        ,border      : false
+        ,items       : [
+           {border : false,columnWidth : 0.10,html : '&nbsp;'}
+          ,new Ext.Button({border : false,columnWidth : .30,text : 'OK'})
+          ,{border : false,columnWidth : 0.20,html : '&nbsp;'}
+          ,new Ext.Button({
+             border      : false
+            ,columnWidth : .30
+            ,text        : 'Reset'
+            ,handler     : function() {
+              Ext.getCmp('glatosTimesStart').suspendEvents();
+              Ext.getCmp('glatosTimesEnd').suspendEvents();
+              Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
+              Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
+              Ext.getCmp('glatosTimesStart').resumeEvents();
+              Ext.getCmp('glatosTimesEnd').resumeEvents();
+              syncGlatos();
+            }
+          })
+          ,{border : false,columnWidth : 0.10,html : '&nbsp;'}
+        ]
+      })
+    ]
+  });
+
+  var glatosYearsFormPanel = new Ext.FormPanel({
+     id              : 'glatosYearsFormPanel'
+    ,height          : 30
+    ,layout          : 'fit'
+    ,border          : false
+    ,items           : new Ext.form.ComboBox({
+      store : new Ext.data.ArrayStore({
+         fields : ['year']
+      })
+      ,id             : 'glatosYearsComboBox'
+      ,displayField   : 'year'
+      ,disabled       : true
+      ,valueField     : 'year'
+      ,mode           : 'local'
+      ,forceSelection : true
+      ,triggerAction  : 'all'
+      ,editable       : false
+      ,listeners      : {
+        select : function(combo,rec) {
           syncGlatos();
         }
       }
-    ]
-    ,items       : [
-      {border : false,columnWidth : 0.40,layout : 'form',items : new Ext.form.DateField({
-         id         : 'glatosTimesStart'
-        ,disabled   : true
-        ,showToday  : false
-        ,allowBlank : false
-        ,width      : 100
-        ,listeners  : {change : function() {
-          syncGlatos();
-        }}
-      })}
-      ,{border : false,columnWidth : 0.10,layout : 'form',html : '-',bodyStyle : 'text-align:center'}
-      ,{border : false,columnWidth : 0.40,layout : 'form',items : new Ext.form.DateField({
-         id         : 'glatosTimesEnd'
-        ,disabled   : true
-        ,showToday  : false
-        ,allowBlank : false
-        ,width      : 100
-        ,listeners  : {change : function() {
-          syncGlatos();
-        }}
-      })}
-      ,{border : false,columnWidth : 0.10,layout : 'form',items : new Ext.Button({
-         text : 'Go'
-      })}
-    ]
-    ,listeners : {
-      collapse : function() {
-        Ext.getCmp('glatosProjectStatusesGridPanel').expand();
-      }
-      ,expand  : function() {
-        Ext.getCmp('glatosProjectStatusesGridPanel').collapse();
-        syncGlatos();
-      }
-    }
+    })
   });
 
   var mainPanel = new Ext.Panel({
@@ -333,8 +351,61 @@ function init() {
           ,glatosStudiesGridPanel
           ,glatosSeasonalGridPanel
           ,glatosFrequenciesGridPanel
-          ,glatosProjectStatusesGridPanel
-          ,glatosTimesFormPanel
+          ,new Ext.Panel({
+             title       : 'Filter by status, date, or year'
+            ,id          : 'glatosStatusTimePanel'
+            ,border      : false
+            ,bodyStyle   : 'padding:7'
+            ,items       : [
+              new Ext.form.FieldSet({
+                 title          : '&nbsp;Status&nbsp;'
+                ,id             : 'glatosProjectStatusesFieldSet'
+                ,items          : glatosProjectStatusesGridPanel
+                ,checkboxToggle : true
+                ,listeners      : {render : function() {
+                  this.addListener('collapse',function() {
+                    checkOneFilter(this.id,false);
+                  });
+                  this.addListener('expand',function() {
+                    checkOneFilter(this.id,true);
+                    syncGlatos();
+                  });
+                }}
+              })
+              ,new Ext.form.FieldSet({
+                 title          : '&nbsp;Date&nbsp;'
+                ,id             : 'glatosTimesFieldSet'
+                ,items          : glatosTimesFormPanel
+                ,checkboxToggle : true
+                ,collapsed      : true
+                ,listeners      : {render : function() {
+                  this.addListener('collapse',function() {
+                    checkOneFilter(this.id,false);
+                  });
+                  this.addListener('expand',function() {
+                    checkOneFilter(this.id,true);
+                    syncGlatos();
+                  });
+                }}
+              })
+              ,new Ext.form.FieldSet({
+                 title          : '&nbsp;Year&nbsp;'
+                ,id             : 'glatosYearsFieldSet'
+                ,items          : glatosYearsFormPanel
+                ,checkboxToggle : true
+                ,collapsed      : true
+                ,listeners      : {render : function() {
+                  this.addListener('collapse',function() {
+                    checkOneFilter(this.id,false);
+                  });
+                  this.addListener('expand',function() {
+                    checkOneFilter(this.id,true);
+                    syncGlatos();
+                  });
+                }}
+              })
+            ]
+          })
         ]
       })
       ,new Ext.Panel({
@@ -559,15 +630,18 @@ function initMap() {
         ,callback : function(r) {
           var json        = new OpenLayers.Format.JSON().read(r.responseText);
           var frequencies = {};
+          var years       = {};
           for (var i in json) {
             if (json[i].geojson) {
               var geojson = new OpenLayers.Format.GeoJSON();
               var f       = geojson.read(json[i].geojson)[0];
               f.geometry.transform(proj4326,map.getProjectionObject());
               glatosDeployments.features.push(f);
+              years[glatosDeployments.start.getUTCFullYear()] = 1;
               if (f.attributes.start && isoStringToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
                 glatosDeployments.start = isoStringToDate(f.attributes.start);
               }
+              years[glatosDeployments.ending.getUTCFullYear()] = 1;
               if (f.attributes.recovered && isoStringToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
                 glatosDeployments.ending = isoStringToDate(f.attributes.recovered);
               }
@@ -603,6 +677,16 @@ function initMap() {
           Ext.getCmp('glatosTimesEnd').setMaxValue(glatosDeployments.ending);
           Ext.getCmp('glatosTimesStart').enable();
           Ext.getCmp('glatosTimesEnd').enable();
+
+          var sto = Ext.getCmp('glatosYearsComboBox').getStore();
+          for (var y in years) {
+           sto.add(new sto.recordType({year : y}));
+          }
+          sto.sort('year','DESC');
+          if (sto.getCount() > 0) {
+            Ext.getCmp('glatosYearsComboBox').setValue(sto.getAt(0).get('year'));
+          }
+          Ext.getCmp('glatosYearsComboBox').enable();
         }
       });
     }
@@ -642,7 +726,7 @@ function syncGlatos() {
   popupCtl.unselectAll();
 
   function glatosProjectStatusOK(studiesRec) {
-    if (Ext.getCmp('glatosProjectStatusesGridPanel').collapsed) {
+    if (Ext.getCmp('glatosProjectStatusesFieldSet').collapsed) {
       return true;
     }
     var ok = false;
@@ -684,8 +768,11 @@ function syncGlatos() {
   }
 
   var timeFilter = [];
-  if (!Ext.getCmp('glatosTimesFormPanel').collapsed && Ext.getCmp('glatosTimesStart').getValue() != '' && Ext.getCmp('glatosTimesEnd').getValue() != '') {
+  if (!Ext.getCmp('glatosTimesFieldSet').collapsed && Ext.getCmp('glatosTimesStart').getValue() != '' && Ext.getCmp('glatosTimesEnd').getValue() != '') {
     timeFilter = [Ext.getCmp('glatosTimesStart').getValue().getTime(),Ext.getCmp('glatosTimesEnd').getValue().getTime()];
+  }
+  else if (!Ext.getCmp('glatosYearsFieldSet').collapsed) {
+    timeFilter = [new Date(Ext.getCmp('glatosYearsComboBox').getValue(),0,1,0,0,0,0),new Date(Number(Ext.getCmp('glatosYearsComboBox').getValue()) + 1,0,1,0,0,0,0)];
   }
 
   var f = [];
@@ -713,4 +800,22 @@ function syncGlatos() {
   }
 
   deploymentsLayer.addFeatures(f);
+}
+
+function checkOneFilter(id,cked) {
+  var a = ['glatosProjectStatusesFieldSet','glatosTimesFieldSet','glatosYearsFieldSet'];
+  for (var i = 0; i < a.length; i++) {
+    Ext.getCmp(a[i]).suspendEvents();
+  }
+  for (var i = 0; i < a.length; i++) {
+    if ((cked && a[i] == id) || (!cked && i == 0)) {
+      Ext.getCmp(a[i]).expand();
+    }
+    else {
+      Ext.getCmp(a[i]).collapse();
+    }
+  }
+  for (var i = 0; i < a.length; i++) {
+    Ext.getCmp(a[i]).resumeEvents();
+  }
 }
