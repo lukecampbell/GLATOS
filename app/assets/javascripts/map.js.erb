@@ -355,7 +355,7 @@ function init() {
              title       : 'Filter by status, date, or year'
             ,id          : 'glatosStatusTimePanel'
             ,border      : false
-            ,bodyStyle   : 'padding:7'
+            ,bodyStyle   : 'padding: 7px 7px 7px 7px'
             ,items       : [
               new Ext.form.FieldSet({
                  title          : '&nbsp;Status&nbsp;'
@@ -368,6 +368,7 @@ function init() {
                   });
                   this.addListener('expand',function() {
                     checkOneFilter(this.id,true);
+                    this.doLayout();
                     syncGlatos();
                   });
                 }}
@@ -384,6 +385,7 @@ function init() {
                   });
                   this.addListener('expand',function() {
                     checkOneFilter(this.id,true);
+                    this.doLayout();
                     syncGlatos();
                   });
                 }}
@@ -400,6 +402,7 @@ function init() {
                   });
                   this.addListener('expand',function() {
                     checkOneFilter(this.id,true);
+                    this.doLayout();
                     syncGlatos();
                   });
                 }}
