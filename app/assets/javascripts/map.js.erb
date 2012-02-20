@@ -342,15 +342,26 @@ function init() {
         ,id        : 'mapPanel'
         ,items     : {
            border    : false
-          ,html      : '<div id="map"><div id="changeBasemap"></div></div>'
+          ,html      : '<div id="map"><div id="resetMap"></div><div id="changeBasemap"></div></div>'
           ,listeners : {afterrender : function() {
             initMap();
             if (Ext.isIE) {
               Ext.getCmp('mapPanel').fireEvent('bodyresize');
             }
             new Ext.Button({
+               renderTo : 'resetMap'
+              ,text     : 'Reset map<br>zoom'
+              ,width    : 102
+              ,scale    : 'large'
+              ,icon     : "<%= asset_path 'zoom_extend.png' %>"
+              ,handler  : function() {
+                map.setCenter(new OpenLayers.LonLat(-9367578.6331264,5443194.7163551),6);
+              }
+            });
+            new Ext.Button({
                renderTo : 'changeBasemap'
               ,text     : 'Change map<br>background'
+              ,width    : 102
               ,scale    : 'large'
               ,icon     : "<%= asset_path 'map.png' %>"
               ,handler  : function() {
