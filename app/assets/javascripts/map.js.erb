@@ -45,6 +45,7 @@ var dNow = new Date();
 dNow.setMinutes(0);
 dNow.setSeconds(0);
 var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
+var timeFiltersReady    = 0;
 
 if (Ext.isIE && (parseFloat(navigator.appVersion.split("MSIE")[1]) >= 9) && (typeof Range.prototype.createContextualFragment == "undefined")) {
     Range.prototype.createContextualFragment = function(html) {
@@ -364,6 +365,7 @@ function init() {
                 ,checkboxToggle : true
                 ,autoHeight     : true
                 ,listeners      : {render : function() {
+                  timeFiltersReady++;
                   this.addListener('collapse',function() {
                     checkOneFilter(this.id,false);
                   });
@@ -381,6 +383,7 @@ function init() {
                 ,checkboxToggle : true
                 ,collapsed      : true
                 ,listeners      : {render : function() {
+                  timeFiltersReady++;
                   this.addListener('collapse',function() {
                     checkOneFilter(this.id,false);
                   });
@@ -398,7 +401,8 @@ function init() {
                 ,checkboxToggle : true
                 ,collapsed      : true
                 ,listeners      : {render : function() {
-                  this.addListener('collapse',function() {
+                 timeFiltersReady++;
+                 this.addListener('collapse',function() {
                     checkOneFilter(this.id,false);
                   });
                   this.addListener('expand',function() {
@@ -807,6 +811,9 @@ function syncGlatos() {
 }
 
 function checkOneFilter(id,cked) {
+  if (timeFiltersReady < 3) {
+    return;
+  }
   var a = ['glatosProjectStatusesFieldSet','glatosTimesFieldSet','glatosYearsFieldSet'];
   for (var i = 0; i < a.length; i++) {
     Ext.getCmp(a[i]).suspendEvents();
