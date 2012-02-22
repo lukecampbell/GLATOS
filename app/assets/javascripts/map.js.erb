@@ -513,19 +513,30 @@ function initMap() {
           popupObs.hide();
         }
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
+        var status = [e.feature.attributes.start,e.feature.attributes.ending];
+        var status = 'ongoing'
+        if (dNow < e.feature.attributes.start) {
+          status = 'proposed';
+        }
+        else if (e.feature.attributes.ending < dNow) {
+          status = 'finished';
+        }
         var tr  = [
            "<tr><td colspan=2 style='text-align:center'><b>" + rec.get('title') + "</b></td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><img height=4 src='<%= asset_path 'blank.png' %>'></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><table width='100%'>"
+            ,"<tr><td class='obsInnerPopup'>status</td><td class='obsInnerPopupVal'>" + status + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
             ,(e.feature.attributes.otn_array.waterbody ? "<tr><td class='obsInnerPopup'>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
           ,"</table></td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><img height=4 src='<%= asset_path 'blank.png' %>'></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='/studies/" + e.feature.attributes.study_id + "'>project home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
-           title     : rec.get('name') + '&nbsp;-&nbsp;Site&nbsp;' + e.feature.attributes.code
+           title     : e.feature.attributes.code + '&nbsp;-&nbsp;Site&nbsp;' + rec.get('name')
           ,items     : {bodyCssClass : 'obsPopup',html : '<table>' + tr.join('') + '</table>'}
           ,anchor    : 'bottom'
           ,width     : 345
