@@ -1,4 +1,3 @@
-var mainPanel;
 var map;
 var proj900913 = new OpenLayers.Projection("EPSG:900913");
 var proj4326   = new OpenLayers.Projection("EPSG:4326");
@@ -45,7 +44,6 @@ var dNow = new Date();
 dNow.setMinutes(0);
 dNow.setSeconds(0);
 var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
-var timeFiltersReady    = 0;
 
 if (Ext.isIE && (parseFloat(navigator.appVersion.split("MSIE")[1]) >= 9) && (typeof Range.prototype.createContextualFragment == "undefined")) {
     Range.prototype.createContextualFragment = function(html) {
@@ -364,53 +362,29 @@ function init() {
                 ,items          : glatosProjectStatusesGridPanel
                 ,checkboxToggle : true
                 ,autoHeight     : true
-                ,listeners      : {render : function() {
-                  timeFiltersReady++;
-                  this.addListener('collapse',function() {
-                    checkOneFilter(this.id,false);
-                  });
-                  this.addListener('expand',function() {
-                    checkOneFilter(this.id,true);
-                    this.doLayout();
-                    syncGlatos();
-                  });
-                }}
+                ,onCheckClick   : function() {
+                  checkOneFilter(this.id,this.checkbox.dom.checked);
+                }
               })
               ,new Ext.form.FieldSet({
                  title          : '&nbsp;Date&nbsp;'
                 ,id             : 'glatosTimesFieldSet'
                 ,items          : glatosTimesFormPanel
                 ,checkboxToggle : true
-                ,collapsed      : true
-                ,listeners      : {render : function() {
-                  timeFiltersReady++;
-                  this.addListener('collapse',function() {
-                    checkOneFilter(this.id,false);
-                  });
-                  this.addListener('expand',function() {
-                    checkOneFilter(this.id,true);
-                    this.doLayout();
-                    syncGlatos();
-                  });
-                }}
+                ,onCheckClick   : function() {
+                  checkOneFilter(this.id,this.checkbox.dom.checked);
+                }
+                ,listeners      : {render : function() {this.checkbox.dom.checked = false}}
               })
               ,new Ext.form.FieldSet({
                  title          : '&nbsp;Year&nbsp;'
                 ,id             : 'glatosYearsFieldSet'
                 ,items          : glatosYearsFormPanel
                 ,checkboxToggle : true
-                ,collapsed      : true
-                ,listeners      : {render : function() {
-                 timeFiltersReady++;
-                 this.addListener('collapse',function() {
-                    checkOneFilter(this.id,false);
-                  });
-                  this.addListener('expand',function() {
-                    checkOneFilter(this.id,true);
-                    this.doLayout();
-                    syncGlatos();
-                  });
-                }}
+                ,onCheckClick   : function() {
+                  checkOneFilter(this.id,this.checkbox.dom.checked);
+                }
+                ,listeners      : {render : function() {this.checkbox.dom.checked = false}}
               })
             ]
           })
@@ -734,7 +708,7 @@ function syncGlatos() {
   popupCtl.unselectAll();
 
   function glatosProjectStatusOK(studiesRec) {
-    if (Ext.getCmp('glatosProjectStatusesFieldSet').collapsed) {
+    if (!Ext.getCmp('glatosProjectStatusesFieldSet').checkbox.dom.checked) {
       return true;
     }
     var ok = false;
@@ -754,7 +728,6 @@ function syncGlatos() {
   }
 
   deploymentsLayer.removeFeatures(deploymentsLayer.features);
-
   var studyFilter = {};
   var sel = Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().getSelections();
   for (var i = 0; i < sel.length; i++) {
@@ -776,10 +749,10 @@ function syncGlatos() {
   }
 
   var timeFilter = [];
-  if (!Ext.getCmp('glatosTimesFieldSet').collapsed && Ext.getCmp('glatosTimesStart').getValue() != '' && Ext.getCmp('glatosTimesEnd').getValue() != '') {
+  if (Ext.getCmp('glatosTimesFieldSet').checkbox.dom.checked && Ext.getCmp('glatosTimesStart').getValue() != '' && Ext.getCmp('glatosTimesEnd').getValue() != '') {
     timeFilter = [Ext.getCmp('glatosTimesStart').getValue().getTime(),Ext.getCmp('glatosTimesEnd').getValue().getTime()];
   }
-  else if (!Ext.getCmp('glatosYearsFieldSet').collapsed) {
+  else if (Ext.getCmp('glatosYearsFieldSet').checkbox.dom.checked) {
     timeFilter = [new Date(Ext.getCmp('glatosYearsComboBox').getValue(),0,1,0,0,0,0),new Date(Number(Ext.getCmp('glatosYearsComboBox').getValue()) + 1,0,1,0,0,0,0)];
   }
 
@@ -811,22 +784,20 @@ function syncGlatos() {
 }
 
 function checkOneFilter(id,cked) {
-  if (timeFiltersReady < 3) {
-    return;
-  }
   var a = ['glatosProjectStatusesFieldSet','glatosTimesFieldSet','glatosYearsFieldSet'];
   for (var i = 0; i < a.length; i++) {
     Ext.getCmp(a[i]).suspendEvents();
   }
   for (var i = 0; i < a.length; i++) {
     if ((cked && a[i] == id) || (!cked && i == 0)) {
-      Ext.getCmp(a[i]).expand();
+      Ext.getCmp(a[i]).checkbox.dom.checked = true;
     }
     else {
-      Ext.getCmp(a[i]).collapse();
+      Ext.getCmp(a[i]).checkbox.dom.checked = false;
     }
   }
   for (var i = 0; i < a.length; i++) {
     Ext.getCmp(a[i]).resumeEvents();
   }
+  syncGlatos();
 }
