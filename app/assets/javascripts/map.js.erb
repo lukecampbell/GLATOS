@@ -513,7 +513,6 @@ function initMap() {
           popupObs.hide();
         }
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
-        var status = [e.feature.attributes.start,e.feature.attributes.ending];
         var status = 'ongoing'
         if (dNow < e.feature.attributes.start) {
           status = 'proposed';
@@ -703,6 +702,10 @@ function dateToString(d) {
 }
 
 function syncGlatos() {
+  if (popupObs && popupObs.isVisible()) {
+    popupObs.hide();
+  }
+
   hiliteCtl.unselectAll();
   popupCtl.unselectAll();
 
