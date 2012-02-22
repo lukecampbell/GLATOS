@@ -8,33 +8,34 @@ var glatosDeployments  = {
   ,ending      : new Date()
   ,frequencies : []
 };
+var sm =  new OpenLayers.StyleMap({
+  'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+     pointRadius     : 6
+    ,fillColor       : '#e8bb99'
+    ,fillOpacity     : 0.7
+    ,strokeWidth     : 1
+    ,strokeColor     : '#b56529'
+    ,strokeOpacity   : 1
+  }))
+  ,'select' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+     pointRadius     : 6
+    ,fillColor       : '#99e9ae'
+    ,fillOpacity     : 0.7
+    ,strokeWidth     : 1
+    ,strokeColor     : '#1d8538'
+    ,strokeOpacity   : 1
+  }))
+  ,'temporary' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+     pointRadius     : 6
+    ,fillColor       : '#99BBE8'
+    ,fillOpacity     : 0.7
+    ,strokeWidth     : 1
+    ,strokeColor     : '#1558BB'
+    ,strokeOpacity   : 1
+  }))
+});
 var deploymentsLayer = new OpenLayers.Layer.Vector('Deployments',{
-  styleMap : new OpenLayers.StyleMap({
-    'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
-       pointRadius     : 6
-      ,fillColor       : '#e8bb99'
-      ,fillOpacity     : 0.7
-      ,strokeWidth     : 1
-      ,strokeColor     : '#b56529'
-      ,strokeOpacity   : 1
-    }))
-    ,'select' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
-       pointRadius     : 6
-      ,fillColor       : '#99e9ae'
-      ,fillOpacity     : 0.7
-      ,strokeWidth     : 1
-      ,strokeColor     : '#1d8538'
-      ,strokeOpacity   : 1
-    }))
-    ,'temporary' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
-       pointRadius     : 6
-      ,fillColor       : '#99BBE8'
-      ,fillOpacity     : 0.7
-      ,strokeWidth     : 1
-      ,strokeColor     : '#1558BB'
-      ,strokeOpacity   : 1
-    }))
-  })
+  styleMap : sm
 });
 var mouseoverObs;
 var popupObs;
@@ -447,24 +448,6 @@ function init() {
 }
 
 function initMap() {
-  deploymentsLayer.events.register('featuresadded',this,function(e) {
-    glatosStudiesStore.each(function(rec) {
-      rec.set('count',0);
-      rec.commit();
-    });
-    for (var i = 0; i < e.features.length; i++) {
-      var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.features[i].attributes.study_id));
-      rec.set('count',rec.get('count') + 1);
-      rec.commit();
-    }
-  });
-  deploymentsLayer.events.register('featuresremoved',this,function(e) {
-    glatosStudiesStore.each(function(rec) {
-      rec.set('count',0);
-      rec.commit();
-    });
-  });
-
   map = new OpenLayers.Map('map',{
      projection        : proj900913
     ,displayProjection : proj4326
@@ -669,6 +652,7 @@ function initMap() {
             Ext.getCmp('glatosYearsComboBox').setValue(sto.getAt(0).get('year'));
           }
           Ext.getCmp('glatosYearsComboBox').enable();
+          syncStudiesCounts();
         }
       });
     }
@@ -727,7 +711,6 @@ function syncGlatos() {
     return ok;
   }
 
-  deploymentsLayer.removeFeatures(deploymentsLayer.features);
   var studyFilter = {};
   var sel = Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().getSelections();
   for (var i = 0; i < sel.length; i++) {
@@ -776,11 +759,15 @@ function syncGlatos() {
         || (start <= timeFilter[0] && timeFilter[1] <= ending)
       ) : true)
     ) {
-      f.push(glatosDeployments.features[i]);
-    } 
+      deploymentsLayer.features[i].style = null;
+    }
+    else {
+      deploymentsLayer.features[i].style = OpenLayers.Feature.Vector.style["delete"];
+    }
   }
 
-  deploymentsLayer.addFeatures(f);
+  deploymentsLayer.redraw();
+  syncStudiesCounts();
 }
 
 function checkOneFilter(id,cked) {
@@ -800,4 +787,18 @@ function checkOneFilter(id,cked) {
     Ext.getCmp(a[i]).resumeEvents();
   }
   syncGlatos();
+}
+
+function syncStudiesCounts() {
+  glatosStudiesStore.each(function(rec) {
+    rec.set('count',0);
+    rec.commit();
+  });
+  for (var i = 0; i < deploymentsLayer.features.length; i++) {
+    if (!deploymentsLayer.features[i].style) {
+      var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',deploymentsLayer.features[i].attributes.study_id));
+      rec.set('count',rec.get('count') + 1);
+      rec.commit();
+    }
+  }
 }
