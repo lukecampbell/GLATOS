@@ -136,7 +136,7 @@ function init() {
           if (Ext.getCmp('glatosYearsComboBox').getStore().getCount() > 0) {
             Ext.getCmp('glatosYearsComboBox').setValue(Ext.getCmp('glatosYearsComboBox').getStore().getAt(0).get('year'));
           }
-          checkOneFilter('glatosProjectStatusesFieldSet',true);
+          checkOneFilter('glatosProjectStatusesFieldSet',true,true);
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().resumeEvents();
           Ext.getCmp('glatosTimesStart').resumeEvents();
           Ext.getCmp('glatosTimesEnd').resumeEvents();
@@ -237,6 +237,7 @@ function init() {
     ,selModel         : glatosProjectStatusSelModel
     ,listeners        : {
       rowclick : function(grid,rowIndex,e) {
+        checkOneFilter('glatosProjectStatusesFieldSet',true,false);
         syncGlatos();
       }
       ,viewready : function(grid) {
@@ -264,6 +265,7 @@ function init() {
             ,allowBlank : false
             ,width      : 100
             ,listeners  : {change : function() {
+              checkOneFilter('glatosTimesFieldSet',true,false);
               syncGlatos();
             }}
           })}
@@ -275,6 +277,7 @@ function init() {
             ,allowBlank : false
             ,width      : 100
             ,listeners  : {change : function() {
+              checkOneFilter('glatosTimesFieldSet',true,false);
               syncGlatos();
             }}
           })}
@@ -326,6 +329,7 @@ function init() {
       ,editable       : false
       ,listeners      : {
         select : function(combo,rec) {
+          checkOneFilter('glatosYearsFieldSet',true,false);
           syncGlatos();
         }
       }
@@ -364,7 +368,7 @@ function init() {
                 ,checkboxToggle : true
                 ,autoHeight     : true
                 ,onCheckClick   : function() {
-                  checkOneFilter(this.id,this.checkbox.dom.checked);
+                  checkOneFilter(this.id,this.checkbox.dom.checked,true);
                 }
               })
               ,new Ext.form.FieldSet({
@@ -373,7 +377,7 @@ function init() {
                 ,items          : glatosTimesFormPanel
                 ,checkboxToggle : true
                 ,onCheckClick   : function() {
-                  checkOneFilter(this.id,this.checkbox.dom.checked);
+                  checkOneFilter(this.id,this.checkbox.dom.checked,true);
                 }
                 ,listeners      : {render : function() {this.checkbox.dom.checked = false}}
               })
@@ -383,7 +387,7 @@ function init() {
                 ,items          : glatosYearsFormPanel
                 ,checkboxToggle : true
                 ,onCheckClick   : function() {
-                  checkOneFilter(this.id,this.checkbox.dom.checked);
+                  checkOneFilter(this.id,this.checkbox.dom.checked,true);
                 }
                 ,listeners      : {render : function() {this.checkbox.dom.checked = false}}
               })
@@ -770,7 +774,7 @@ function syncGlatos() {
   syncStudiesCounts();
 }
 
-function checkOneFilter(id,cked) {
+function checkOneFilter(id,cked,sync) {
   var a = ['glatosProjectStatusesFieldSet','glatosTimesFieldSet','glatosYearsFieldSet'];
   for (var i = 0; i < a.length; i++) {
     Ext.getCmp(a[i]).suspendEvents();
@@ -786,7 +790,9 @@ function checkOneFilter(id,cked) {
   for (var i = 0; i < a.length; i++) {
     Ext.getCmp(a[i]).resumeEvents();
   }
-  syncGlatos();
+  if (sync) {
+    syncGlatos();
+  }
 }
 
 function syncStudiesCounts() {
