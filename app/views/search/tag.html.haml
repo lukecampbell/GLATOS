@@ -55,7 +55,9 @@ Looking for the
     $(".searcher").click(function(e) {
       e.preventDefault();
 
-      var phrase = $(".tags_input").val();
+      $('#table').dataTable().fnClearTable();
+
+      var phrase = $(".tags_input").val().replace("\r\n",",").replace("\n",",");
 
       $.ajax({
         type: "GET",
