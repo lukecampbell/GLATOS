@@ -11,7 +11,9 @@ Glatos::Application.routes.draw do
   resources :reports, :only => [:index, :new, :create, :destroy, :update, :show]
 
   resources :deployments, :only => [:index, :destroy]
-  resources :studies, :only => [:index, :show] do
+
+  # The projects controller is identical to the studies
+  resources :studies, :projects, :controller => :studies, :only => [:index, :show] do
     resources :deployments, :only => [:index, :destroy]
     resources :reports, :only => [:index, :destroy, :update]
   end

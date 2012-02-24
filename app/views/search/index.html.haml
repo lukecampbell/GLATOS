@@ -47,7 +47,7 @@
     text = "";
     text += "<div class='info'>";
       text += "<h4>";
-        text += "<a href='/studies/" + val.id + "'>" + val.name + "</a>";
+        text += "<a href='/projects/" + val.id + "'>" + val.name + "</a>";
       text += "</h4>";
 
       // TABLE
@@ -71,7 +71,7 @@
       text += "<table>";
         text += "<tbody>";
           text += buildRow("Model", val.model);
-          text += buildRow("Study", "<a href='/studies/" + val.study.id + "'>" + val.study.name + "</a></li>");
+          text += buildRow("Study", "<a href='/projects/" + val.study.id + "'>" + val.study.name + "</a></li>");
         text += "</tbody>";
       text += "</table>";
 
