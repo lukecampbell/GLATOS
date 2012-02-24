@@ -3,4 +3,3 @@
 //= require SearchField
 //= require map
 //= require util
-//= require site
