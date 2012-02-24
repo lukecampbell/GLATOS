@@ -295,6 +295,14 @@ div#search_tag_table {
 
 div#study_page {
 
+  li {
+    background-image: url(image-path('fish_bullet.png'));
+    background-repeat: no-repeat;
+    background-position: 0px 0px; 
+    padding-left: 20px;
+    line-height: 22px;
+  }
+
   div#listings {
     @include column(12);
     .lineitem {
