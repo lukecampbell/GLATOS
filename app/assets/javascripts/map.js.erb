@@ -264,10 +264,6 @@ function init() {
             ,showToday  : false
             ,allowBlank : false
             ,width      : 100
-            ,listeners  : {change : function() {
-              checkOneFilter('glatosTimesFieldSet',true,false);
-              syncGlatos();
-            }}
           })}
           ,{border : false,columnWidth : 0.05,layout : 'form',html : '-',bodyStyle : 'text-align:center'}
           ,{border : false,columnWidth : 0.47,layout : 'form',items : new Ext.form.DateField({
@@ -276,10 +272,6 @@ function init() {
             ,showToday  : false
             ,allowBlank : false
             ,width      : 100
-            ,listeners  : {change : function() {
-              checkOneFilter('glatosTimesFieldSet',true,false);
-              syncGlatos();
-            }}
           })}
         ]
       })
@@ -288,7 +280,7 @@ function init() {
         ,border      : false
         ,items       : [
            {border : false,columnWidth : 0.10,html : '&nbsp;'}
-          ,new Ext.Button({border : false,columnWidth : .30,text : 'OK'})
+          ,new Ext.Button({border : false,columnWidth : .30,text : 'OK',handler : function() {checkOneFilter('glatosTimesFieldSet',true,false);syncGlatos()}})
           ,{border : false,columnWidth : 0.20,html : '&nbsp;'}
           ,new Ext.Button({
              border      : false
@@ -513,11 +505,11 @@ function initMap() {
           popupObs.hide();
         }
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
-        var status = 'ongoing'
+        var status = 'ongoing';
         if (dNow < e.feature.attributes.start) {
           status = 'proposed';
         }
-        else if (e.feature.attributes.ending < dNow) {
+        else if (e.feature.attributes.recovered && isoStringToDate(e.feature.attributes.recovered) < dNow) {
           status = 'finished';
         }
         var tr  = [
@@ -709,32 +701,10 @@ function syncGlatos() {
   hiliteCtl.unselectAll();
   popupCtl.unselectAll();
 
-  function glatosProjectStatusOK(studiesRec) {
-    if (!Ext.getCmp('glatosProjectStatusesFieldSet').checkbox.dom.checked) {
-      return true;
-    }
-    var ok = false;
-    var sel = Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().getSelections();
-    for (var i = 0; i < sel.length; i++) {
-      if (sel[i].get('name') == 'Ongoing') {
-        ok = ok || (studiesRec.get('start') < dNow && dNow < studiesRec.get('ending'));
-      }
-      if (sel[i].get('name') == 'Proposed') {
-        ok = ok || dNow < studiesRec.get('start');
-      }
-      if (sel[i].get('name') == 'Finished') {
-        ok = ok || studiesRec.get('ending') < dNow;
-      }
-    }
-    return ok;
-  }
-
   var studyFilter = {};
   var sel = Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().getSelections();
   for (var i = 0; i < sel.length; i++) {
-    if (glatosProjectStatusOK(sel[i])) {
-      studyFilter[sel[i].get('id')] = true;
-    }
+    studyFilter[sel[i].get('id')] = true;
   }
 
   var seasonalFilter = {};
@@ -754,15 +724,46 @@ function syncGlatos() {
     timeFilter = [Ext.getCmp('glatosTimesStart').getValue().getTime(),Ext.getCmp('glatosTimesEnd').getValue().getTime()];
   }
   else if (Ext.getCmp('glatosYearsFieldSet').checkbox.dom.checked) {
-    timeFilter = [new Date(Ext.getCmp('glatosYearsComboBox').getValue(),0,1,0,0,0,0),new Date(Number(Ext.getCmp('glatosYearsComboBox').getValue()) + 1,0,1,0,0,0,0)];
+    timeFilter = [new Date(Ext.getCmp('glatosYearsComboBox').getValue(),0,1,0,0,0,0).getTime(),new Date(Number(Ext.getCmp('glatosYearsComboBox').getValue()) + 1,0,1,0,0,0,0).getTime()];
+  }
+
+  var statusFilter = {};
+  sel = Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().getSelections();
+  for (var i = 0; i < sel.length; i++) {
+    if (sel[i].get('name') == 'Ongoing') {
+      statusFilter['ongoing'] = true;
+    }
+    if (sel[i].get('name') == 'Proposed') {
+      statusFilter['proposed'] = true;
+    }
+    if (sel[i].get('name') == 'Finished') {
+      statusFilter['finished'] = true;
+    }
+  }
+
+  function statusOK() {
+    if (!Ext.getCmp('glatosProjectStatusesFieldSet').checkbox.dom.checked) {
+      return true;
+    }
+    var ok = false;
+    if (statusFilter['ongoing']) {
+      ok = ok || start <= dNow && dNow <= recovered;
+    }
+    if (statusFilter['proposed']) {
+      ok = ok || dNow <= start;
+    }
+    if (statusFilter['finished']) {
+      ok = ok || recovered < dNow;
+    }
+    return ok;
   }
 
   var f = [];
   for (var i = 0; i < glatosDeployments.features.length; i++) {
     var start = isoStringToDate(glatosDeployments.features[i].attributes.start).getTime();
-    var ending = dNow;
-    if (glatosDeployments.features[i].attributes.ending) {
-      ending = isoStringToDate(glatosDeployments.features[i].attributes.ending).getTime();
+    var recovered = dNow.getTime();
+    if (glatosDeployments.features[i].attributes.recovered) {
+      recovered = isoStringToDate(glatosDeployments.features[i].attributes.recovered).getTime();
     }
     if (
       studyFilter[glatosDeployments.features[i].attributes.study_id]
@@ -773,9 +774,10 @@ function syncGlatos() {
       && (glatosDeployments.features[i].attributes.frequency ? frequencyFilter[glatosDeployments.features[i].attributes.frequency] : frequencyFilter['Unknown'])
       && (timeFilter.length == 2 ? (
         (timeFilter[0] <= start && start <= timeFilter[1])
-        || (timeFilter[0] <= ending && ending <= timeFilter[1])
-        || (start <= timeFilter[0] && timeFilter[1] <= ending)
+        || (timeFilter[0] <= recovered && recovered <= timeFilter[1])
+        || (start <= timeFilter[0] && timeFilter[1] <= recovered)
       ) : true)
+      && statusOK()
     ) {
       deploymentsLayer.features[i].style = null;
     }
