@@ -506,7 +506,7 @@ function initMap() {
         }
         var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
         var status = 'ongoing';
-        if (dNow < e.feature.attributes.start) {
+        if (e.feature.attributes.proposed == true) {
           status = 'proposed';
         }
         else if (e.feature.attributes.recovered && isoStringToDate(e.feature.attributes.recovered) < dNow) {
@@ -518,6 +518,7 @@ function initMap() {
           ,"<tr><td colspan=2 style='text-align:center'>" + (e.feature.attributes.start ? dateToString(isoStringToDate(e.feature.attributes.start)) : '') + " - " + (e.feature.attributes.recovered ? dateToString(isoStringToDate(e.feature.attributes.recovered)) : 'currently active') + "</td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><table width='100%'>"
             ,"<tr><td class='obsInnerPopup'>status</td><td class='obsInnerPopupVal'>" + status + "</td></tr>"
+            ,(status == 'proposed' ? "<tr><td class='obsInnerPopup'>funded</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.funded ? 'yes' : 'no') + "</td></tr>" : '')
             ,"<tr><td class='obsInnerPopup'>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
@@ -747,13 +748,13 @@ function syncGlatos() {
     }
     var ok = false;
     if (statusFilter['ongoing']) {
-      ok = ok || start <= dNow && dNow <= recovered;
+      ok = ok || !proposed && start <= dNow && dNow <= recovered;
     }
     if (statusFilter['proposed']) {
-      ok = ok || dNow <= start;
+      ok = ok || proposed;
     }
     if (statusFilter['finished']) {
-      ok = ok || recovered < dNow;
+      ok = ok || !proposed && recovered < dNow;
     }
     return ok;
   }
@@ -762,6 +763,7 @@ function syncGlatos() {
   for (var i = 0; i < glatosDeployments.features.length; i++) {
     var start = isoStringToDate(glatosDeployments.features[i].attributes.start).getTime();
     var recovered = dNow.getTime();
+    var proposed = glatosDeployments.features[i].attributes.proposed;
     if (glatosDeployments.features[i].attributes.recovered) {
       recovered = isoStringToDate(glatosDeployments.features[i].attributes.recovered).getTime();
     }
