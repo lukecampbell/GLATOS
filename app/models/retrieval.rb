@@ -24,6 +24,24 @@ class Retrieval < ActiveRecord::Base
   def longitude(round=3)
     location.longitude.round(round)
   end
+
+  def load_data(file = "#{Rails.root}/lib/data/old/retrieval.csv")
+    require 'csv'
+    CSV.foreach(file, {:headers => true}) do |row|
+      dep = Deployment.find_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
+      return "No Deployment found for the retrival" unless dep
+      ret = Retrieval.find_or_initialize_by_deployment_id(dep.id)
+      ret.update_attributes(
+        {
+          :data_downloaded => row["DATA_DOWNLOADED"],
+          :ar_confirm => row["AR_CONFIRM"],
+          :recovered => Time.parse(row["RECOVER_DATE_TIME"] + " UTC"),
+          :location => "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
+        }
+      )
+    end
+  end
+
 end
 #
 # == Schema Information

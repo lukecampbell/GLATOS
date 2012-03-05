@@ -17,13 +17,7 @@ user.confirm!
 puts 'New admin user created: ' << user.email << "/" << ENV['WEB_ADMIN_PASSWORD']
 
 # OTN_ARRAY
-CSV.foreach("#{Rails.root}/lib/data/locations.csv", {:headers => true}) do |row|
-  OtnArray.create!({
-    :code => row['code'],
-    :description => row["Description"],
-    :waterbody => row["Waterbody"]
-  })
-end
+OtnArray.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Locations_20120301.csv")
 
 # STUDIES
 stm = Study.create! :code => "SMRSL",
@@ -159,43 +153,16 @@ dfo.user.confirm!
 crs.user.confirm!
 
 # DEPLOYMENTS
-CSV.foreach("#{Rails.root}/lib/data/deployment.csv", {:headers => true}) do |row|
-  freq = row["FREQUENCY"].to_s.gsub("kHz","").strip
-  freq = freq.empty? ? nil : freq
-  Deployment.create!({
-    :start => Time.strptime(row["DEPLOY_DATE_TIME"],"%m/%d/%Y").utc,
-    :study_id => Study.find_by_code(row["GLATOS_STUDY"]).id,
-    :location => "POINT(#{row['DEPLOY_LONG']} #{row['DEPLOY_LAT']})",
-    :otn_array_id => OtnArray.find_by_code(row["OTN_ARRAY"]).id,
-    :station => row["STATION_NO"].to_i,
-    :model => row["INS_MODEL_NUMBER"],
-    :seasonal => row["GLATOS_SEASONAL"] == "YES",
-    :frequency => freq
-  })
-end
+Deployment.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Deployment_20120301.csv")
+
+# PROPOSED DEPLOYMENTS
+Deployment.load_proposed_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Proposed_20120301.csv")
 
 # RETRIEVALS
-CSV.foreach("#{Rails.root}/lib/data/retrieval.csv", {:headers => true}) do |row|
-  Retrieval.create!({
-    :deployment => Deployment.find_by_otn_array_id_and_station(OtnArray.find_by_code(row["OTN_ARRAY"]).id,row["STATION_NO"]),
-    :data_downloaded => row["DATA_DOWNLOADED"],
-    :ar_confirm => row["AR_CONFIRM"],
-    :recovered => Time.strptime(row["RECOVER_DATE_TIME"],"%m/%d/%Y").utc,
-    :location => "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
-  })
-end
+Retrieval.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Recovery_20120301.csv")
 
 # TAGS
-CSV.foreach("#{Rails.root}/lib/data/tag.csv", {:headers => true}) do |row|
-  t = Tag.find_or_create_by_code_and_code_space_and_study_id(row["TAG_ID_CODE"], row["TAG_CODE_SPACE"], Study.find_by_code(row["GLATOS_STUDY"]).id)
-  td = TagDeployment.create!({
-    :common_name => Fish::TYPES.select{|s| /#{Regexp.escape(row["COMMON_NAME_E"].humanize)}/i.match(s)}.first,
-    :release_location => row["RELEASE_LOCATION"],
-    :release_date => Time.strptime(row["UTC_RELEASE_DATE_TIME"],"%m/%d/%Y").utc,
-    :tag_id => t.id,
-    :external_codes => [row["GLATOS_EXTERNAL_TAG_ID1"], row["GLATOS_EXTERNAL_TAG_ID2"]].compact.uniq
-  })
-end
+Tag.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Tagging_20120301.csv")
 
 # REPORTS
 Report.create! :input_tag => Tag.first.code,
