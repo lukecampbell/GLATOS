@@ -14,5 +14,6 @@ end
 #  code        :string(255)     indexed
 #  description :text
 #  waterbody   :string(255)
+#  region      :string(255)
 #
 

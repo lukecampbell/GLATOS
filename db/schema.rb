@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20120210195653) do
     t.string "code"
     t.text   "description"
     t.string "waterbody"
+    t.string "region"
   end
 
   add_index "otn_arrays", ["code"], :name => "index_otn_arrays_on_code"
