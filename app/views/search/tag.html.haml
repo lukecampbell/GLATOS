@@ -57,7 +57,7 @@ Looking for the
 
       $('#table').dataTable().fnClearTable();
 
-      var phrase = $(".tags_input").val().replace("\r\n",",").replace("\n",",");
+      var phrase = $(".tags_input").val().split(/\n/).join(",");
 
       $.ajax({
         type: "GET",
