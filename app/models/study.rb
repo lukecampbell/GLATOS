@@ -2,7 +2,7 @@ class Study < ActiveRecord::Base
   include PgSearch
 
   pg_search_scope :search_all,
-                  :against => [:code, :name, :description, :species, :benefits, :objectives, :organizations, :funding],
+                  :against => [:code, :name, :description, :species, :benefits, :objectives, :organizations, :investigators, :funding],
                   :using => {
                     :tsearch => {:prefix => true},
                     :trigram => {}
