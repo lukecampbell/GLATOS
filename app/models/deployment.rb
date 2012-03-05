@@ -26,7 +26,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def station
-    "%03d" % read_attribute(:station)
+    "%03d" % read_attribute(:station) rescue nil
   end
 
   def code
