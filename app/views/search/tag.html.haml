@@ -7,7 +7,7 @@
 
 %button{:class => 'searcher'} Search
 Looking for the 
-= link_to("study search?", search_path)
+= link_to("project search?", search_path)
 
 .clear
 
@@ -94,7 +94,7 @@ Looking for the
         { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.name",
           "fnCellRender": function (oObj){ return getFullName(oObj); },
           "fnRender": function (oObj){ return getFullName(oObj); },},
-        { "sTitle": "Study Page", "sName": "site", "mDataProp": null, "bSortable": false, 
+        { "sTitle": "Project Page", "sName": "site", "mDataProp": null, "bSortable": false, 
           "fnCellRender": function (oObj){ return getStudyLink(oObj); },
           "fnRender": function (oObj){ return makeStudyLink(oObj); },
         },
