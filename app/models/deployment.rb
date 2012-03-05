@@ -29,6 +29,10 @@ class Deployment < ActiveRecord::Base
     "%03d" % read_attribute(:station) rescue nil
   end
 
+  def rcv_modem_address
+    "%03d" % read_attribute(:rcv_modem_address) rescue nil
+  end
+
   def code
     "#{otn_array.code}-#{station}"
   end
@@ -56,23 +60,36 @@ class Deployment < ActiveRecord::Base
   end
 
   def ending
-    retrieval.recovered rescue nil
+    unless proposed
+      return retrieval.recovered rescue nil
+    else
+      return proposed_ending
+    end
   end
 
 end
+
 #
 # == Schema Information
 #
 # Table name: deployments
 #
-#  id           :integer         not null, primary key
-#  start        :datetime
-#  study_id     :integer
-#  location     :spatial({:srid= indexed
-#  otn_array_id :integer
-#  station      :integer
-#  model        :string(255)
-#  seasonal     :boolean
-#  frequency    :integer
+#  id                :integer         not null, primary key
+#  start             :datetime
+#  study_id          :integer
+#  location          :spatial({:srid= indexed
+#  otn_array_id      :integer
+#  station           :integer
+#  model             :string(255)
+#  seasonal          :boolean
+#  frequency         :integer
+#  riser_length      :integer
+#  bottom_depth      :integer
+#  instrument_depth  :integer
+#  instrument_serial :string(255)
+#  rcv_modem_address :integer
+#  deployed_by       :string(255)
+#  vps               :boolean
+#  consecutive       :integer
 #
 

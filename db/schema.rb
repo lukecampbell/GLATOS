@@ -11,17 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120210195653) do
+ActiveRecord::Schema.define(:version => 20120305034644) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
     t.integer  "study_id"
-    t.spatial  "location",     :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "location",          :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer  "otn_array_id"
     t.integer  "station"
     t.string   "model"
     t.boolean  "seasonal"
     t.integer  "frequency"
+    t.integer  "riser_length"
+    t.integer  "bottom_depth"
+    t.integer  "instrument_depth"
+    t.string   "instrument_serial"
+    t.integer  "rcv_modem_address"
+    t.string   "deployed_by"
+    t.boolean  "vps"
+    t.integer  "consecutive"
+    t.boolean  "proposed"
+    t.boolean  "funded"
+    t.datetime "proposed_ending"
   end
 
   add_index "deployments", ["location"], :name => "index_deployments_on_location", :spatial => true
@@ -128,7 +139,7 @@ ActiveRecord::Schema.define(:version => 20120210195653) do
     t.string   "stock"
     t.decimal  "length",                                                                                                :precision => 6, :scale => 2
     t.decimal  "weight",                                                                                                :precision => 6, :scale => 2
-    t.decimal  "age",                                                                                                   :precision => 5, :scale => 2
+    t.string   "age"
     t.string   "sex"
     t.boolean  "dna_sample_taken"
     t.string   "treatment_type"
@@ -145,13 +156,15 @@ ActiveRecord::Schema.define(:version => 20120210195653) do
     t.string   "buffer_concentration_in_anaesthetic"
     t.string   "anesthetic_concentration_in_recirculation"
     t.string   "buffer_concentration_in_recirculation"
-    t.integer  "do"
+    t.decimal  "do",                                                                                                    :precision => 6, :scale => 1
     t.text     "description"
     t.string   "release_group"
     t.string   "release_location"
     t.spatial  "release_geo",                               :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "release_date"
     t.string   "external_codes"
+    t.string   "length_type"
+    t.string   "implant_type"
   end
 
   add_index "tag_deployments", ["capture_geo"], :name => "index_tag_deployments_on_capture_geo", :spatial => true

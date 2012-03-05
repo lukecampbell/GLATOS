@@ -78,14 +78,41 @@ end
 #
 # Table name: studies
 #
-#  id          :integer         not null, primary key
-#  name        :string(255)     not null
-#  description :text
-#  start       :datetime
-#  ending      :datetime
-#  url         :string(255)
-#  species     :string(255)
-#  user_id     :integer
-#  code        :string(20)      not null
+#  id                      :integer         not null, primary key
+#  name                    :string(255)     not null
+#  description             :text
+#  start                   :datetime
+#  ending                  :datetime
+#  url                     :string(255)
+#  species                 :string(255)
+#  user_id                 :integer
+#  code                    :string(20)      not null
+#  title                   :text
+#  benefits                :text
+#  organizations           :text
+#  funding                 :text
+#  information             :text
+#  objectives              :text
+#  investigators           :text
+#  img_first_file_name     :string(255)
+#  img_first_content_type  :string(255)
+#  img_first_file_size     :integer
+#  img_first_updated_at    :datetime
+#  img_second_file_name    :string(255)
+#  img_second_content_type :string(255)
+#  img_second_file_size    :integer
+#  img_second_updated_at   :datetime
+#  img_third_file_name     :string(255)
+#  img_third_content_type  :string(255)
+#  img_third_file_size     :integer
+#  img_third_updated_at    :datetime
+#  img_fourth_file_name    :string(255)
+#  img_fourth_content_type :string(255)
+#  img_fourth_file_size    :integer
+#  img_fourth_updated_at   :datetime
+#  img_fifth_file_name     :string(255)
+#  img_fifth_content_type  :string(255)
+#  img_fifth_file_size     :integer
+#  img_fifth_updated_at    :datetime
 #
 

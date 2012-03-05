@@ -11,7 +11,7 @@ class Retrieval < ActiveRecord::Base
   end
 
   def geojson
-    removals = ["location","id","tag_deployment_id"]
+    removals = ["location","id","deployment_id"]
     s = self.attributes.delete_if {|key, value| removals.include?(key) }
     feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
     RGeo::GeoJSON.encode(feat)

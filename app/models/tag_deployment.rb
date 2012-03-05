@@ -59,6 +59,14 @@ class TagDeployment < ActiveRecord::Base
     end
   end
 
+  def starting
+    release_date
+  end
+
+  def ending
+    capture_date
+  end
+
 end
 #
 # == Schema Information
@@ -102,5 +110,7 @@ end
 #  release_geo                               :spatial({:srid= indexed
 #  release_date                              :datetime
 #  external_codes                            :string(255)
+#  length_type                               :string(255)
+#  implant_type                              :string(255)
 #
 

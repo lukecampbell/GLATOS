@@ -18,7 +18,7 @@ class Tag < ActiveRecord::Base
 
   belongs_to    :study
 
-  validates_uniqueness_of   :code, :code_space, :serial, :case_sensitive => false
+  validates_uniqueness_of   :code, :serial, :case_sensitive => false
 
   scope :find_match, lambda { |code| where("code ILIKE ? OR code_space ILIKE ?", "%#{code}%","%#{code}%").limit(1) }
 
