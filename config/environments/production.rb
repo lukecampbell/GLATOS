@@ -57,6 +57,9 @@ Glatos::Application.configure do
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.default :from => "glatos@glos.us"
 
+  # We run in the "glatos" subdirectory
+  config.action_controller.relative_url_root = "/glatos"
+
   # Enable threaded mode
   # config.threadsafe!
 
