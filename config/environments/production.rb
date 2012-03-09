@@ -50,11 +50,12 @@ Glatos::Application.configure do
   config.assets.precompile += %w( ie7.css ie6.css )
   config.assets.precompile += %w( printing.css )
 
-  config.action_mailer.default_url_options = { :host => 'glatos.asascience.com' }
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { :host => 'data.glos.us' }
+  config.action_mailer.delivery_method = :sendmail
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default :from => "glatos@glos.us"
 
   # Enable threaded mode
   # config.threadsafe!
