@@ -22,12 +22,6 @@ task :staging do
 	role :db, "ec2-50-19-25-251.compute-1.amazonaws.com", :primary => true
 end
 
-set :rvm_install_ruby, :install
-set :rvm_ruby_string, '1.9.3'
-
-before 'deploy:setup', 'rvm:install_rvm'
-after 'rvm:install_rvm', 'rvm:install_ruby'
-
 after "deploy:update_code","deploy:migrate"
 after "deploy:update", "deploy:cleanup"
 
@@ -45,5 +39,4 @@ namespace :deploy do
   end
 end
 
-require "rvm/capistrano"
 require "bundler/capistrano"

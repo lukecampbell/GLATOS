@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.3'
 
-gem 'thin'
 gem 'pg'
 
 group :assets do
@@ -15,13 +14,17 @@ end
 gem 'jquery-rails'
 
 group :development do
+  gem 'thin'
   gem 'capistrano'
   gem 'annotate', :git => 'http://github.com/ctran/annotate_models.git', :require => false
-  gem 'rvm-capistrano'
 end
 
 group :test, :development do
   gem 'rspec-rails'
+end
+
+group :production do
+  gem 'passenger', '3.0.11'
 end
 
 group :test do
