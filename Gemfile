@@ -1,15 +1,15 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.2.3'
 
 gem 'thin'
 gem 'pg'
 
 group :assets do
-  gem 'sprockets',    '~> 2.0.3'
-  gem 'sass-rails',   '~> 3.1.4'
-  gem 'coffee-rails', '~> 3.1.1'
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
+  gem 'compass-rails'
 end
 
 gem 'jquery-rails'
@@ -26,7 +26,8 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'cucumber-rails'
+  gem 'cucumber', '1.1.0'
+  gem 'cucumber-rails', '1.1.1'
   gem 'pickle'
   gem 'minitest'
   gem 'capybara'
@@ -42,7 +43,6 @@ gem 'activerecord-postgis-adapter'
 gem 'kaminari'
 gem 'devise'
 gem 'cancan'
-gem 'compass', '~> 0.12.alpha.0'
 gem 'haml'
 gem 'haml-rails'
 

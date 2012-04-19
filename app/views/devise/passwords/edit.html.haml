@@ -4,8 +4,9 @@
     = f.input :reset_password_token,  :as => :hidden
     = f.input :password
     = f.input :password_confirmation
-  = f.buttons do
-    = f.commit_button "Change my password"
+  = f.actions do
+    = f.action :submit, :as => :button, :label => "Change my password", :button_html => { :id => "Change my password"}
+
 
 %br
 

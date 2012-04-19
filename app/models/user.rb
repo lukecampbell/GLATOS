@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :organization, :password, :password_confirmation, :remember_me, :role, :requested_role, :approved
+  attr_accessible :name, :email, :organization, :password, :password_confirmation, :remember_me, :role, :requested_role, :approved, :newsletter, :address, :city, :state, :zipcode, :phone
 
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
@@ -33,16 +33,6 @@ class User < ActiveRecord::Base
   # Accounts need to be approved
   def active_for_authentication?
     super && approved?
-  end
-
-  def inactive_message
-    if !approved?
-      I18n.t("devise.failure.not_approved_capital")
-    elsif !confirmed?
-      I18n.t("devise.failure.unconfirmed")
-    else
-      super # Use whatever other message
-    end
   end
 
   def self.send_reset_password_instructions(attributes={})
@@ -89,4 +79,3 @@ end
 #  phone                  :string(255)
 #  newsletter             :boolean         default(FALSE)
 #
-

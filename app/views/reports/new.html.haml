@@ -1,11 +1,11 @@
 %p{:class => 'report_text'}
-  Did you catch a tagged fish?  …find a tag?  Claim your reward using the form below!  A researcher will contact you to arrange reward delivery and tag return.  Please remember:  tags are electronic devices and may contain important data - please 
+  Did you catch a tagged fish?  …find a tag?  Claim your reward using the form below!  A researcher will contact you to arrange reward delivery and tag return.  Please remember:  tags are electronic devices and may contain important data - please
   %span{:class => 'report_text reward'}
     do not freeze
   and handle with care!
 
 %p{:class => 'report_text'}
-  Note:  Fish caught with a jaw tag should not be reported here, but should be reported to the 
+  Note:  Fish caught with a jaw tag should not be reported here, but should be reported to the
   = link_to "Michigan DNR","http://www.michigandnr.com/taggedfish/"
   or the
   = link_to "Ohio DNR","http://ohiodnr.gov/Home/FishingSubhomePage/fisheriesmanagementplaceholder/taggedfish/tabid/21914/Default.aspx"
@@ -20,13 +20,13 @@
       = f.inputs :name => "1 - Contact Information", :id => "contact_info" do
 
         = f.input :name,                          :label => "Full Name", :input_html => {  :class => "updater"}
-        = f.input :address     
+        = f.input :address
 
-        
+
         = f.input :city,        :wrapper_html => {:class => "left-form-element"}
         = f.input :state,       :as => :select,   :label => "State/Province",     :collection => State::NAMES,  :wrapper_html => {:class => "right-form-element"}
-        
-        
+
+
         = f.input :zipcode,                       :label => "Zip Code",  :wrapper_html => {:class => "left-form-element"}
         = f.input :phone,       :as => :string,   :label => "Telephone",  :wrapper_html => {:class => "right-form-element"}
 
@@ -39,7 +39,7 @@
 
     .right-section
       %p{:class => "report_text"}
-        Your name and address are required so that we may process and mail your reward.  Information you provide will only be used for that purpose; it will not be shared.  
+        Your name and address are required so that we may process and mail your reward.  Information you provide will only be used for that purpose; it will not be shared.
       %p{:class => "report_text"}
         If you prefer to report your tag by phone, call the Hammond Bay Biological Station, 989-734-4768.
 
@@ -58,11 +58,11 @@
     .left-section
       = f.inputs :name => "4 - What did you do with the fish? *", :id => "did_with" do
         = f.input :didwith,      :as => :radio,  :collection => Report::DIDWITH,     :label => false
-  
+
     .right-section
       = f.inputs :name => "5 - When did you catch the fish? *", :id => "when_found" do
         = f.input :found,       :as => :string,  :label => false,   :input_html => { :readonly => true }
-  
+
   .clear
   .section
     .left-section
@@ -70,7 +70,7 @@
         = f.input :description, :label => "Capture Location Description (e.g., north of Blue Water Bridge)"
         = f.input :depth,       :label => "Depth of water (feet)"
         = f.input :location, :as => :string,   :label => "Coordinates (click approximate location on map)",  :input_html => {  :readonly => "readonly"}
-  
+
     .right-section{:style => "margin-top: 30px;"}
       %label{:style => "color: #58595B; font-weight: bold;"}
         Zoom in and out of the map until you locate the approximate location the tag was recovered.  Click on that location.
@@ -109,9 +109,9 @@
               No
           #internal_tag
             = f.input :input_tag,              :label => "Internal ID Tag Number", :input_html => {  :class => "updater"}
-        
+
         %br
-        
+
         .radios
           %p{:id => 'external_found'}
             %span{:class => 'report_text'}
@@ -157,7 +157,8 @@
       %br
       Review your ID Tag Number before submitting
 
-    = f.commit_button :button_html => { :value => 'Submit Tag Report', :disable_with => 'Wait...' },  :input_html => { :style => 'margin: 20px;' }
+    = f.actions do
+      = f.action :submit, :as => :button, :button_html => { :value => 'Submit Tag Report', :disable_with => 'Wait...' },  :input_html => { :style => 'margin: 20px;' }
 
   .clear
 
@@ -215,7 +216,7 @@
       $("#report_didwith_other").val($("#other_didwith_input").val());
     });
     var $radios = $('input[name="report[didwith]"]:radio');
-    if(($radios.is(':checked') === false) && ("#{@report.didwith}" != "")) { 
+    if(($radios.is(':checked') === false) && ("#{@report.didwith}" != "")) {
       $("#other_didwith_input").val("#{@report.didwith}");
       $("#other_didwith_input").keyup();
     }
@@ -302,7 +303,7 @@
     c += "\n";
     c += "\n";
     c += "Comments: " + $("#report_comments").val() + "\n";
-    
+
     $("#picture_paste").val(c);
   }
   updateEmailBody();

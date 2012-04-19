@@ -3,8 +3,8 @@
   = f.inputs do
     = f.input :email
 
-  = f.buttons do
-    = f.commit_button "Send me reset password instructions"
+  = f.actions do
+    = f.action :submit, :as => :button, :label => "Send me reset password instructions", :button_html => { :id => "Send me reset password instructions"}
 
 %br
 

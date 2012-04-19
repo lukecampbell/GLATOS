@@ -9,8 +9,8 @@
     = f.input :password
     = f.input :password_confirmation
     = f.input :newsletter, :label => "Subscribe to the GLATOS newsletter"
-  = f.buttons do
-    = f.commit_button "Sign up"
+  = f.actions do
+    = f.action :submit, :as => :button, :label => "Sign up", :button_html => { :id => "Sign up"}
 %br
 = render :partial => "devise/shared/links"
 

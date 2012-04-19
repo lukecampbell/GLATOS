@@ -3,12 +3,12 @@ Given /^no user exists with an email of "(.*)"$/ do |email|
 end
 
 Given /^I am logged in as an admin$/ do
-  user = Factory.build(:admin_user)
+  user = FactoryGirl.build(:admin_user)
   Given %{I sign in as "#{user.email}/#{user.password}"}
 end
 
 Given /^I am logged in as an approved user$/ do
-  user = Factory.build(:approved_user)
+  user = FactoryGirl.build(:approved_user)
   Given %{I sign in as "#{user.email}/#{user.password}"}
 end
 

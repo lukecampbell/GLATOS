@@ -17,7 +17,7 @@ Feature: Request Account
         | Password              | please          |
         | Password confirmation | please          |
     And I press "Sign up"
-    Then I should see "You have successfully requested an account"
+    Then I should see "A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
     And "user@test.com" should receive 1 email
     When I open the email
     And I should see "Confirm my account" in the email body
@@ -65,9 +65,9 @@ Feature: Request Account
     And I should see "investigator@glatos.org"
     And the user should not be approved
     Given no emails have been sent
-    When I follow "Approve" 
+    When I follow "Approve"
     Then "investigator@glatos.org" should receive 1 email
-    
+
   Scenario: User signs up with invalid email
     And I fill in the following:
         | Name                  | Testy McUserton |

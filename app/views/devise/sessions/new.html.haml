@@ -13,10 +13,8 @@
         - if devise_mapping.rememberable?
           = f.check_box :remember_me
           = f.label :remember_me
-      = f.buttons do
-        = f.commit_button "Sign in"
+      = f.actions do
+        = f.action :submit, :as => :button, :label => "Sign in", :button_html => { :id => "Sign in"}
 
     %br
   .clear
-
-    
