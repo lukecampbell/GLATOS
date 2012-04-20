@@ -25,7 +25,7 @@ class Retrieval < ActiveRecord::Base
     location.longitude.round(round)
   end
 
-  def load_data(file = "#{Rails.root}/lib/data/old/retrieval.csv")
+  def self.load_data(file = "#{Rails.root}/lib/data/old/retrieval.csv")
     require 'csv'
     CSV.foreach(file, {:headers => true}) do |row|
       dep = Deployment.find_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
@@ -55,4 +55,3 @@ end
 #  recovered       :datetime
 #  location        :spatial({:srid= indexed
 #
-

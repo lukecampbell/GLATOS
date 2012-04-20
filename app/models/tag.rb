@@ -30,7 +30,7 @@ class Tag < ActiveRecord::Base
     active_deployment.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
   end
 
-  def load_data(file = "#{Rails.root}/lib/data/old/tag.csv")
+  def self.load_data(file = "#{Rails.root}/lib/data/old/tag.csv")
     require 'csv'
     CSV.foreach(file, {:headers => true}) do |row|
       deployed_time = Time.parse(row["UTC_RELEASE_DATE_TIME"] + " UTC"),
@@ -113,4 +113,3 @@ end
 #  type         :string(255)
 #  description  :text
 #
-
