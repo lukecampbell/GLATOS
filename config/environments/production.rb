@@ -56,6 +56,7 @@ Glatos::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.default :from => "glatos@glos.us"
+  config.action_mailer.sendmail_settings = { :arguments => '-i -t -f glatos@glos.us' }
 
   # Enable threaded mode
   # config.threadsafe!
