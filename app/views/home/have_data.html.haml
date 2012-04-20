@@ -2,26 +2,25 @@
 
   %h2
     Have Data?
-  
+
   %p
     Are you a researcher conducting acoustic telemetry studies within the Laurentian Great Lakes Basin?  Are you ready to submit data about receiver locations (past, present, or future), or transmitters?  GLATOSWeb wants you!
 
-
   %p
-    The first step is to register as an Investigator 
-    = link_to "here.", new_user_registration_path
-    Once your registration is approved, the link below to the data submittal package will be enabled for download. 
-
-
-  %p
-    The 
-    - if can? :manage, Submission 
-      = link_to "GLATOSWeb Data Submittal Package", "#"
+    - if can? :manage, Submission
+      = link_to "Download", static_path("GLATOSWeb_Submittal.zip")
+      your GLATOSWeb Data Submittal Package
+      %br
+      = link_to "Submit", new_submission_path
+      your completed GLATOSWeb Data Submittal Package
     - else
-      GLATOSWeb Data Submittal Package
-
-    contains templates for the entry of project information, proposed receiver deployments, actual receiver locations, and transmitter/tag details. The package, a compressed .ZIP archive, also contains descriptions of necessary and recommended data and instructions for entering information into the templates and for submittal of the formatted information to GLATOSWeb.
+      The first step is to register as an Investigator
+      = link_to "here.", new_user_registration_path
+      Once your registration is approved, a link will appear on this page to download the GLATOSWeb Data Submittal Package.
 
   %p
-    Please direct questions about data submittal to 
+    The GLATOSWeb Data Submittal Package contains templates for the entry of project information, proposed receiver deployments, actual receiver locations, and transmitter/tag details. The package, a compressed .ZIP archive, also contains descriptions of necessary and recommended data and instructions for entering information into the templates and for submittal of the formatted information to GLATOSWeb.
+
+  %p
+    Please direct questions about data submittal to
     = link_to "GLATOSWeb@glfc.org", "mailto:GLATOSWeb@glfc.org"
