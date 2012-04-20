@@ -22,7 +22,8 @@ task :staging do
 	role :db, "ec2-50-19-25-251.compute-1.amazonaws.com", :primary => true
 end
 
-after "deploy:update_code","deploy:migrate"
+after "deploy:update_code","deploy:bundle"
+after "deploy:bundle","deploy:migrate"
 after "deploy:update", "deploy:cleanup"
 
 namespace :deploy do
@@ -37,6 +38,8 @@ namespace :deploy do
   task :migrate, :roles => :db, :only => { :primary => true } do
     run "cd #{latest_release}; RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
   end
+  desc "Run bundler"
+  task :bundle, :roles => [:web] do
+    run "cd #{latest_release}"#; sudo RAILS_ENV=#{rails_env} bundle install"
+  end
 end
-
-require "bundler/capistrano"
