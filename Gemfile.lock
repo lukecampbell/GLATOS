@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/nex3/sass.git
+  revision: 9e96a841ad39832b13e529e22ae8bdfc1e74ce13
+  specs:
+    sass (3.2.0.alpha.0)
+
+GIT
   remote: http://github.com/ctran/annotate_models.git
   revision: ff1131daee8c03dbcc4966b7914b77a7e3a62f02
   specs:
@@ -214,7 +220,6 @@ GEM
       railties (>= 3.0)
       rspec (~> 2.9.0)
     rubyzip (0.9.7)
-    sass (3.1.15)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -285,6 +290,7 @@ DEPENDENCIES
   rgeo
   rgeo-geojson
   rspec-rails
+  sass!
   sass-rails (~> 3.2.3)
   therubyracer
   thin
