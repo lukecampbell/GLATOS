@@ -25,6 +25,7 @@ end
 
 group :production do
   gem 'passenger', '3.0.11'
+  gem 'therubyracer'
 end
 
 group :test do
