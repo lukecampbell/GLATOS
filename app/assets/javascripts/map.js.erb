@@ -598,7 +598,7 @@ function initMap() {
 
       OpenLayers.Request.issue({
          method   : 'GET'
-        ,url      : "<%= config.deployed_prefix %>/deployments.geo"
+        ,url      : "<%= Rails.configuration.deployed_prefix %>/deployments.geo"
         ,callback : function(r) {
           var json        = new OpenLayers.Format.JSON().read(r.responseText);
           var frequencies = {};
