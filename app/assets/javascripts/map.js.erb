@@ -525,7 +525,7 @@ function initMap() {
             ,(e.feature.attributes.otn_array.waterbody ? "<tr><td class='obsInnerPopup'>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
           ,"</table></td></tr>"
           ,"<tr><td colspan=2 style='text-align:center'><img height=4 src='<%= asset_path 'blank.png' %>'></td></tr>"
-          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='/projects/" + e.feature.attributes.study_id + "'>project home page</a> for more information.</font></td></tr>"
+          ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='<%= projects_path%>/" + e.feature.attributes.study_id + "'>project home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
            title     : e.feature.attributes.code + '&nbsp;-&nbsp;Site&nbsp;' + rec.get('name')
@@ -556,7 +556,7 @@ function initMap() {
   glatosStudiesStore.fireEvent('beforeload');
   OpenLayers.Request.issue({
      method  : 'GET'
-    ,url     : '/projects.json'
+    ,url     : "#{projects_path({:format => :js})}"
     ,callback : function(r) {
       var json = new OpenLayers.Format.JSON().read(r.responseText);
       var menu = [];
@@ -598,7 +598,7 @@ function initMap() {
 
       OpenLayers.Request.issue({
          method   : 'GET'
-        ,url      : '/deployments.geo'
+        ,url      : "#{deployments_path({:format => :geo})}"
         ,callback : function(r) {
           var json        = new OpenLayers.Format.JSON().read(r.responseText);
           var frequencies = {};
