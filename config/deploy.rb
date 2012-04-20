@@ -1,7 +1,7 @@
 set :application, "GLATOS"
 set :scm, :git
 set :repository,  "git@github.com:asascience-open/GLATOS.git"
-set :deploy_to, "/home/glatos/application"
+set :deploy_to, "/var/www/applications/GLATOS"
 set :user, "glatos"
 set :use_sudo, false
 set :branch, "master"
