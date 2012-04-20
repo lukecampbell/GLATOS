@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html {
         # The grid page is really only meant for people that
-        # can adminster the study
+        # can administer the study
         if params[:study_id]
           authorize! :manage, study
         else

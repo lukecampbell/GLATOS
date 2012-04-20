@@ -12,6 +12,12 @@ Glatos::Application.routes.draw do
 
   resources :deployments, :only => [:index, :destroy]
 
+  resources :submissions, :only => [:new, :create, :show, :index, :destroy] do
+    member do
+      get 'analyze'
+    end
+  end
+
   # The projects controller is identical to the studies
   resources :studies, :projects, :controller => :studies, :only => [:index, :show] do
     resources :deployments, :only => [:index, :destroy]

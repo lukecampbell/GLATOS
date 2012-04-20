@@ -97,7 +97,7 @@
 
 #new_report {
   .commit {
-    
+
     list-style: none outside none;
 
     input {
@@ -138,5 +138,29 @@
     border: 1px solid #BBBBBB;
     margin: 0 0;
     padding: 3px 5px;
+  }
+}
+
+.submission {
+  ol, li {
+    list-style: none;
+  }
+  .file {
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    margin: 10px 0;
+    padding: 10px;
+
+    input {
+      width: 60%;
+      padding: 5px;
+    }
+  }
+
+  label {
+    display: none;
+  }
+  .actions {
+    padding:0 0 0 0;
   }
 }

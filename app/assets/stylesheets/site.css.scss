@@ -54,7 +54,7 @@ strong {
   a {
     color: #fff;
     text-decoration: none;
-    
+
   }
 
   .left {
@@ -234,7 +234,7 @@ ol.mission {
 
 
 div#acoustic_telemetry {
-  
+
   p {
     margin: 1.2em 0;
   }
@@ -252,7 +252,7 @@ div#acoustic_telemetry {
 }
 
 div#have_data {
-  
+
   p {
     margin: 1.2em 0;
   }
@@ -298,7 +298,7 @@ div#study_page {
   li {
     background-image: url(image-path('fish_bullet.png'));
     background-repeat: no-repeat;
-    background-position: 0px 0px; 
+    background-position: 0px 0px;
     padding-left: 20px;
     line-height: 22px;
   }
@@ -340,7 +340,7 @@ div#show_report {
   }
 
   td {
-    @include column(14,true);
+    @include column(12,true);
     border-bottom: 1px #6699CC dotted;
     text-align: left;
     color: #404040;
@@ -362,7 +362,7 @@ div#show_report {
 }
 
 div#about_page {
-  
+
   div#about_left {
     @include column(14);
   }
@@ -376,6 +376,4 @@ div#about_page {
       padding: 0 0 40px 0;
     }
   }
-
-
 }

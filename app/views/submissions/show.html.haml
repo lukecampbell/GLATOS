@@ -1,0 +1,40 @@
+#show_report
+
+  - if @submission
+
+    %p Here is information about the data submission
+
+    %table
+      %tbody
+        %tr
+          %td{:class => "label"}
+            Name
+          %td
+            = @submission.user.name
+        %tr
+          %td{:class => "label"}
+            Email
+          %td
+            = @submission.user.email
+        %tr
+          %td{:class => "label"}
+            Spreadsheet
+          %td
+            = link_to "Download", "#{request.protocol}#{request.host_with_port}#{@submission.spreadsheet.url}"
+        %tr
+          %td{:class => "label"}
+            Status
+          %td
+            = @submission.status.humanize
+        %tr
+          %td{:class => "label"}
+            Uploaded
+          %td
+            = @submission.created_at.in_time_zone
+    .clear
+
+  - if can? :manage, @submission
+    %p
+
+
+  %div{:style => "height: 400px;"}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120305034644) do
+ActiveRecord::Schema.define(:version => 20120420152930) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -124,6 +124,17 @@ ActiveRecord::Schema.define(:version => 20120305034644) do
     t.string   "img_fifth_content_type"
     t.integer  "img_fifth_file_size"
     t.datetime "img_fifth_updated_at"
+  end
+
+  create_table "submissions", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "spreadsheet_file_name"
+    t.string   "spreadsheet_content_type"
+    t.integer  "spreadsheet_file_size"
+    t.datetime "spreadsheet_updated_at"
+    t.string   "status"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
 
   create_table "tag_deployments", :force => true do |t|

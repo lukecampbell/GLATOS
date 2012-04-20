@@ -29,7 +29,7 @@
         "bDeferRender": true,
         "bFilter": false,
         "sPaginationType": "full_numbers",
-        "sAjaxSource": "/users.dataTable",
+        "sAjaxSource": "#{users_path({:format => :dataTable})}",
         "aoColumns": [
           { "sTitle": "Name", "sName": "name", "mDataProp": "name" },
           { "sTitle": "Email", "sName": "email", "mDataProp": "email" },
@@ -55,7 +55,7 @@
               var id = aData.DT_RowId;
               $.ajax({
                 type: "DELETE",
-                url: "/users/"+id+".js",
+                url: "#{users_path}/"+id+".js",
                 success: function(){
                   oTable.fnDraw();
                 },
@@ -72,7 +72,7 @@
             var role = $(e.target).val();
             $.ajax({
               type: "PUT",
-              url: "/users/"+id+".js",
+              url: "#{users_path}/"+id+".js",
               data: "user[role]="+role,
               success: function(){
                 oTable.fnDraw();
@@ -91,7 +91,7 @@
             var approved = !aData.approved
             $.ajax({
               type: "PUT",
-              url: "/users/"+id+".js",
+              url: "#{users_path}/"+id+".js",
               data: "user[approved]="+approved,
               success: function(){
                 oTable.fnDraw();
