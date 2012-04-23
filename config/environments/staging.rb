@@ -50,7 +50,7 @@ Glatos::Application.configure do
   config.assets.precompile += %w( ie7.css ie6.css )
   config.assets.precompile += %w( printing.css )
 
-  config.action_mailer.default_url_options = { :host => 'data.glos.us/glatos' }
+  config.action_mailer.default_url_options = { :host => 'data.glos.us/glatos-stage' }
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
