@@ -70,7 +70,6 @@ Glatos::Application.configure do
 
   # We run in the "glatos" subdirectory
   config.action_controller.relative_url_root = "/glatos-stage"
-  config.deployed_prefix = '/glatos-stage'
 
   Paperclip.options[:command_path] = "/usr/bin/"
 
