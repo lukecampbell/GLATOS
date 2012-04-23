@@ -9,7 +9,6 @@ set :deploy_via, :remote_cache
 
 task :production do
   set :deploy_to, "/var/www/applications/GLATOS"
-  set :relative_url, "/glatos"
   set :rails_env, "production"
   set :domain, "data.glos.us"
 	role :web,"glos.us"
@@ -18,7 +17,6 @@ end
 
 task :staging do
   set :deploy_to, "/var/www/applications/GLATOS-Stage"
-  set :relative_url, "/glatos-stage"
   set :rails_env, "staging"
   set :domain, "data.glos.us"
 	role :web,"glos.us"
@@ -27,8 +25,6 @@ end
 
 after "deploy:update_code","deploy:migrate"
 after "deploy:update", "deploy:cleanup"
-
-#set :asset_env, "RAILS_RELATIVE_URL_ROOT=#{relative_url} RAILS_GROUPS=assets"
 
 namespace :deploy do
 	task :restart, :roles => :web do
