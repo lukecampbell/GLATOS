@@ -7,7 +7,6 @@ $ yum install goes-devel proj-devel bison flex git gcc-c++ patch readline readli
 Install Ruby 1.9.2
 Install Postgres 9.0.5
 Install Postgis 1.5.3
-Install NodeJS 0.4.12
 Install ImageMagick.  /usr/bin/convert need to exist or by symlinked.
 
 # Symlink Postgis SQL scripts.  POSTGIS_DIR should be where postgis.sql is.
