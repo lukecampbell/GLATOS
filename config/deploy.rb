@@ -28,7 +28,7 @@ end
 after "deploy:update_code","deploy:migrate"
 after "deploy:update", "deploy:cleanup"
 
-set :asset_env, "RAILS_RELATIVE_URL_ROOT=#{relative_url} RAILS_GROUPS=assets"
+#set :asset_env, "RAILS_RELATIVE_URL_ROOT=#{relative_url} RAILS_GROUPS=assets"
 
 namespace :deploy do
 	task :restart, :roles => :web do
