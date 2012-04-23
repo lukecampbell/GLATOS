@@ -4,6 +4,7 @@ class Submission < ActiveRecord::Base
 
   has_attached_file :spreadsheet, {
     :url => "#{ActionController::Base.relative_url_root}/system/:class/:attachment/:id/:style/:basename.:extension",
+    :path => "public/system/:class/:attachment/:id/:style/:basename.:extension"
   }
 
   validates_presence_of :user
