@@ -18,6 +18,18 @@ test: &test
   script_dir: /usr/share/pgsql/contrib/postgis-1.5
   schema_search_path: public,postgis
 
+staging:
+  adapter: postgis
+  encoding: unicode
+  database: glatos_staging
+  port: 5433
+  pool: 5
+  username: glatos
+  password:
+  script_dir: /usr/local/pgsql/share/contrib/postgis-1.5/
+  schema_search_path: public,postgis
+  template: template0
+
 production:
   adapter: postgis
   encoding: unicode
