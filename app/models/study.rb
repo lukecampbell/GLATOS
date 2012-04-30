@@ -22,9 +22,9 @@ class Study < ActiveRecord::Base
 
   belongs_to  :user
 
-  has_many    :deployments
+  has_many    :deployments, :dependent => :destroy
 
-  has_many    :tags
+  has_many    :tags, :dependent => :destroy
 
   validates   :user, :presence => true
 
