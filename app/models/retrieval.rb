@@ -28,6 +28,8 @@ class Retrieval < ActiveRecord::Base
   def self.load_data(file = "#{Rails.root}/lib/data/old/retrieval.csv")
     require 'csv'
     CSV.foreach(file, {:headers => true}) do |row|
+      otna = OtnArray.find_by_code(row["GLATOS_ARRAY"])
+      return "No OtnArray with the code #{row["GLATOS_ARRAY"]}" unless otna
       dep = Deployment.find_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
       return "No Deployment found for the retrival" unless dep
       ret = Retrieval.find_or_initialize_by_deployment_id(dep.id)
