@@ -1,0 +1,29 @@
+#study_edit_page
+
+  %h2 #{@study.name}
+
+  = semantic_form_for(@study, :url => study_path(@study), :html => { :method => :put }) do |f|
+    = f.inputs do
+      = f.input :name
+      = f.input :description
+      = f.input :start
+      = f.input :ending
+      = f.input :url
+      = f.input :species
+      = f.input :code, :hint => "Before changing this, please beware of the consequences!"
+      = f.input :title
+      = f.input :information
+      = f.input :benefits
+      = f.input :organizations, :hint => "Seperate individial entries with a '=;='"
+      = f.input :funding, :hint => "Seperate individial entries with a '=;='"
+      = f.input :objectives, :hint => "Seperate individial entries with a '=;='"
+      = f.input :investigators, :hint => "Seperate individial entries with a '=;='"
+
+      = f.input :img_first, :label => "First Image"
+      = f.input :img_second, :label => "Second Image"
+      = f.input :img_third, :label => "Third Image"
+      = f.input :img_fourth, :label => "Fourth Image"
+      = f.input :img_fifth, :label => "Fifth Image"
+
+    = f.actions do
+      = f.action :submit, :as => :button, :label => "Update", :button_html => { :id => "Update"}

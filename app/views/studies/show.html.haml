@@ -1,5 +1,8 @@
 #study_page
 
+  - if can? :update, @study
+    = link_to "Edit this Project", edit_project_path(@study)
+
   %h2 #{@study.name}
 
   #listings
