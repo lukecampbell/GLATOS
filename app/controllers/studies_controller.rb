@@ -24,6 +24,7 @@ class StudiesController < ApplicationController
 
   def edit
     @study = Study.includes(:user).find(params[:id])
+    authorize! :update, @study
     respond_to do |format|
       format.html
     end
@@ -37,7 +38,7 @@ class StudiesController < ApplicationController
       redirect_to project_path(@study)
     else
       render :action => 'edit'
-    end 
+    end
   end
 
 end
