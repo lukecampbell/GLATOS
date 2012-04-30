@@ -20,7 +20,7 @@ class Tag < ActiveRecord::Base
 
   validates_uniqueness_of   :code, :serial, :case_sensitive => false
 
-  set_inheritance_column :none
+  self.inheritance_column = 'none'
 
   scope :find_match, lambda { |code| where("code ILIKE ? OR code_space ILIKE ?", "%#{code}%","%#{code}%").limit(1) }
 
