@@ -14,11 +14,11 @@ class Study < ActiveRecord::Base
                               ]
                   }
 
-  has_attached_file :img_first, :styles => { :medium => "360" }
-  has_attached_file :img_second, :styles => { :medium => "360" }
-  has_attached_file :img_third, :styles => { :medium => "360" }
-  has_attached_file :img_fourth, :styles => { :medium => "360" }
-  has_attached_file :img_fifth, :styles => { :medium => "360" }
+  has_attached_file :img_first, :styles => { :medium => "360", :thumb => "75" }
+  has_attached_file :img_second, :styles => { :medium => "360", :thumb => "75" }
+  has_attached_file :img_third, :styles => { :medium => "360", :thumb => "75" }
+  has_attached_file :img_fourth, :styles => { :medium => "360", :thumb => "75" }
+  has_attached_file :img_fifth, :styles => { :medium => "360", :thumb => "75" }
 
   belongs_to  :user
 
@@ -115,4 +115,3 @@ end
 #  img_fifth_file_size     :integer
 #  img_fifth_updated_at    :datetime
 #
-

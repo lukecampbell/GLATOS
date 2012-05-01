@@ -24,6 +24,7 @@ task :staging do
 end
 
 after "deploy:update_code","deploy:migrate"
+after("deploy:migrate","deploy:build_missing_paperclip_styles")
 after "deploy:update", "deploy:cleanup"
 
 namespace :deploy do
@@ -37,5 +38,9 @@ namespace :deploy do
   desc "Run rake db:migrate"
   task :migrate, :roles => :db, :only => { :primary => true } do
     run "cd #{latest_release}; RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
+  end
+  desc "Build missing paperclip styles"
+  task :build_missing_paperclip_styles, :roles => :web do
+    run "cd #{latest_release}; RAILS_ENV=#{rails_env} bundle exec rake paperclip:refresh:missing_styles"
   end
 end
