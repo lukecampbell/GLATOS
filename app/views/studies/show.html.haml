@@ -44,7 +44,7 @@
       %span
         Investigators:
       %ol
-        %li 
+        %li
           = "#{@study.user.name} (#{@study.user.organization}) - #{@study.user.email}"
         - @study.investigators.each do |inv|
           %li
@@ -72,11 +72,10 @@
       #{link_to @study.url, @study.url}
 
   #images
-    = image_tag @study.img_first.url(:medium) if @study.img_first?
-    = image_tag @study.img_second.url(:medium) if @study.img_second?
-    = image_tag @study.img_third.url(:medium) if @study.img_third?
-    = image_tag @study.img_fourth.url(:medium) if @study.img_fourth?
-    = image_tag @study.img_fifth.url(:medium) if @study.img_fifth?
+    = image_tag @study.img_first.url(:medium) if @study.img_first.exists?
+    = image_tag @study.img_second.url(:medium) if @study.img_second.exists?
+    = image_tag @study.img_third.url(:medium) if @study.img_third.exists?
+    = image_tag @study.img_fourth.url(:medium) if @study.img_fourth.exists?
+    = image_tag @study.img_fifth.url(:medium) if @study.img_fifth.exists?
 
   .clear
-
