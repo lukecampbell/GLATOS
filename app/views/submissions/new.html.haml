@@ -1,13 +1,15 @@
 %p
   The uploaded file should have the extension
   %strong
-    xlsm
-  and be based on the
+    zip
+  and be the result of clicking on the
   %strong
-    GLATOSWeb_DataForms.xlsm
-  file included in the Data Submission Package.
+    Create Submission Package
+  button in
+  %strong
+    GLATOSWeb_DataForms.xlsm.
 
 = semantic_form_for @submission, :html => { :multipart => true }, :url => submissions_path do |f|
-  = f.input :spreadsheet, :as => :file, :label => false
+  = f.input :zipfile, :as => :file, :label => false
   = f.actions do
     = f.action :submit, :as => :button, :label => "Upload"

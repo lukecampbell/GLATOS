@@ -15,6 +15,11 @@ Glatos::Application.routes.draw do
   resources :submissions, :only => [:new, :create, :show, :index, :destroy] do
     member do
       get 'analyze'
+      get 'parse'
+      get 'deployments'
+      get 'proposed'
+      get 'retrievals'
+      get 'tags'
     end
   end
 

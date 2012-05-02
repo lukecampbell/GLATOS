@@ -13,7 +13,7 @@
 
     function makeLink(oObj) {
       var text = "";
-      text += "<a href='" + oObj.aData.spreadsheet_url + "' class='linker'>View</a>";
+      text += "<a href='" + oObj.aData.zipfile_url + "' class='linker'>View</a>";
       return text;
     }
 
@@ -34,7 +34,7 @@
           { "sTitle": "Status", "sName": "status", "mDataProp": "status" },
           { "sTitle": "Name", "sName": "user.name", "mDataProp": "user.name", "bSortable": false },
           { "sTitle": "Email", "sName": "user.email", "mDataProp": "user.email", "bSortable": false },
-          { "sTitle": "Spreadsheet", "sName": "spreadsheet_url", "mDataProp": "spreadsheet_url", "bSortable": false, "fnRender": function (oObj){ return makeLink(oObj); }  },
+          { "sTitle": "Zipfile", "sName": "zipfile_url", "mDataProp": "zipfile_url", "bSortable": false, "fnRender": function (oObj){ return makeLink(oObj); }  },
           { "sTitle": "Actions", "sName": "action", "mDataProp": null, "bSortable": false, "fnRender": function (oObj){ return makeActionButtons(oObj); } }
         ],
         "fnDrawCallback": function(oSettings, json) {

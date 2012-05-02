@@ -18,9 +18,9 @@
             = @submission.user.email
         %tr
           %td{:class => "label"}
-            Spreadsheet
+            Zipfile
           %td
-            = link_to "Download", "#{request.protocol}#{request.host_with_port}#{@submission.spreadsheet.url}"
+            = link_to "Download", "#{request.protocol}#{request.host_with_port}#{@submission.zipfile.url}"
         %tr
           %td{:class => "label"}
             Status
@@ -34,7 +34,8 @@
     .clear
 
   - if can? :manage, @submission
-    %p
+    %br
+    = link_to "Analyze Submission", analyze_submission_path(@submission)
 
 
   %div{:style => "height: 400px;"}

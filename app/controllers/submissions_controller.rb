@@ -16,7 +16,7 @@ class SubmissionsController < ApplicationController
           :iTotalRecords => submissions.total_count,
           :iTotalDisplayRecords => submissions.total_count,
           :aaData => submissions.as_json({
-            :methods => [:DT_RowId, :spreadsheet_url],
+            :methods => [:DT_RowId, :zipfile_url],
             :only => [:status],
             :include => {:user => {
                           :only => [:name, :email]
@@ -64,6 +64,76 @@ class SubmissionsController < ApplicationController
 
   def analyze
     @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def parse
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    csvfiles = @submission.csvfiles
+    # OTN_ARRAY
+    otns, errors = OtnArray.load_data(csvfiles.grep(/location/i).first)
+    otns.map(&:save)
+    respond_to do |format|
+      format.js { render :json => {:errors => errors, :number => otns.size} }
+    end
+  end
+
+  def deployments
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    # DEPLOYMENTS
+    csvfiles = @submission.csvfiles
+    deps,errors = Deployment.load_data(csvfiles.grep(/deployment/i).first)
+    deps.each(&:save)
+    respond_to do |format|
+      format.js { render :json => {:errors => errors, :number => deps.size} }
+    end
+  end
+
+  def proposed
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    # PROPOSED DEPLOYMENTS
+    csvfiles = @submission.csvfiles
+    props,errors = Deployment.load_proposed_data(csvfiles.grep(/deployment/i).first)
+    props.each(&:save)
+    respond_to do |format|
+      format.js { render :json => {:errors => errors, :number => props.size} }
+    end
+  end
+
+  def retrievals
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    # RETRIEVALS
+    csvfiles = @submission.csvfiles
+    rets,errors = Retrieval.load_data(csvfiles.grep(/recover/i).first)
+    rets.each(&:save)
+    respond_to do |format|
+      format.js { render :json => {:errors => errors, :number => rets.size} }
+    end
+  end
+
+  def tags
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    # TAGS
+    csvfiles = @submission.csvfiles
+    tags,tagerrors = Tag.load_data(csvfiles.grep(/tagging/i).first)
+    tags.each(&:save)
+
+    # TAG DEPLOYMENTS
+    tagdeps,tagdeperrors = Tag.load_tag_deployments(csvfiles.grep(/tagging/i).first)
+    tagdeps.each(&:save)
+
+    errors = tagerrors + tagdeperrors
+    respond_to do |format|
+      format.js { render :json => {:errors => errors, :number => tags.size} }
+    end
   end
 
 end

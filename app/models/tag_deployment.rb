@@ -14,7 +14,7 @@ class TagDeployment < ActiveRecord::Base
                     :tsearch => {:prefix => true},
                     :trigram => {}
                   }
-  
+
   pg_search_scope :exact_match,
                   :against => [:external_codes],
                   :using => {
@@ -113,4 +113,3 @@ end
 #  length_type                               :string(255)
 #  implant_type                              :string(255)
 #
-

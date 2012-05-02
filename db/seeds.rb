@@ -17,7 +17,8 @@ user.confirm!
 puts 'New admin user created: ' << user.email << "/" << ENV['WEB_ADMIN_PASSWORD']
 
 # OTN_ARRAY
-OtnArray.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Locations_20120301.csv")
+otns = OtnArray.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Locations_20120301.csv")
+otns.each(&:save)
 
 # STUDIES
 stm = Study.create! :code => "SMRSL",
@@ -153,16 +154,27 @@ dfo.user.confirm!
 crs.user.confirm!
 
 # DEPLOYMENTS
-Deployment.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Deployment_20120301.csv")
+deps,deperrors = Deployment.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Deployment_20120301.csv")
+deps.map(&:save)
 
 # PROPOSED DEPLOYMENTS
-Deployment.load_proposed_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Proposed_20120301.csv")
+props,proerrors = Deployment.load_proposed_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Proposed_20120301.csv")
+props.map(&:save)
 
 # RETRIEVALS
-Retrieval.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Recovery_20120301.csv")
+rets,reterrors = Retrieval.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Recovery_20120301.csv")
+rets.map(&:save)
 
 # TAGS
-Tag.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Tagging_20120301.csv")
+tags,tagerrors = Tag.load_data("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Tagging_20120301.csv")
+tags.map(&:save)
+
+# Tag Deployments
+tagdeps,tagdeperrors = Tag.load_tag_deployments("#{Rails.root}/lib/data/SMRSL/SMRSL_GLATOS_Tagging_20120301.csv")
+tagdeps.map(&:save)
+
+errors = deperrors + proerrors + reterrors + tagerrors + tagdeperrors
+errors.each{|e| puts e}
 
 # REPORTS
 Report.create! :input_tag => Tag.first.code,

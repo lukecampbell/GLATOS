@@ -1,0 +1,114 @@
+#analyze_submission
+
+  - if @submission
+
+    %strong
+      #{@submission.zipfile_file_name}
+
+    %button{:id => 'parse'}
+      Analyze
+
+    %br
+    = image_tag('spinner-large.gif', :id => 'spin', :style => 'display: none;')
+
+    #errors
+
+  %div{:style => "height: 400px;"}
+
+
+:javascript
+
+  $(document).ready(function() {
+
+    function call_deployments() {
+      $("#spin").show();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{deployments_submission_path(@submission)}.js",
+        success: function(x){
+          call_proposed();
+        },
+        error: function(x){
+          alert('Failed to parse ' + x);
+        },
+        complete: function(){
+          $("#spin").hide()
+        }
+      });
+    }
+
+    function call_proposed() {
+      $("#spin").show();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{proposed_submission_path(@submission)}.js",
+        success: function(x){
+          call_retrievals();
+        },
+        error: function(x){
+          alert('Failed to parse ' + x);
+        },
+        complete: function(){
+          $("#spin").hide()
+        }
+      });
+    }
+
+    function call_retrievals() {
+      $("#spin").show();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{retrievals_submission_path(@submission)}.js",
+        success: function(x){
+          call_tags();
+        },
+        error: function(x){
+          alert('Failed to parse ' + x);
+        },
+        complete: function(){
+          $("#spin").hide()
+        }
+      });
+    }
+
+    function call_tags() {
+      $("#spin").show();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{tags_submission_path(@submission)}.js",
+        success: function(x){
+          alert("done")
+        },
+        error: function(x){
+          alert('Failed to parse ' + x);
+        },
+        complete: function(){
+          $("#spin").hide()
+        }
+      });
+    }
+
+    $("#parse").click(function(e) {
+      $("#spin").show();
+      e.preventDefault();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{parse_submission_path(@submission)}.js",
+        success: function(x){
+          call_deployments();
+        },
+        error: function(x){
+          alert('Failed to parse ' + x);
+        },
+        complete: function(){
+          $("#spin").hide()
+        }
+      });
+
+    });
+  });

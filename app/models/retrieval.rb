@@ -25,23 +25,40 @@ class Retrieval < ActiveRecord::Base
     location.longitude.round(round)
   end
 
-  def self.load_data(file = "#{Rails.root}/lib/data/old/retrieval.csv")
+  def self.load_data(file)
     require 'csv'
+    rets = []
+    errors = []
     CSV.foreach(file, {:headers => true}) do |row|
-      otna = OtnArray.find_by_code(row["GLATOS_ARRAY"])
-      return "No OtnArray with the code #{row["GLATOS_ARRAY"]}" unless otna
-      dep = Deployment.find_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
-      return "No Deployment found for the retrival" unless dep
-      ret = Retrieval.find_or_initialize_by_deployment_id(dep.id)
-      ret.update_attributes(
-        {
-          :data_downloaded => row["DATA_DOWNLOADED"],
-          :ar_confirm => row["AR_CONFIRM"],
-          :recovered => Time.parse(row["RECOVER_DATE_TIME"] + " UTC"),
-          :location => "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
-        }
-      )
+      begin
+        otna = OtnArray.find_by_code(row["GLATOS_ARRAY"])
+        unless otna
+          errors << "Error loading Retrieval - No OtnArray with the code #{row["GLATOS_ARRAY"]} - Data: #{row}"
+          next
+        end
+        dep = Deployment.find_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
+        unless dep
+          errors << "Error loading Retrieval - No Deployment found for STATION_NO #{row["STATION_NO"]} and CONSECUTIVE_DEPLOY_NO #{row["CONSECUTIVE_DEPLOY_NO"]} - Data: #{row}"
+          next
+        end
+        ret = Retrieval.find_or_initialize_by_deployment_id(dep.id)
+        ret.attributes =
+          {
+            :data_downloaded => row["DATA_DOWNLOADED"],
+            :ar_confirm => row["AR_CONFIRM"],
+            :recovered => Time.parse(row["RECOVER_DATE_TIME"] + " UTC"),
+            :location => "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
+          }
+        if ret.valid?
+          rets << ret
+        else
+          errors << "#{ret.errors.full_messages.join(" and ")} - Data: #{row}"
+        end
+      rescue
+        errors << "Error loading Retrieval - Data: #{row}"
+      end
     end
+    return rets, errors
   end
 
 end
