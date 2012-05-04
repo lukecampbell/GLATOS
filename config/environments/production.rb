@@ -47,6 +47,7 @@ Glatos::Application.configure do
   config.assets.precompile += %w( admin.js admin.css )
   config.assets.precompile += %w( explore.js explore.css )
   config.assets.precompile += %w( search.js search.css )
+  config.assets.precompile += %w( submission.js submission.css )
   config.assets.precompile += %w( ie7.css ie6.css )
   config.assets.precompile += %w( printing.css )
 

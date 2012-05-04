@@ -1,0 +1,32 @@
+%html
+  %head
+    %title= Glatos
+    = stylesheet_link_tag    "submission"
+    = stylesheet_link_tag    "printing", :media => "print"
+    /[if IE 6]
+      = stylesheet_link_tag 'ie6'
+    /[if IE 7]
+      = stylesheet_link_tag 'ie7'
+    = javascript_include_tag "submission"
+    = csrf_meta_tags
+
+  %body
+
+    #container
+
+      .header
+        = link_to "", root_path
+      .clear
+      #navigation
+        .left
+          = render 'shared/navigation'
+        .right
+          = render 'shared/glatos_navigation'
+
+      #content
+        - flash.each do |name, msg|
+          = content_tag :p, msg, :class => "flasher #{name}" if msg.is_a?(String)
+
+        = yield
+
+      .footer

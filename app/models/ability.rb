@@ -23,6 +23,8 @@ class Ability
 
   def investigator
     researcher
+    can :create, Study # For data submission
+    can :create, User # For data submission
     can :manage, Study, :user_id => @user.id
     can :manage, Tag, :study => { :user_id => @user.id }
     can :manage, Deployment, :study => { :user_id => @user.id }

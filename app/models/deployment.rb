@@ -71,7 +71,9 @@ class Deployment < ActiveRecord::Base
     require 'csv'
     deps = []
     errors = []
+    count = 0
     CSV.foreach(file, {:headers => true}) do |row|
+      count += 1
       begin
         otna = OtnArray.find_by_code(row["GLATOS_ARRAY"]) || otns.find{|o|o.code==row["GLATOS_ARRAY"]}
         unless otna
@@ -108,14 +110,16 @@ class Deployment < ActiveRecord::Base
         errors << "Error loading Deployment - Data: #{row}"
       end
     end
-    return deps, errors
+    return deps, errors, count
   end
 
   def self.load_proposed_data(file)
     require 'csv'
     props = []
     errors = []
+    count = 0
     CSV.foreach(file, {:headers => true}) do |row|
+      count += 1
       begin
         otna = OtnArray.find_by_code(row["GLATOS_ARRAY"])
         unless otna
@@ -145,7 +149,7 @@ class Deployment < ActiveRecord::Base
         errors << "Error loading Proposed Deployment - Data: #{row}"
       end
     end
-    return props, errors
+    return props, errors, count
   end
 end
 

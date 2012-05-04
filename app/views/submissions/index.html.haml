@@ -7,7 +7,7 @@
     function makeActionButtons(oObj) {
       var text = "";
       text += "<a href='#' class='destroyer'>Delete</a> ";
-      text += "<a href='#{submissions_path}/" + oObj.aData.DT_RowId + "' class='analyzer'>Analyze</a> ";
+      text += "<a href='#{submissions_path}/" + oObj.aData.DT_RowId + "/analyze' class='analyzer'>Analyze</a> ";
       return text;
     }
 

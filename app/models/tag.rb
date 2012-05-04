@@ -58,7 +58,9 @@ class Tag < ActiveRecord::Base
     require 'csv'
     tag_deployments = []
     errors = []
+    count = 0
     CSV.foreach(file, {:headers => true}) do |row|
+      count += 1
       begin
         begin
           deployed_time = Tag.get_deployed_time(row)
@@ -122,14 +124,16 @@ class Tag < ActiveRecord::Base
         errors << "Error loading Tag - Data: #{row}"
       end
     end
-    return tag_deployments, errors
+    return tag_deployments, errors, count
   end
 
   def self.load_data(file = "#{Rails.root}/lib/data/old/tag.csv")
     require 'csv'
     tags = []
     errors = []
+    count = 0
     CSV.foreach(file, {:headers => true}) do |row|
+      count += 1
       begin
         begin
           deployed_time = Tag.get_deployed_time(row)
@@ -157,7 +161,7 @@ class Tag < ActiveRecord::Base
         errors << "Error loading Tag - Data: #{row}"
       end
     end
-    return tags, errors
+    return tags, errors, count
   end
 
   def self.decimal_or_nil(input)

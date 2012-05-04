@@ -1,5 +1,7 @@
 class SubmissionsController < ApplicationController
 
+  layout 'submission'
+
   def index
     authorize! :manage, Submission
     respond_to do |format|
@@ -64,6 +66,7 @@ class SubmissionsController < ApplicationController
 
   def analyze
     @submission = Submission.find(params[:id])
+    @submission.extract
     authorize! :manage, @submission
     respond_to do |format|
       format.html
@@ -73,12 +76,40 @@ class SubmissionsController < ApplicationController
   def parse
     @submission = Submission.find(params[:id])
     authorize! :manage, @submission
+    authorize! :create, Study
+    authorize! :create, User
+    csvfiles = @submission.csvfiles
+    # Project
+    user,study,errors = Study.load_data(csvfiles.grep(/project/i).first)
+    respond_to do |format|
+      format.js { render :json => {:errors => errors, :study => study, :user => user} }
+    end
+  end
+
+  def project
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
+    authorize! :create, Study
+    authorize! :create, User
+    csvfiles = @submission.csvfiles
+    # Save Project
+    user,study,errors = Study.load_data(csvfiles.grep(/project/i).first)
+    user.save
+    study.save
+    respond_to do |format|
+      format.js { render :json => {:errors => errors} }
+    end
+  end
+
+  def locations
+    @submission = Submission.find(params[:id])
+    authorize! :manage, @submission
     csvfiles = @submission.csvfiles
     # OTN_ARRAY
-    otns, errors = OtnArray.load_data(csvfiles.grep(/location/i).first)
+    otns,errors,count = OtnArray.load_data(csvfiles.grep(/location/i).first)
     otns.map(&:save)
     respond_to do |format|
-      format.js { render :json => {:errors => errors, :number => otns.size} }
+      format.js { render :json => {:errors => errors, :total => count, :saved => otns.size} }
     end
   end
 
@@ -87,10 +118,10 @@ class SubmissionsController < ApplicationController
     authorize! :manage, @submission
     # DEPLOYMENTS
     csvfiles = @submission.csvfiles
-    deps,errors = Deployment.load_data(csvfiles.grep(/deployment/i).first)
+    deps,errors,count = Deployment.load_data(csvfiles.grep(/deployment/i).first)
     deps.each(&:save)
     respond_to do |format|
-      format.js { render :json => {:errors => errors, :number => deps.size} }
+      format.js { render :json => {:errors => errors, :total => count, :saved => deps.size} }
     end
   end
 
@@ -99,10 +130,10 @@ class SubmissionsController < ApplicationController
     authorize! :manage, @submission
     # PROPOSED DEPLOYMENTS
     csvfiles = @submission.csvfiles
-    props,errors = Deployment.load_proposed_data(csvfiles.grep(/deployment/i).first)
-    props.each(&:save)
+    props,errors,count = Deployment.load_proposed_data(csvfiles.grep(/proposed/i).first)
+    props.each(&:save!)
     respond_to do |format|
-      format.js { render :json => {:errors => errors, :number => props.size} }
+      format.js { render :json => {:errors => errors, :total => count, :saved => props.size} }
     end
   end
 
@@ -111,10 +142,10 @@ class SubmissionsController < ApplicationController
     authorize! :manage, @submission
     # RETRIEVALS
     csvfiles = @submission.csvfiles
-    rets,errors = Retrieval.load_data(csvfiles.grep(/recover/i).first)
+    rets,errors,count = Retrieval.load_data(csvfiles.grep(/recover/i).first)
     rets.each(&:save)
     respond_to do |format|
-      format.js { render :json => {:errors => errors, :number => rets.size} }
+      format.js { render :json => {:errors => errors, :total => count, :saved => rets.size} }
     end
   end
 
@@ -123,16 +154,15 @@ class SubmissionsController < ApplicationController
     authorize! :manage, @submission
     # TAGS
     csvfiles = @submission.csvfiles
-    tags,tagerrors = Tag.load_data(csvfiles.grep(/tagging/i).first)
+    tags,tagerrors,count1 = Tag.load_data(csvfiles.grep(/tagging/i).first)
     tags.each(&:save)
 
     # TAG DEPLOYMENTS
-    tagdeps,tagdeperrors = Tag.load_tag_deployments(csvfiles.grep(/tagging/i).first)
+    tagdeps,tagdeperrors,count2 = Tag.load_tag_deployments(csvfiles.grep(/tagging/i).first)
     tagdeps.each(&:save)
 
-    errors = tagerrors + tagdeperrors
     respond_to do |format|
-      format.js { render :json => {:errors => errors, :number => tags.size} }
+      format.js { render :json => {:errors => tagerrors + tagdeperrors, :total => count1, :saved => tags.size} }
     end
   end
 

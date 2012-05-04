@@ -5,13 +5,64 @@
     %strong
       #{@submission.zipfile_file_name}
 
-    %button{:id => 'parse'}
-      Analyze
+    (
+    = link_to "Download", @submission.zipfile.url
+    )
 
     %br
-    = image_tag('spinner-large.gif', :id => 'spin', :style => 'display: none;')
+    %br
 
-    #errors
+    %button{:id => 'analyze'}
+      Analyze Submission
+
+    %button{:id => 'process'}
+      Process Submission - All project data will be replaced!
+
+    %br
+    %br
+
+    #messages
+
+    %br
+    %br
+
+    #accordion
+      %h3{:id => 'project_h'}
+        = image_tag('spinner-small.gif', :id => 'projspin', :style => 'display: none;')
+        %a{:href => "#"}
+          Project
+      #project
+
+      %h3
+        = image_tag('spinner-small.gif', :id => 'locspin', :style => 'display: none;')
+        %a{:href => "#"}
+          Locations
+      #locations
+
+      %h3
+        = image_tag('spinner-small.gif', :id => 'depspin', :style => 'display: none;')
+        %a{:href => "#"}
+          Deployment
+      #deployments
+
+      %h3
+        = image_tag('spinner-small.gif', :id => 'propspin', :style => 'display: none;')
+        %a{:href => "#"}
+          Proposed
+      #proposed
+
+      %h3
+        = image_tag('spinner-small.gif', :id => 'retspin', :style => 'display: none;')
+        %a{:href => "#"}
+          Retrievals
+      #retrievals
+
+      %h3
+        = image_tag('spinner-small.gif', :id => 'tagspin', :style => 'display: none;')
+        %a{:href => "#"}
+          Tags
+      #tags
+
 
   %div{:style => "height: 400px;"}
 
@@ -20,95 +71,199 @@
 
   $(document).ready(function() {
 
+    $( "#accordion" ).maccordion({active: false});
+    $("#process").attr('disabled', true);
+    $("#analyze").removeAttr('disabled');
+
+    function call_locations() {
+      $("#locspin").show();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{locations_submission_path(@submission)}.js",
+        success: function(x) {
+          clear_results("#locations");
+          append_results("#locations", x);
+          $( "#accordion" ).maccordion("refresh");
+          $( "#accordion" ).maccordion( {active : [1] });
+          call_deployments();
+        },
+        error: function(x) {
+          alert('Failed to parse ' + x);
+        },
+        complete: function() {
+          $("#locspin").hide();
+        }
+      });
+    }
+
     function call_deployments() {
-      $("#spin").show();
+      $("#depspin").show();
       $.ajax({
         type: "GET",
         dataType: "json",
         url: "#{deployments_submission_path(@submission)}.js",
-        success: function(x){
+        success: function(x) {
+          clear_results("#deployments");
+          append_results("#deployments", x);
+          $( "#accordion" ).maccordion("refresh");
+          $( "#accordion" ).maccordion( {active : [2] });
           call_proposed();
         },
-        error: function(x){
+        error: function(x) {
           alert('Failed to parse ' + x);
         },
-        complete: function(){
-          $("#spin").hide()
+        complete: function() {
+          $("#depspin").hide();
         }
       });
     }
 
     function call_proposed() {
-      $("#spin").show();
+      $("#propspin").show();
       $.ajax({
         type: "GET",
         dataType: "json",
         url: "#{proposed_submission_path(@submission)}.js",
-        success: function(x){
+        success: function(x) {
+          clear_results("#proposed");
+          append_results("#proposed", x);
+          $( "#accordion" ).maccordion("refresh");
+          $( "#accordion" ).maccordion( {active : [3] });
           call_retrievals();
         },
-        error: function(x){
+        error: function(x) {
           alert('Failed to parse ' + x);
         },
-        complete: function(){
-          $("#spin").hide()
+        complete: function() {
+          $("#propspin").hide();
         }
       });
     }
 
     function call_retrievals() {
-      $("#spin").show();
+      $("#retspin").show();
       $.ajax({
         type: "GET",
         dataType: "json",
         url: "#{retrievals_submission_path(@submission)}.js",
-        success: function(x){
+        success: function(x) {
+          clear_results("#retrievals");
+          append_results("#retrievals", x);
+          $( "#accordion" ).maccordion("refresh");
+          $( "#accordion" ).maccordion( {active : [4] });
           call_tags();
         },
-        error: function(x){
+        error: function(x) {
           alert('Failed to parse ' + x);
         },
-        complete: function(){
-          $("#spin").hide()
+        complete: function() {
+          $("#retspin").hide();
         }
       });
     }
 
     function call_tags() {
-      $("#spin").show();
+      $("#tagspin").show();
       $.ajax({
         type: "GET",
         dataType: "json",
         url: "#{tags_submission_path(@submission)}.js",
-        success: function(x){
-          alert("done")
+        success: function(x) {
+          clear_results("#tags");
+          append_results("#tags", x);
+          $( "#accordion" ).maccordion("refresh");
+          $( "#accordion" ).maccordion( {active : [5] });
         },
         error: function(x){
           alert('Failed to parse ' + x);
         },
-        complete: function(){
-          $("#spin").hide()
+        complete: function() {
+          $("#tagspin").hide();
+          $("#messages").html("<div class='info'>Submission Complete.  Please check information on individual data sheets below.</div>")
         }
       });
     }
 
-    $("#parse").click(function(e) {
-      $("#spin").show();
+    function append_results(div_string, results) {
+
+      if (results.total != null) {
+        $(div_string).append("<div>Records in file: " + results.total + "</div>");
+      }
+      if (results.saved != null) {
+        $(div_string).append("<div>Records saved: " + results.saved + "</div>");
+      }
+      if (results.errors != null) {
+        $(div_string).append("<div>Errors (" + results.errors.length + "):");
+        errors_string = "<div><ul>";
+        $.each(results.errors, function(i,e) {
+          errors_string += "<li>" + e + "</li>";
+        });
+        errors_string += "<div><ul></div>";
+
+        $(div_string).append(errors_string);
+      }
+    }
+
+    function clear_results(div_string) {
+      $(div_string).html("");
+    }
+
+    $("#process").click(function(e) {
+      $("#projspin").show();
       e.preventDefault();
+      $("#process").attr('disabled', true);
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "#{project_submission_path(@submission)}.js",
+        success: function(x) {
+          clear_results("#project");
+          append_results("#project", x);
+          $( "#accordion" ).maccordion("refresh");
+          $( "#accordion" ).maccordion( {active : [0] });
+          call_locations();
+        },
+        error: function(x) {
+          alert('Failed to parse ' + x);
+        },
+        complete: function() {
+          $("#projspin").hide();
+        }
+      });
+    });
+
+    $("#analyze").click(function(e) {
+      $("#projspin").show();
+      e.preventDefault();
+      clear_results("#project");
+      clear_results("#locations");
+      clear_results("#deployments");
+      clear_results("#proposed");
+      clear_results("#retrievals");
+      clear_results("#tags");
+      $( "#accordion" ).maccordion("refresh");
       $.ajax({
         type: "GET",
         dataType: "json",
         url: "#{parse_submission_path(@submission)}.js",
-        success: function(x){
-          call_deployments();
+        success: function(x) {
+          append_results("#project", x)
+          $( "#accordion" ).maccordion("refresh");
+          if (x.errors.length == 0) {
+            $("#process").removeAttr("disabled");
+            $("#analyze").attr('disabled', true);
+          } else {
+            $( "#accordion" ).maccordion( {active : [0] });
+            $("#messages").html("<div class='error'>Errors found in project data.  Please update spreadsheet and try again.  Details below.</div>")
+          }
         },
-        error: function(x){
+        error: function(x) {
           alert('Failed to parse ' + x);
         },
-        complete: function(){
-          $("#spin").hide()
+        complete: function() {
+          $("#projspin").hide();
         }
       });
-
     });
   });

@@ -2,6 +2,8 @@ class Submission < ActiveRecord::Base
 
   belongs_to :user
 
+  before_destroy :destroy_extracted
+
   has_attached_file :zipfile, {
     :url => "#{ActionController::Base.relative_url_root}/system/:class/:attachment/:id/:style/:basename.:extension",
     :path => "public/system/:class/:attachment/:id/:style/:basename.:extension"
@@ -33,7 +35,16 @@ class Submission < ActiveRecord::Base
 
   end
 
+  def destroy_extracted
+    FileUtils.rm_f(self.csvfiles)
+    FileUtils.rm_f(self.xlsmfiles)
+  end
+
   def csvfiles
     return Dir[File.dirname(Rails.root + self.zipfile.path) + "/*.csv"]
+  end
+
+  def xlsmfiles
+    return Dir[File.dirname(Rails.root + self.zipfile.path) + "/*.xlsm"]
   end
 end

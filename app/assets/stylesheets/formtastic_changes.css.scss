@@ -174,3 +174,14 @@
 
   }
 }
+
+#analyze_submission {
+  button[disabled] {
+    background-color: #FF5959;
+    color: #fff;
+  }
+  button {
+    background-color: #ADFF5C;
+    color: #000;
+  }
+}

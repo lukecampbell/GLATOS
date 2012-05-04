@@ -29,7 +29,9 @@ class Retrieval < ActiveRecord::Base
     require 'csv'
     rets = []
     errors = []
+    count = 0
     CSV.foreach(file, {:headers => true}) do |row|
+      count += 1
       begin
         otna = OtnArray.find_by_code(row["GLATOS_ARRAY"])
         unless otna
@@ -58,7 +60,7 @@ class Retrieval < ActiveRecord::Base
         errors << "Error loading Retrieval - Data: #{row}"
       end
     end
-    return rets, errors
+    return rets, errors, count
   end
 
 end

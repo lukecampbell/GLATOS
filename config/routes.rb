@@ -20,6 +20,8 @@ Glatos::Application.routes.draw do
       get 'proposed'
       get 'retrievals'
       get 'tags'
+      get 'locations'
+      get 'project'
     end
   end
 

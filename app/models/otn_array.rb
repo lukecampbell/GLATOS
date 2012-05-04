@@ -4,11 +4,13 @@ class OtnArray < ActiveRecord::Base
 
   validates_presence_of :code
 
-  def self.load_data(file = "#{Rails.root}/lib/data/old/locations.csv")
+  def self.load_data(file)
     require 'csv'
     otns = []
     errors = []
+    count = 0
     CSV.foreach(file, {:headers => true}) do |row|
+      count += 1
       o = OtnArray.find_or_initialize_by_code(row['GLATOS_ARRAY'])
       o.attributes =
         {
@@ -22,7 +24,7 @@ class OtnArray < ActiveRecord::Base
         errors << "#{o.errors.full_messages.join(" and ")} - Data: #{row}"
       end
     end
-    return otns, errors
+    return otns, errors, count
   end
 
 end
