@@ -52,6 +52,14 @@ class Study < ActiveRecord::Base
     set_array(funds, :funding)
   end
 
+  def benefits
+    get_array(:benefits)
+  end
+
+  def benefits=(benefits)
+    set_array(benefits, :benefits)
+  end
+
   def investigators
     get_array(:investigators)
   end
