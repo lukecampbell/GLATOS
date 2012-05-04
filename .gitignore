@@ -6,3 +6,4 @@ tmp/
 *sublime*
 nohup.out
 public/system
+.rvmrc
