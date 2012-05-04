@@ -8,7 +8,7 @@
 %button{:class => 'searcher'} Search
 
 - if can? :manage, Tag
-  Looking for the 
+  Looking for the
   = link_to("tag search?", tag_search_path)
 
 .clear
@@ -42,12 +42,12 @@
     text += "</tr>";
     return text;
   }
-  
+
   function buildStudyBox(val) {
     text = "";
     text += "<div class='info'>";
       text += "<h4>";
-        text += "<a href='/projects/" + val.id + "'>" + val.name + "</a>";
+        text += "<a href='#{root_url}projects/" + val.id + "'>" + val.name + "</a>";
       text += "</h4>";
 
       // TABLE
@@ -71,7 +71,7 @@
       text += "<table>";
         text += "<tbody>";
           text += buildRow("Model", val.model);
-          text += buildRow("Study", "<a href='/projects/" + val.study.id + "'>" + val.study.name + "</a></li>");
+          text += buildRow("Study", "<a href='#{root_url}/projects/" + val.study.id + "'>" + val.study.name + "</a></li>");
         text += "</tbody>";
       text += "</table>";
 
