@@ -26,6 +26,11 @@
     %br
     %br
 
+    #project_info
+
+    %br
+    %br
+
     #accordion
       %h3{:id => 'project_h'}
         = image_tag('spinner-small.gif', :id => 'projspin', :style => 'display: none;')
@@ -180,7 +185,7 @@
         },
         complete: function() {
           $("#tagspin").hide();
-          $("#messages").html("<div class='info'>Submission Complete.  Please check information on individual data sheets below.</div>")
+          $("#messages").html("<div class='info'>Submission Complete.  Please check for information about individual data sheets below.</div>")
         }
       });
     }
@@ -188,21 +193,72 @@
     function append_results(div_string, results) {
 
       if (results.total != null) {
-        $(div_string).append("<div>Records in file: " + results.total + "</div>");
+        fstring  = "<table class='subtable'>";
+        fstring += "<tr><td class='label'>Records in File</td><td>"+results.total+"</td></tr>";
+        fstring += "</table>";
+        $(div_string).append(fstring);
       }
       if (results.saved != null) {
-        $(div_string).append("<div>Records saved: " + results.saved + "</div>");
+        fstring  = "<table class='subtable'>";
+        fstring += "<tr><td class='label'>Records Saved</td><td>"+results.saved+"</td></tr>";
+        fstring += "</table>";
+        $(div_string).append(fstring);
       }
       if (results.errors != null) {
-        $(div_string).append("<div>Errors (" + results.errors.length + "):");
-        errors_string = "<div><ul>";
-        $.each(results.errors, function(i,e) {
-          errors_string += "<li>" + e + "</li>";
-        });
-        errors_string += "<div><ul></div>";
+        fstring  = "<table class='subtable'>";
+        fstring += "<tr><td class='label'>Errors</td><td>"+results.errors.length+"</td></tr>";
+        fstring += "</table>";
+        $(div_string).append(fstring);
 
-        $(div_string).append(errors_string);
+        error_string  = "<table class='subtable'>";
+        $.each(results.errors, function(i,e) {
+          error_string += "<tr><td>" + e + "</td><td /></tr>"
+        });
+        error_string += "</table>";
+        $(div_string).append(error_string);
       }
+
+      if (results.study != null) {
+        study_string = "<table class='subtable'>";
+        study_string += "<tr><td class='label'>Project</td><td /></tr>";
+        study_string += "<tr><td class='label'>Code</td><td>" + results.study.code + "</td></tr>";
+        study_string += "<tr><td class='label'>Short Title</td><td>" + results.study.name + "</td></tr>";
+        study_string += "<tr><td class='label'>Title</td><td>" + results.study.title + "</td></tr>";
+        study_string += "<tr><td class='label'>Description</td><td>" + results.study.description + "</td></tr>";
+        study_string += "<tr><td class='label'>Start</td><td>" + results.study.start + "</td></tr>";
+        study_string += "<tr><td class='label'>End</td><td>" + results.study.ending + "</td></tr>";
+        study_string += "<tr><td class='label'>External URL</td><td>" + results.study.url + "</td></tr>";
+
+        $.each(results.study.benefits, function(i,e) {
+          study_string += "<tr><td class='label'>Benefit " + i + ":</td><td>" + e + "</td></tr>";
+        });
+        $.each(results.study.funding, function(i,e) {
+          study_string += "<tr><td class='label'>Funding Source " + i + ":</td><td>" + e + "</td></tr>";
+        });
+        $.each(results.study.investigators, function(i,e) {
+          study_string += "<tr><td class='label'>Investigator " + i + ":</td><td>" + e + "</td></tr>";
+        });
+        $.each(results.study.objectives, function(i,e) {
+          study_string += "<tr><td class='label'>Objective " + i + ":</td><td>" + e + "</td></tr>";
+        });
+        $.each(results.study.organizations, function(i,e) {
+          study_string += "<tr><td class='label'>Organization " + i + ":</td><td>" + e + "</td></tr>";
+        });
+        study_string += "</table>";
+        $(div_string).append(study_string);
+      }
+
+      if (results.user != null) {
+        user_string = "<table class='subtable'>";
+        user_string += "<tr><td class='label'>PI</td><td /></tr>";
+        user_string += "<tr><td class='label'>Name</td><td>" + results.user.name + "</td></tr>";
+        user_string += "<tr><td class='label'>Email</td><td>" + results.user.email + "</td></tr>";
+        user_string += "<tr><td class='label'>Organization</td><td>" + results.user.organization + "</td></tr>";
+        user_string += "<tr><td class='label'>Role</td><td>" + results.user.role + "</td></tr>";
+        user_string += "</table>";
+        $(div_string).append(user_string);
+      }
+
     }
 
     function clear_results(div_string) {
@@ -248,14 +304,13 @@
         dataType: "json",
         url: "#{parse_submission_path(@submission)}.js",
         success: function(x) {
-          append_results("#project", x)
-          $( "#accordion" ).maccordion("refresh");
+          append_results("#project_info", x)
           if (x.errors.length == 0) {
             $("#process").removeAttr("disabled");
             $("#analyze").attr('disabled', true);
+            $("#messages").html("<div class='info'>Please double check the Project and PI information below before submitting.</div>")
           } else {
-            $( "#accordion" ).maccordion( {active : [0] });
-            $("#messages").html("<div class='error'>Errors found in project data.  Please update spreadsheet and try again.  Details below.</div>")
+            $("#messages").html("<div class='error'>Errors found in project data.  Please update project information in the Zipfile and try again.  Details below.</div>")
           }
         },
         error: function(x) {

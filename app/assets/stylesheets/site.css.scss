@@ -377,3 +377,32 @@ div#about_page {
     }
   }
 }
+
+.subtable {
+  font-size: 10px;
+  background-color: #fafafa;
+  border: 1px #000000 solid;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin-top: 20px;
+
+  tr {
+    border-bottom: 1px #6699CC dotted;
+  }
+
+  td {
+    text-align: left;
+    color: #404040;
+    background-color: #fafafa;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 12px;
+    padding-right: 10px;
+  }
+
+  td.label {
+    text-align: right;
+    @include column(3);
+    font-weight: bold;
+  }
+}
