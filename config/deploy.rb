@@ -23,9 +23,9 @@ task :staging do
 	role :db, "glos.us", :primary => true
 end
 
-after "deploy:update_code","deploy:migrate"
-after("deploy:migrate","deploy:build_missing_paperclip_styles")
-after "deploy:update", "deploy:cleanup"
+after  "deploy:update_code","deploy:migrate"
+after  "deploy:migrate","deploy:build_missing_paperclip_styles"
+after  "deploy:update", "deploy:cleanup"
 
 namespace :deploy do
 	task :restart, :roles => :web do
