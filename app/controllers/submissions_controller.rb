@@ -96,6 +96,8 @@ class SubmissionsController < ApplicationController
     user,study,errors = Study.load_data(csvfiles.grep(/project/i).first)
     user.save
     study.save
+    study.deployments.destroy_all
+    study.tags.destroy_all
     respond_to do |format|
       format.js { render :json => {:errors => errors} }
     end
