@@ -87,10 +87,8 @@
         dataType: "json",
         url: "#{locations_submission_path(@submission)}.js",
         success: function(x) {
-          clear_results("#locations");
           append_results("#locations", x);
           $( "#accordion" ).maccordion("refresh");
-          $( "#accordion" ).maccordion( {active : [1] });
           call_deployments();
         },
         error: function(x) {
@@ -109,10 +107,8 @@
         dataType: "json",
         url: "#{deployments_submission_path(@submission)}.js",
         success: function(x) {
-          clear_results("#deployments");
           append_results("#deployments", x);
           $( "#accordion" ).maccordion("refresh");
-          $( "#accordion" ).maccordion( {active : [2] });
           call_proposed();
         },
         error: function(x) {
@@ -131,10 +127,8 @@
         dataType: "json",
         url: "#{proposed_submission_path(@submission)}.js",
         success: function(x) {
-          clear_results("#proposed");
           append_results("#proposed", x);
           $( "#accordion" ).maccordion("refresh");
-          $( "#accordion" ).maccordion( {active : [3] });
           call_retrievals();
         },
         error: function(x) {
@@ -153,10 +147,8 @@
         dataType: "json",
         url: "#{retrievals_submission_path(@submission)}.js",
         success: function(x) {
-          clear_results("#retrievals");
           append_results("#retrievals", x);
           $( "#accordion" ).maccordion("refresh");
-          $( "#accordion" ).maccordion( {active : [4] });
           call_tags();
         },
         error: function(x) {
@@ -175,10 +167,8 @@
         dataType: "json",
         url: "#{tags_submission_path(@submission)}.js",
         success: function(x) {
-          clear_results("#tags");
           append_results("#tags", x);
           $( "#accordion" ).maccordion("refresh");
-          $( "#accordion" ).maccordion( {active : [5] });
         },
         error: function(x){
           alert('Failed to parse ' + x);
@@ -191,6 +181,8 @@
     }
 
     function append_results(div_string, results) {
+
+      clear_results(div_string);
 
       if (results.total != null) {
         fstring  = "<table class='subtable'>";
@@ -274,10 +266,9 @@
         dataType: "json",
         url: "#{project_submission_path(@submission)}.js",
         success: function(x) {
-          clear_results("#project");
+
           append_results("#project", x);
           $( "#accordion" ).maccordion("refresh");
-          $( "#accordion" ).maccordion( {active : [0] });
           call_locations();
         },
         error: function(x) {
@@ -304,14 +295,17 @@
         dataType: "json",
         url: "#{parse_submission_path(@submission)}.js",
         success: function(x) {
-          append_results("#project_info", x)
           if (x.errors.length == 0) {
+            delete x.errors
             $("#process").removeAttr("disabled");
             $("#analyze").attr('disabled', true);
             $("#messages").html("<div class='info'>Please double check the Project and PI information below before submitting.</div>")
           } else {
+            delete x.study
+            delete x.user
             $("#messages").html("<div class='error'>Errors found in project data.  Please update project information in the Zipfile and try again.  Details below.</div>")
           }
+          append_results("#project_info", x);
         },
         error: function(x) {
           alert('Failed to parse ' + x);
