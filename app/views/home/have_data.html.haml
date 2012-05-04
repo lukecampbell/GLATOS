@@ -8,7 +8,7 @@
 
   %p
     - if can? :create, Submission
-      = link_to "Download", static_path("GLATOSWeb_Submittal.zip")
+      = link_to "Download", static_path("GLATOSWeb_Submission_Package.zip"), :target => '_blank'
       your GLATOSWeb Data Submittal Package
       %br
       = link_to "Submit", new_submission_path

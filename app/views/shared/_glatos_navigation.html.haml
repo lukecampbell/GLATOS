@@ -1,5 +1,10 @@
 .horizontal-list
   %ul
+
+    %li
+      = link_to('Help', static_path("GLATOSWeb_Website_Manual.pdf"), :target => '_blank')
+      %span{:class => 'pipe'}
+        |
     %li
       = link_to('Explore', explore_path)
       %span{:class => 'pipe'}
