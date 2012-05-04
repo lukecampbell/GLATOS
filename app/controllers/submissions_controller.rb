@@ -76,8 +76,6 @@ class SubmissionsController < ApplicationController
   def parse
     @submission = Submission.find(params[:id])
     authorize! :manage, @submission
-    authorize! :create, Study
-    authorize! :create, User
     csvfiles = @submission.csvfiles
     # Project
     user,study,errors = Study.load_data(csvfiles.grep(/project/i).first)
