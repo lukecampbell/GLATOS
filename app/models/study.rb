@@ -80,6 +80,10 @@ class Study < ActiveRecord::Base
     end
   end
 
+  def self.clean_string(str)
+    str.split(',',2)[-1].strip.chomp("\"").reverse.chomp("\"").reverse
+  end
+
   def self.load_data(file)
 
     errors = []
@@ -88,12 +92,12 @@ class Study < ActiveRecord::Base
         lines = f.readlines
         ENV['WEB_ADMIN_PASSWORD'] ||= "default"
         # Update or create a new PI user
-        user_email = lines[22].split(',',2)[-1].strip.downcase
+        user_email = clean_string(lines[22]).downcase
         user = User.find_or_initialize_by_email(user_email)
         user.attributes =
           {
-            :name => lines[18].split(',',2)[-1].strip,
-            :organization => lines[20].split(',',2)[-1].strip
+            :name => clean_string(lines[18]),
+            :organization => clean_string(lines[20])
           }
 
         # Set a password for a new user
@@ -109,24 +113,24 @@ class Study < ActiveRecord::Base
           errors << "#{study.errors.full_messages.join(" and ")}"
         end
 
-        code = lines[2].split(',',2)[-1].strip
+        code = clean_string(lines[2])
         study = Study.find_or_initialize_by_code(code)
 
-        start_date = Date.parse(lines[8].split(',',2)[-1])
-        end_date = Date.parse(lines[10].split(',',2)[-1])
+        start_date = Date.parse(clean_string(lines[8]))
+        end_date = Date.parse(clean_string(lines[10]))
         study.attributes =
           {
-            :name => lines[6].split(',',2)[-1].strip,
-            :title => lines[4].split(',',2)[-1].strip,
+            :name => clean_string(lines[6]),
+            :title => clean_string(lines[4]),
             :start => start_date,
             :ending => end_date,
-            :description => lines[12].split(',',2)[-1].strip,
-            :objectives => lines[14].split(',',2)[-1].strip,
-            :investigators => lines[24].split(',',2)[-1].strip,
-            :organizations => lines[26].split(',',2)[-1].strip,
-            :funding => lines[28].split(',',2)[-1].strip,
-            :benefits => lines[16].split(',',2)[-1].strip,
-            :url => lines[30].split(',',2)[-1].strip,
+            :description => clean_string(lines[12]),
+            :objectives => clean_string(lines[14]),
+            :investigators => clean_string(lines[24]),
+            :organizations => clean_string(lines[26]),
+            :funding => clean_string(lines[28]),
+            :benefits => clean_string(lines[16]),
+            :url => clean_string(lines[30]),
             :user => user
           }
         unless study.valid?
