@@ -53,12 +53,7 @@
             = @report.tag_deployment.length
         %tr
           %td{:class => "label"}
-            Weight (pounds)
-          %td
-            = @report.tag_deployment.weight
-        %tr
-          %td{:class => "label"}
-            Project Investigators
+            Project Investigator
           %td
             = "#{@report.tag_deployment.tag.study.user.name} (#{@report.tag_deployment.tag.study.user.email})"
     .clear
