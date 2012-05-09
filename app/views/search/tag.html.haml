@@ -71,6 +71,7 @@ Looking for the
 
           $('#table').dataTable().fnAddData(data);
           $('#table_contents').show();
+          oTableTools.fnResizeButtons();
         },
         error: function(){
           $("#tag_count").html("There was a problem with your search.  Please try again.")
@@ -94,11 +95,11 @@ Looking for the
         { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.name",
           "fnCellRender": function (oObj){ return getFullName(oObj); },
           "fnRender": function (oObj){ return getFullName(oObj); },},
-        { "sTitle": "Project Page", "sName": "site", "mDataProp": null, "bSortable": false, 
+        { "sTitle": "Project Page", "sName": "site", "mDataProp": null, "bSortable": false,
           "fnCellRender": function (oObj){ return getStudyLink(oObj); },
           "fnRender": function (oObj){ return makeStudyLink(oObj); },
-        },
-      ],
+        }
+      ]
     });
 
     var oTableTools = new TableTools( oTable, {
