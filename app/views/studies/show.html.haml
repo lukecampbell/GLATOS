@@ -38,7 +38,10 @@
     .lineitem
       %span
         Management Benefits:
-      #{@study.benefits}
+      %ol
+        - @study.benefits.each do |b|
+          %li
+            #{b}
 
     .lineitem
       %span
