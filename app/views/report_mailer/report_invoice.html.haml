@@ -1,23 +1,34 @@
 %p
   Thank you for your Report!  Below is a summary.
-
+  %br
   = "Internal Tag: #{@report.input_tag}"
+  %br
   = "External Tag: #{@report.input_external_codes.compact.join(',') rescue nil}"
-
+  %br
   = "Name: #{@report.name}"
+  %br
   = "Phone: #{@report.phone}"
+  %br
   = "City: #{@report.city}"
+  %br
   = "State/Province: #{@report.state}"
-
+  %br
   = "Location: #{@report.location}"
+  %br
   = "Description: #{@report.description}"
+  %br
   = "Caught: #{@report.found}"
+  %br
   = "Reported: #{@report.reported}"
-
+  %br
   = "Method: #{@report.method}"
+  %br
   = "Fishtype: #{@report.fishtype}"
+  %br
   = "Length: #{@report.length}"
+  %br
   = "Fishtype: #{@report.fishtype}"
+  %br
 
 %p
   Someone will be in contact with you soon regarding the return of the tag.

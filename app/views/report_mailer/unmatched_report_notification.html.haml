@@ -1,20 +1,29 @@
 %p
   A report was filed that did not match any known tags.  Below is a summary.
-
+  %br
   = "Reported Internal Tag: #{@report.input_tag}"
+  %br
   = "Reported External Tag: #{@report.input_external_codes.compact.join(',') rescue nil}"
-
+  %br
   = "Name: #{@report.name}"
+  %br
   = "Phone: #{@report.phone}"
+  %br
   = "City: #{@report.city}"
+  %br
   = "State/Province: #{@report.state}"
-
+  %br
   = "Location: #{@report.location}"
+  %br
   = "Description: #{@report.description}"
+  %br
   = "Caught: #{@report.found}"
+  %br
   = "Reported: #{@report.reported}"
-
+  %br
   = "Method: #{@report.method}"
+  %br
   = "Fishtype: #{@report.fishtype}"
+  %br
   = "Length: #{@report.length}"
-  = "Fishtype: #{@report.fishtype}"
+  %br

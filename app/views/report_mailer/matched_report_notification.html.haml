@@ -1,20 +1,29 @@
 %p
   A tag was found that was linked to your project.  Below is a summary.
-
+  %br
   = "Internal Tag: #{@report.tag_deployment.tag.code}"
+  %br
   = "External Tag: #{@report.tag_deployment.external_codes.compact.join(',') rescue nil}"
-
+  %br
   = "Name: #{@report.name}"
+  %br
   = "Phone: #{@report.phone}"
+  %br
   = "City: #{@report.city}"
+  %br
   = "State/Province: #{@report.state}"
-
+  %br
   = "Location: #{@report.location}"
+  %br
   = "Description: #{@report.description}"
+  %br
   = "Caught: #{@report.found}"
+  %br
   = "Reported: #{@report.reported}"
-
+  %br
   = "Method: #{@report.method}"
+  %br
   = "Fishtype: #{@report.fishtype}"
+  %br
   = "Length: #{@report.length}"
-  = "Fishtype: #{@report.fishtype}"
+  %br
