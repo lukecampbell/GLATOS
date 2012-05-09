@@ -11,8 +11,6 @@ body {
 }
 
 #background {
-  //@include showgrid;
-  @include column(24, true);
   height: 100%;
 }
 
