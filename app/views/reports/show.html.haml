@@ -48,9 +48,14 @@
             = @report.tag_deployment.release_date.strftime("%Y-%m-%d")
         %tr
           %td{:class => "label"}
-            Length (inches)
+            Release Length (meters)
           %td
             = @report.tag_deployment.length
+        %tr
+          %td{:class => "label"}
+            Release Weight (kg)
+          %td
+            = @report.tag_deployment.weight
         %tr
           %td{:class => "label"}
             Project Investigator
