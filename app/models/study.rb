@@ -96,8 +96,7 @@ class Study < ActiveRecord::Base
         user = User.find_or_initialize_by_email(user_email)
         user.attributes =
           {
-            :name => clean_string(lines[18]),
-            :organization => clean_string(lines[20])
+            :name => clean_string(lines[18])
           }
 
         # Set a password for a new user
@@ -116,8 +115,8 @@ class Study < ActiveRecord::Base
         code = clean_string(lines[2])
         study = Study.find_or_initialize_by_code(code)
 
-        start_date = Date.parse(clean_string(lines[8]))
-        end_date = Date.parse(clean_string(lines[10]))
+        start_date = Date.parse(clean_string(lines[8])) rescue nil
+        end_date = Date.parse(clean_string(lines[10])) rescue nil
         study.attributes =
           {
             :name => clean_string(lines[6]),
