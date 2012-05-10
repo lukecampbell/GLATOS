@@ -4,20 +4,21 @@
 
   = semantic_form_for(@study, :url => study_path(@study), :html => { :method => :put }) do |f|
     = f.inputs do
-      = f.input :name
-      = f.input :description
-      = f.input :start
-      = f.input :ending
-      = f.input :url
+      = f.input :name, :hint => "Enter a short (45-character max.) title here"
+      = f.input :title, :hint => "Enter full project title here"
+      = f.input :description, :hint => "200 word max; suggest 1-2 paragraphs in non-technical language.  Include background or justification, fish information, tagging methods, receiver locations."
+      = f.input :start,  :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study start date here"
+      = f.input :ending, :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study end date here"
+      = f.input :url, :hint => "Enter an external URL where someone might go to get more information about the project"
       = f.input :species
-      = f.input :code, :hint => "Before changing this, please beware of the consequences!"
-      = f.input :title
       = f.input :information
-      = f.input :benefits
-      = f.input :organizations, :hint => "Seperate individial entries with a '=;='"
-      = f.input :funding, :hint => "Seperate individial entries with a '=;='"
-      = f.input :objectives, :hint => "Seperate individial entries with a '=;='"
-      = f.input :investigators, :hint => "Seperate individial entries with a '=;='"
+      = f.input :code, :hint => "Unique 5-character code for project, preferably to represent study location and species.  Before changing this, please beware of the consequences!"
+      = f.input :objectives, :hint => "List project objectives here, separated by the special string '=;='.  Each objective will then appear as a separate item in the list of objectives on your project page. For example, Learn migratory patterns=;=Establish seasonal baseline"
+      = f.input :benefits, :hint => "List expected management benefits here.  This is REQUIRED for GLFC and GLRI-funded projects. Use the special string '=;=' to separate objectives if you'd like them presented in list format. If none, leave blank."
+      = f.input :organizations, :hint => "List supporting and cooperating organizations here. Separate organizations with the special string '=;=' to present in list format."
+      = f.input :funding, :hint => "List funding sources here. Separate funding sources with the special string '=;=' to present in list format."
+      = f.input :objectives, :hint => "List project objectives here, separated by the special string '=;='.  Each objective will then appear as a separate item in the list of objectives on your project page. For example, Learn migratory patterns=;=Establish seasonal baseline"
+      = f.input :investigators, :hint => "List other investigators here (organizations in parentheses). Separate investigators with the special string '=;=' to have them presented in list format on the project page."
 
       = f.input :img_first, :label => "First Image", :hint => "#{@study.img_first_file_name || 'None'}"
       = image_tag @study.img_first.url(:thumb) if @study.img_first.exists?
