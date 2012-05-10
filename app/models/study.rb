@@ -115,22 +115,8 @@ class Study < ActiveRecord::Base
 
         code = clean_string(lines[2])
         study = Study.find_or_initialize_by_code(code)
-
-        start_date = Date.parse(clean_string(lines[8])) rescue nil
-        end_date = Date.parse(clean_string(lines[10])) rescue nil
         study.attributes =
           {
-            :name => clean_string(lines[6]),
-            :title => clean_string(lines[4]),
-            :start => start_date,
-            :ending => end_date,
-            :description => clean_string(lines[12]),
-            :objectives => clean_string(lines[14]),
-            :investigators => clean_string(lines[24]),
-            :organizations => clean_string(lines[26]),
-            :funding => clean_string(lines[28]),
-            :benefits => clean_string(lines[16]),
-            :url => clean_string(lines[30]),
             :user => user
           }
         unless study.valid?
