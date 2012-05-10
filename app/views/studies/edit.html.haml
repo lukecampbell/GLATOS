@@ -7,8 +7,8 @@
       = f.input :name, :hint => "Enter a short (45-character max.) title here"
       = f.input :title, :hint => "Enter full project title here"
       = f.input :description, :hint => "200 word max; suggest 1-2 paragraphs in non-technical language.  Include background or justification, fish information, tagging methods, receiver locations."
-      = f.input :start,  :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study start date here"
-      = f.input :ending, :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study end date here"
+      = f.input :start, :as => :date, :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study start date here"
+      = f.input :ending,:as => :date, :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study end date here"
       = f.input :url, :hint => "Enter an external URL where someone might go to get more information about the project"
       = f.input :species
       = f.input :code, :hint => "Unique 5-character code for project, preferably to represent study location and species.  Before changing this, please beware of the consequences!"
