@@ -6,7 +6,9 @@ class HomeController < ActionController::Base
   end
 
   def about
-    @studies = Study.select([:id,:code,:name])
+    @studies = Study.select([:id,:code,:name]).select do |s|
+      s.active || (authorize! :update, s rescue false)
+    end
     render :layout => 'application'
   end
 

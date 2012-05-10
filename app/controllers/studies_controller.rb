@@ -1,16 +1,13 @@
 class StudiesController < ApplicationController
 
   def index
-    @studies = Study.order(:id)
+    @studies = Study.active.order(:id)
     respond_to do |format|
       format.html
       format.json {
         render :json => @studies.as_json({
 
         })
-      }
-      format.dataTable {
-
       }
     end
   end

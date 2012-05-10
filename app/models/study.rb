@@ -24,10 +24,15 @@ class Study < ActiveRecord::Base
   validates   :user, :presence => true
   accepts_nested_attributes_for :user
 
+  scope :active, where("title IS NOT NULL AND name IS NOT NULL AND start IS NOT NULL and ending IS NOT NULL")
 
   has_many    :deployments, :dependent => :destroy
 
   has_many    :tags, :dependent => :destroy
+
+  def active
+    Study.active.include?(self)
+  end
 
   def organizations
     get_array(:organizations)

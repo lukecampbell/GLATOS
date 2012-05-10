@@ -2,6 +2,11 @@
 
   %h2 #{@study.name}
 
+  - unless @study.active
+    %h2 This project is INACTIVE
+    The minimum amount of information required to show up on the website is: Name, Title, Start, and Ending
+    %br
+
   = semantic_form_for(@study, :url => study_path(@study), :html => { :method => :put }) do |f|
     = f.inputs do
       = f.input :name, :hint => "Enter a short (45-character max.) title here"

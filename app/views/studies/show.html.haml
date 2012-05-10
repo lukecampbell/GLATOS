@@ -20,7 +20,7 @@
     .lineitem
       %span
         Project Duration:
-      #{@study.start.strftime("%B %Y")} - #{@study.ending.strftime("%B %Y")}
+      #{@study.start.strftime("%B %Y") rescue nil} - #{@study.ending.strftime("%B %Y") rescue nil}
 
     .lineitem
       %span

@@ -21,6 +21,8 @@ class Deployment < ActiveRecord::Base
 
   set_rgeo_factory_for_column(:location, RGeo::Geographic.spherical_factory(:srid => 4326))
 
+  scope :active_study, joins(:study).where('studies.title IS NOT NULL AND studies.name IS NOT NULL AND studies.start IS NOT NULL and studies.ending IS NOT NULL')
+
   def DT_RowId
     self.id
   end
