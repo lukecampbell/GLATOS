@@ -19,6 +19,12 @@
       = f.input :objectives, :hint => "List project objectives here, separated by the special string '=;='.  Each objective will then appear as a separate item in the list of objectives on your project page. For example, Learn migratory patterns=;=Establish seasonal baseline"
       = f.input :investigators, :hint => "List other investigators here (organizations in parentheses). Separate investigators with the special string '=;=' to have them presented in list format on the project page."
 
+      = f.semantic_fields_for :user do |u|
+        = u.inputs do
+          = u.input :name, :hint => "First and Last Name of Principal Investigator"
+          = u.input :email, :hint => "Email of the Principal Investigator.  Warning: This will change the login of the PI."
+          = u.input :organization, :hint => "Principal Investigator Affiliation"
+
       = f.input :img_first, :label => "First Image", :hint => "#{@study.img_first_file_name || 'None'}"
       = image_tag @study.img_first.url(:thumb) if @study.img_first.exists?
 

@@ -21,12 +21,13 @@ class Study < ActiveRecord::Base
   has_attached_file :img_fifth, :styles => { :medium => "360", :thumb => "75" }
 
   belongs_to  :user
+  validates   :user, :presence => true
+  accepts_nested_attributes_for :user
+
 
   has_many    :deployments, :dependent => :destroy
 
   has_many    :tags, :dependent => :destroy
-
-  validates   :user, :presence => true
 
   def organizations
     get_array(:organizations)
