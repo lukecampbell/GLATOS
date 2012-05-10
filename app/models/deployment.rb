@@ -69,6 +69,28 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  def self.get_deployed_time(row, utc, local, zone)
+    # Ugly that the deployment date can be in multiple time zones.
+    deployed_time = ""
+    # Support OTN
+    if row[utc]
+      deployed_time = Time.parse(row[utc] + " UTC")
+    # Support GLATOS
+    else
+      tz = row[zone].downcase
+      glatos_time = Time.parse(row[local])
+      if tz == 'central'
+        deployed_time = glatos_time.in_time_zone("America/Chicago").utc
+      elsif tz == 'eastern'
+        deployed_time = glatos_time.in_time_zone("America/New_York").utc
+      else
+        errors << "No TIMEZONE specified, assuming 'America/New_York'"
+        deployed_time = glatos_time.in_time_zone("America/New_York").utc
+      end
+    end
+    return deployed_time
+  end
+
   def self.load_data(file, otns = [])
     require 'csv'
     deps = []
@@ -85,7 +107,7 @@ class Deployment < ActiveRecord::Base
         d = Deployment.find_or_initialize_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
         d.attributes =
           {
-            :start => Time.parse(row["DEPLOY_DATE_TIME"] + " UTC"),
+            :start => Deployment.get_deployed_time(row, "DEPLOY_DATE_TIME", "GLATOS_DEPLOY_DATE_TIME", "GLATOS_TIMEZONE"),
             :study_id => Study.find_by_code(row["GLATOS_PROJECT"]).id,
             :location => "POINT(#{row['DEPLOY_LONG']} #{row['DEPLOY_LAT']})",
             :model => row["INS_MODEL_NUMBER"],

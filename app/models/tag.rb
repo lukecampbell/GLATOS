@@ -32,28 +32,6 @@ class Tag < ActiveRecord::Base
     active_deployment.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
   end
 
-  def self.get_deployed_time(row)
-    # Ugly that the release date can be in multiple time zones.
-    deployed_time = ""
-    # Support OTN
-    if row["UTC_RELEASE_DATE_TIME"]
-      deployed_time = Time.parse(row["UTC_RELEASE_DATE_TIME"] + " UTC")
-    # Support GLATOS
-    else
-      tz = row["GLATOS_TIMEZONE"].downcase
-      glatos_time = Time.parse(row["GLATOS_RELEASE_DATE_TIME"])
-      if tz == 'central'
-        deployed_time = glatos_time.in_time_zone("America/Chicago").utc
-      elsif tz == 'eastern'
-        deployed_time = glatos_time.in_time_zone("America/New_York").utc
-      else
-        errors << "No TIMEZONE specified, assuming 'America/New_York'"
-        deployed_time = glatos_time.in_time_zone("America/New_York").utc
-      end
-    end
-    return deployed_time
-  end
-
   def self.load_tag_deployments(file = "#{Rails.root}/lib/data/old/tag.csv")
     require 'csv'
     tag_deployments = []
@@ -63,7 +41,7 @@ class Tag < ActiveRecord::Base
       count += 1
       begin
         begin
-          deployed_time = Tag.get_deployed_time(row)
+          deployed_time = Deployment.get_deployed_time(row,"UTC_RELEASE_DATE_TIME", "GLATOS_RELEASE_DATE_TIME", "GLATOS_TIMEZONE")
         rescue
           errors << "Error loading Tag - No RELEASE_DATE specified  Data: #{row}"
           next
@@ -105,7 +83,6 @@ class Tag < ActiveRecord::Base
             :release_group => row["RELEASE_GROUP"],
             :release_location => row["RELEASE_LOCATION"],
             :release_geo => "POINT(#{row['RELEASE_LONGITUDE']} #{row['RELEASE_LATITUDE']})",
-            :release_date => Tag.time_or_nil("#{row["UTC_RELEASE_DATE_TIME"]} UTC"),
             :external_codes => [row["GLATOS_EXTERNAL_TAG_ID1"], row["GLATOS_EXTERNAL_TAG_ID2"]].compact.uniq,
             :sex => row["SEX"],
             :age => row["AGE"],
@@ -136,7 +113,7 @@ class Tag < ActiveRecord::Base
       count += 1
       begin
         begin
-          deployed_time = Tag.get_deployed_time(row)
+          deployed_time = Deployment.get_deployed_time(row,"UTC_RELEASE_DATE_TIME", "GLATOS_RELEASE_DATE_TIME", "GLATOS_TIMEZONE")
         rescue
           errors << "Error loading Tag - No RELEASE_DATE specified  Data: #{row}"
           next

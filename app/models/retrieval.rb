@@ -48,7 +48,7 @@ class Retrieval < ActiveRecord::Base
           {
             :data_downloaded => row["DATA_DOWNLOADED"],
             :ar_confirm => row["AR_CONFIRM"],
-            :recovered => Time.parse(row["RECOVER_DATE_TIME"] + " UTC"),
+            :recovered => Deployment.get_deployed_time(row, "RECOVER_DATE_TIME", "GLATOS_RECOVER_DATE_TIME", "GLATOS_TIMEZONE"),
             :location => "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
           }
         if ret.valid?
