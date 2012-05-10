@@ -11,7 +11,6 @@
       = f.input :ending, :start_year => Time.now.year - 30, :end_year => Time.now.year + 10, :hint => "Enter expected study end date here"
       = f.input :url, :hint => "Enter an external URL where someone might go to get more information about the project"
       = f.input :species
-      = f.input :information
       = f.input :code, :hint => "Unique 5-character code for project, preferably to represent study location and species.  Before changing this, please beware of the consequences!"
       = f.input :objectives, :hint => "List project objectives here, separated by the special string '=;='.  Each objective will then appear as a separate item in the list of objectives on your project page. For example, Learn migratory patterns=;=Establish seasonal baseline"
       = f.input :benefits, :hint => "List expected management benefits here.  This is REQUIRED for GLFC and GLRI-funded projects. Use the special string '=;=' to separate objectives if you'd like them presented in list format. If none, leave blank."

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502144147) do
+ActiveRecord::Schema.define(:version => 20120510150123) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -101,7 +101,6 @@ ActiveRecord::Schema.define(:version => 20120502144147) do
     t.text     "benefits"
     t.text     "organizations"
     t.text     "funding"
-    t.text     "information"
     t.text     "objectives"
     t.text     "investigators"
     t.string   "img_first_file_name"
