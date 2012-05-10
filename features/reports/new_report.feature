@@ -60,10 +60,10 @@ Feature: New Report
     Then I should see "A report was filed that did not match any known tags" in the email body
     And I should see "Internal Tag: NOT-ABC123" in the email body
 
-  Scenario: Investigator should get an email when a valid Report is submitted and the tag is matched
+  Scenario: Investigator and admin should get an email when a valid Report is submitted and the tag is matched
     Given I fill in a valid report
     And I press "Submit Tag Report"
-    Then "admin@test.com" should receive 0 emails
+    Then "admin@test.com" should receive 1 email
     And "investigator@glatos.org" should receive 1 email
     When I open the email
     Then I should see "A tag was found that was linked to your project" in the email body
