@@ -3,7 +3,7 @@ class Fish
     [
       "Walleye",
       "Lake Trout",
-      "Sturgeon",
+      "Lake Sturgeon",
       "Sea Lamprey",
       "Asian Carp"
     ]
