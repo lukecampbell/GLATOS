@@ -126,8 +126,8 @@ class Tag < ActiveRecord::Base
             :serial => row["TAG_SERIAL_NUMBER"],
             :description => row["COMMENTS"],
             :type => row["TAG_TYPE"],
-            :lifespan => "#{row["EST_TAG_LIFE"].split(" ")[0]} days",
-            :endoflife => deployed_time.advance(:days => row["EST_TAG_LIFE"].split(" ")[0].to_i)
+            :lifespan => ("#{row["EST_TAG_LIFE"].split(" ")[0]} days" rescue nil),
+            :endoflife => (deployed_time.advance(:days => row["EST_TAG_LIFE"].split(" ")[0].to_i) rescue nil)
           }
         if t.valid?
           tags << t
