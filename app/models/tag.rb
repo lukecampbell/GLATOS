@@ -97,8 +97,8 @@ class Tag < ActiveRecord::Base
         else
           errors << "#{td.errors.full_messages.join(" and ")} - Data: #{row}"
         end
-      rescue
-        errors << "Error loading Tag - Data: #{row}"
+      rescue Exception => e
+        errors << "Error creating TagDeployment #{e.backtrace[0..5].join("<br />")} - Data: #{row}"
       end
     end
     return tag_deployments, errors, count
@@ -134,8 +134,8 @@ class Tag < ActiveRecord::Base
         else
           errors << "#{t.errors.full_messages.join(" and ")} - Data: #{row}"
         end
-      rescue
-        errors << "Error loading Tag - Data: #{row}"
+      rescue Exception => e
+        errors << "Error loading Tag #{e.backtrace[0..5].join("<br />")} - Data: #{row}"
       end
     end
     return tags, errors, count
