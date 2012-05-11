@@ -609,14 +609,21 @@ function initMap() {
               var f       = geojson.read(json[i].geojson)[0];
               f.geometry.transform(proj4326,map.getProjectionObject());
               glatosDeployments.features.push(f);
-              years[glatosDeployments.start.getUTCFullYear()] = 1;
-              if (f.attributes.start && isoStringToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
-                glatosDeployments.start = isoStringToDate(f.attributes.start);
+
+              if (f.attributes.start) {
+                years[isoStringToDate(f.attributes.start).getUTCFullYear()] = 1;
+                if (isoStringToDate(f.attributes.start).getTime() < glatosDeployments.start.getTime()) {
+                  glatosDeployments.start = isoStringToDate(f.attributes.start);
+                }
               }
-              years[glatosDeployments.ending.getUTCFullYear()] = 1;
-              if (f.attributes.recovered && isoStringToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
-                glatosDeployments.ending = isoStringToDate(f.attributes.recovered);
+
+              if (f.attributes.recovered) {
+                years[isoStringToDate(f.attributes.recovered).getUTCFullYear()] = 1;
+                if (isoStringToDate(f.attributes.recovered).getTime() > glatosDeployments.ending.getTime()) {
+                  glatosDeployments.ending = isoStringToDate(f.attributes.recovered);
+                }
               }
+
               if (f.attributes.frequency) {
                 frequencies[f.attributes.frequency] = true;
               }
