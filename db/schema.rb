@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120510150123) do
+ActiveRecord::Schema.define(:version => 20120522214212) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(:version => 20120510150123) do
   add_index "retrievals", ["location"], :name => "index_retrievals_on_location", :spatial => true
 
   create_table "studies", :force => true do |t|
-    t.string   "name",                                  :null => false
+    t.string   "name"
     t.text     "description"
     t.datetime "start"
     t.datetime "ending"

@@ -98,11 +98,11 @@ class Study < ActiveRecord::Base
         lines = f.readlines
         ENV['WEB_ADMIN_PASSWORD'] ||= "default"
         # Update or create a new PI user
-        user_email = clean_string(lines[22]).downcase
+        user_email = clean_string(lines[2]).downcase
         user = User.find_or_initialize_by_email(user_email)
         user.attributes =
           {
-            :name => clean_string(lines[18])
+            :name => clean_string(lines[1])
           }
 
         # Set a password for a new user
@@ -118,7 +118,7 @@ class Study < ActiveRecord::Base
           errors << "#{study.errors.full_messages.join(" and ")}"
         end
 
-        code = clean_string(lines[2])
+        code = clean_string(lines[0])
         study = Study.find_or_initialize_by_code(code)
         study.attributes =
           {
@@ -143,7 +143,7 @@ end
 # Table name: studies
 #
 #  id                      :integer         not null, primary key
-#  name                    :string(255)     not null
+#  name                    :string(255)
 #  description             :text
 #  start                   :datetime
 #  ending                  :datetime

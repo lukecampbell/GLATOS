@@ -72,7 +72,8 @@
     .lineitem
       %span
         External URL:
-      #{link_to @study.url, @study.url}
+      - if @study.url
+        = link_to @study.url, @study.url
 
   #images
     = image_tag @study.img_first.url(:medium) if @study.img_first.exists?
