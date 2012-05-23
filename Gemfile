@@ -43,8 +43,8 @@ group :test do
   gem 'launchy'
 end
 
-gem 'rgeo'
-gem 'rgeo-geojson'
+gem 'rgeo', '0.3.13'
+gem 'rgeo-geojson', '0.2.3'
 gem 'activerecord-postgis-adapter'
 
 gem 'kaminari'

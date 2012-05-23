@@ -44,13 +44,15 @@ class Deployment < ActiveRecord::Base
   end
 
   def geojson
-    removals = ["location","id","station","otn_array_id"]
-    s = self.attributes.delete_if {|key, value| removals.include?(key) }
-    s[:code] = code
-    s[:recovered] = ending
-    s[:otn_array] = {:code => otn_array.code, :description => otn_array.description, :waterbody => otn_array.waterbody, :region => otn_array.region}
-    feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
-    RGeo::GeoJSON.encode(feat)
+    if self.location
+      removals = ["location","id","station","otn_array_id"]
+      s = self.attributes.delete_if {|key, value| removals.include?(key) }
+      s[:code] = code
+      s[:recovered] = ending
+      s[:otn_array] = {:code => otn_array.code, :description => otn_array.description, :waterbody => otn_array.waterbody, :region => otn_array.region}
+      feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
+      return RGeo::GeoJSON.encode(feat)
+    end
   end
 
   def latitude(round=3)
@@ -96,6 +98,7 @@ class Deployment < ActiveRecord::Base
     deps = []
     errors = []
     count = 0
+    fac = RGeo::WKRep::WKTParser.new()
     CSV.foreach(file, {:headers => true}) do |row|
       count += 1
       begin
@@ -104,12 +107,21 @@ class Deployment < ActiveRecord::Base
           errors << "Error loading Deployment - No OtnArray with the code #{row["GLATOS_ARRAY"]} - Data: #{row}"
           next
         end
+
+        loc_string = "POINT(#{row['DEPLOY_LONG']} #{row['DEPLOY_LAT']})"
+        begin
+          fac.parse(loc_string)
+        rescue
+          errors << "Error loading Location - Lon: #{row['DEPLOY_LONG']}, Lat: #{row['DEPLOY_LAT']} - Data: #{row}"
+          next
+        end
+
         d = Deployment.find_or_initialize_by_otn_array_id_and_station_and_consecutive(otna.id, row["STATION_NO"].to_i, row["CONSECUTIVE_DEPLOY_NO"].to_i)
         d.attributes =
           {
             :start => Deployment.get_deployed_time(row, "DEPLOY_DATE_TIME", "GLATOS_DEPLOY_DATE_TIME", "GLATOS_TIMEZONE"),
             :study_id => Study.find_by_code(row["GLATOS_PROJECT"]).id,
-            :location => "POINT(#{row['DEPLOY_LONG']} #{row['DEPLOY_LAT']})",
+            :location => loc_string,
             :model => row["INS_MODEL_NUMBER"],
             :seasonal => row["GLATOS_SEASONAL"].downcase == "yes",
             :frequency => row["GLATOS_INS_FREQUENCY"].to_i,
@@ -142,6 +154,7 @@ class Deployment < ActiveRecord::Base
     props = []
     errors = []
     count = 0
+    fac = RGeo::WKRep::WKTParser.new()
     CSV.foreach(file, {:headers => true}) do |row|
       count += 1
       begin
@@ -150,6 +163,15 @@ class Deployment < ActiveRecord::Base
           errors << "Error loading Deployment - No OtnArray with the code #{row["GLATOS_ARRAY"]} - Data: #{row}"
           next
         end
+
+        loc_string = "POINT(#{row['PROPOSED_LONG']} #{row['PROPOSED_LAT']})"
+        begin
+          fac.parse(loc_string)
+        rescue
+          errors << "Error loading Location - Lon: #{row['PROPOSED_LONG']}, Lat: #{row['PROPOSED_LAT']} - Data: #{row}"
+          next
+        end
+
         d = Deployment.find_or_initialize_by_otn_array_id_and_station_and_proposed(otna.id, row["STATION_NO"].to_i, true)
         d.attributes =
           {
@@ -158,7 +180,7 @@ class Deployment < ActiveRecord::Base
             :funded => row["GLATOS_FUNDED"].downcase == "yes",
             :start => Time.parse(row["PROPOSED_START_DATE"] + "T00:00:00 UTC"),
             :study_id => Study.find_by_code(row["GLATOS_PROJECT"]).id,
-            :location => "POINT(#{row['PROPOSED_LONG']} #{row['PROPOSED_LAT']})",
+            :location => loc_string,
             :seasonal => row["GLATOS_SEASONAL"].downcase == "yes",
             :frequency => row["GLATOS_INS_FREQUENCY"].to_i,
             :bottom_depth => row["BOTTOM_DEPTH"].to_i,

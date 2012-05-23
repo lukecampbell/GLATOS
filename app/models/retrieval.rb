@@ -11,10 +11,12 @@ class Retrieval < ActiveRecord::Base
   end
 
   def geojson
-    removals = ["location","id","deployment_id"]
-    s = self.attributes.delete_if {|key, value| removals.include?(key) }
-    feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
-    RGeo::GeoJSON.encode(feat)
+    if self.location
+      removals = ["location","id","deployment_id"]
+      s = self.attributes.delete_if {|key, value| removals.include?(key) }
+      feat = RGeo::GeoJSON::Feature.new(self.location, self.id, s)
+      return RGeo::GeoJSON.encode(feat)
+    end
   end
 
   def latitude(round=3)
@@ -30,6 +32,7 @@ class Retrieval < ActiveRecord::Base
     rets = []
     errors = []
     count = 0
+    fac = RGeo::WKRep::WKTParser.new()
     CSV.foreach(file, {:headers => true}) do |row|
       count += 1
       begin
@@ -43,13 +46,21 @@ class Retrieval < ActiveRecord::Base
           errors << "Error loading Retrieval - No Deployment found for STATION_NO #{row["STATION_NO"]} and CONSECUTIVE_DEPLOY_NO #{row["CONSECUTIVE_DEPLOY_NO"]} - Data: #{row}"
           next
         end
+
+        loc_string = "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
+        begin
+          fac.parse(loc_string)
+        rescue
+          loc_string = nil
+        end
+
         ret = Retrieval.find_or_initialize_by_deployment_id(dep.id)
         ret.attributes =
           {
             :data_downloaded => row["DATA_DOWNLOADED"],
             :ar_confirm => row["AR_CONFIRM"],
             :recovered => Deployment.get_deployed_time(row, "RECOVER_DATE_TIME", "GLATOS_RECOVER_DATE_TIME", "GLATOS_TIMEZONE"),
-            :location => "POINT(#{row['RECOVER_LONG']} #{row['RECOVER_LAT']})"
+            :location => loc_string
           }
         if ret.valid?
           rets << ret
