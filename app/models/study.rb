@@ -115,7 +115,7 @@ class Study < ActiveRecord::Base
             }
         end
         unless user.valid?
-          errors << "#{study.errors.full_messages.join(" and ")}"
+          errors << "#{user.errors.full_messages.join(" and ")}"
         end
 
         code = clean_string(lines[0])
