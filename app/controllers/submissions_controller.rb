@@ -40,7 +40,7 @@ class SubmissionsController < ApplicationController
     @submission.user = current_user
     @submission.status = "New"
     if @submission.save
-      redirect_to submission_path(@submission), :notice => "Submission was successfully uploaded"
+      redirect_to submission_path(@submission), :notice => "Submission was successfully uploaded.  You will recieve an email when your project data is ready for editing."
     else
       render :action => :new
     end
