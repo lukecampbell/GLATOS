@@ -2,6 +2,15 @@
 
 %table{:id => :table}
 
+%br
+%br
+
+%h2 Agreed to Newsletter
+%table{:id => :newsletter}
+
+%br
+%br
+
   :javascript
 
     function makeActionButtons(oObj) {
@@ -18,6 +27,7 @@
     }
 
     var oTable;
+    var nTable;
 
     $(document).ready(function() {
 
@@ -104,4 +114,24 @@
 
         }
       });
+
+      TableTools.DEFAULTS.aButtons = [ "xls" ];
+
+      nTable = $('#newsletter').dataTable( {
+        "sDom": 'T<"clear">lfrtip',
+        "bJQueryUI": true,
+        "bPaginate": false,
+        "bInfo": false,
+        "bFilter": false,
+        "bServerSide": true,
+        "oTableTools": {
+            "sSwfPath": "#{image_path 'copy_csv_xls_pdf.swf'}"
+        },
+        "sAjaxSource": "#{user_newsletter_path({:format => :json})}",
+        "aoColumns": [
+          { "sTitle": "Name", "sName": "name", "mDataProp": "name" },
+          { "sTitle": "Email", "sName": "email", "mDataProp": "email" },
+        ]
+      });
+
     });

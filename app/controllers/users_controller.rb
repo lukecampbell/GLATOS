@@ -26,6 +26,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def newsletter
+    authorize! :manage, @user
+    respond_to do |format|
+      format.json {
+        columns = params[:sColumns].split(",")
+        sort_direction = params[:sSortDir_0]
+        sort_column = columns[params[:iSortCol_0].to_i].to_s
+        users = User.where({:newsletter => true}).order("#{sort_column} #{sort_direction}")
+        render :json => {
+          :sEcho => params[:sEcho],
+          :aaData => users.as_json({
+            :methods => [:DT_RowId],
+            :only => [:name, :email, :newsletter]
+          })
+        }
+      }
+    end
+  end
+
   def destroy
     @user = User.find(params[:id])
     authorize! :destroy, @user

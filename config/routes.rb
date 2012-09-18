@@ -8,6 +8,8 @@ Glatos::Application.routes.draw do
   devise_for :users
 
   resources :users, :only => [:index, :destroy, :update]
+  match 'users/newsletter' => 'users#newsletter', :as => :user_newsletter, :via => :get
+
   resources :reports, :only => [:index, :new, :create, :destroy, :update, :show]
 
   resources :deployments, :only => [:index, :destroy]
