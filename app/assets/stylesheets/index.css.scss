@@ -160,7 +160,7 @@ body {
         @include column(4);
       }
       .right_img {
-        @include column(4,true);
+        @include column(3.5,true);
       }
     }
   }
