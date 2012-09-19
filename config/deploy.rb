@@ -24,7 +24,7 @@ task :staging do
 end
 
 after  "deploy:update_code","deploy:migrate"
-after  "deploy:update_code","deploy:symlink_db"
+after  "deploy:assets:symlink","deploy:symlink_db"
 after  "deploy:migrate","deploy:build_missing_paperclip_styles"
 after  "deploy:update", "deploy:cleanup"
 
