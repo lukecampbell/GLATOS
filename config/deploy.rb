@@ -24,10 +24,14 @@ task :staging do
 end
 
 after  "deploy:update_code","deploy:migrate"
+after  "deploy:update_code","deploy:symlink_db"
 after  "deploy:migrate","deploy:build_missing_paperclip_styles"
 after  "deploy:update", "deploy:cleanup"
 
 namespace :deploy do
+  task :symlink_db, :roles => :web do
+    run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
+  end
 	task :restart, :roles => :web do
 		run "touch #{latest_release}/tmp/restart.txt"
 	end
