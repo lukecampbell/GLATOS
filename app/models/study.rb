@@ -20,6 +20,16 @@ class Study < ActiveRecord::Base
   has_attached_file :img_fourth, :styles => { :medium => "360", :thumb => "75" }
   has_attached_file :img_fifth, :styles => { :medium => "360", :thumb => "75" }
 
+  # Ability to remove images
+  attr_accessor :delete_img_first, :delete_img_second, :delete_img_third, :delete_img_fourth, :delete_img_fifth
+  before_validation(:on => :update) do
+    img_first.clear if delete_img_first == '1'
+    img_second.clear if delete_img_second == '1'
+    img_third.clear if delete_img_third == '1'
+    img_fourth.clear if delete_img_fourth == '1'
+    img_fifth.clear if delete_img_fifth == '1'
+  end
+
   belongs_to  :user
   validates   :user, :presence => true
   accepts_nested_attributes_for :user
