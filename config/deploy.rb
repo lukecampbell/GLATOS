@@ -11,16 +11,16 @@ task :production do
   set :deploy_to, "/var/www/applications/GLATOS"
   set :rails_env, "production"
   set :domain, "data.glos.us"
-	role :web,"glos.us"
-	role :db, "glos.us", :primary => true
+  role :web,"glos.us"
+  role :db, "glos.us", :primary => true
 end
 
 task :staging do
   set :deploy_to, "/var/www/applications/GLATOS-Stage"
   set :rails_env, "staging"
   set :domain, "data.glos.us"
-	role :web,"glos.us"
-	role :db, "glos.us", :primary => true
+  role :web,"glos.us"
+  role :db, "glos.us", :primary => true
 end
 
 after  "deploy:update_code","deploy:migrate"
