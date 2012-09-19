@@ -12,14 +12,19 @@ class SearchController < ApplicationController
 
   def match_tags
     z_tags = params[:text].split(",").map(&:strip)
-    tags = Tag.includes(:tag_deployments).includes(:study).exact_match(z_tags.join(" "))
-    tags += TagDeployment.includes({:tag => :study}).exact_match(z_tags).map(&:tag)
+    tags = []
+    tags << Tag.includes(:tag_deployments).includes(:study).exact_match(z_tags.join(" ")).all
+    tags << TagDeployment.includes({:tag => :study}).exact_match(z_tags).map(&:tag)
+
+    match_ids = z_tags.map{ |z| Tag.find_all_matches(z).all.map(&:id) }
+    tags << Tag.includes(:tag_deployments).includes(:study).where(:id => match_ids).all
+
     # TODO: Do we need only return tags the user can manage?
     # tags.select! { |t| can? :manage, t }
-    render :json => tags.uniq.as_json({
+    render :json => tags.flatten.compact.uniq.as_json({
                       :only => [:id, :code, :code_space, :model],
                       :methods => [:active_deployment_json],
-                      :include => 
+                      :include =>
                         {
                           :study => {
                             :only => [:id, :name],

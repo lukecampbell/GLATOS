@@ -22,14 +22,19 @@ class Tag < ActiveRecord::Base
 
   self.inheritance_column = 'none'
 
-  scope :find_match, lambda { |code| where("code ILIKE ? OR code_space ILIKE ?", "%#{code}%","%#{code}%").limit(1) }
+  scope :find_match, lambda { |code| where("((code_space || '-' || code) ILIKE ?) OR (code ILIKE ?) OR (code_space ILIKE ?)", "%#{code}%","%#{code}%","%#{code}%").limit(1) }
+  scope :find_all_matches, lambda { |code| where("((code_space || '-' || code) ILIKE ?) OR (code ILIKE ?) OR (code_space ILIKE ?)", "%#{code}%","%#{code}%","%#{code}%") }
 
   def active_deployment
     tag_deployments.order("release_date DESC").limit(1).first rescue nil
   end
 
   def active_deployment_json
-    active_deployment.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
+    if active_deployment
+      return active_deployment.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
+    else
+      return TagDeployment.new.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
+    end
   end
 
   def self.load_tag_deployments(file = "#{Rails.root}/lib/data/old/tag.csv")
