@@ -122,7 +122,7 @@ class Deployment < ActiveRecord::Base
             :start => Deployment.get_deployed_time(row, "DEPLOY_DATE_TIME", "GLATOS_DEPLOY_DATE_TIME", "GLATOS_TIMEZONE"),
             :study_id => Study.find_by_code(row["GLATOS_PROJECT"]).id,
             :location => loc_string,
-            :model => row["INS_MODEL_NUMBER"],
+            :model => row["INS_MODEL_NO"],
             :seasonal => row["GLATOS_SEASONAL"].downcase == "yes",
             :frequency => row["GLATOS_INS_FREQUENCY"].to_i,
             :riser_length => row["RISER_LENGTH"].to_i,
