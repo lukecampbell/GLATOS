@@ -82,6 +82,22 @@ body {
   background-image : url(image-path('blank.png'));
 }
 
+#glatosModelsGridPanel {
+  border-top: 1px solid #99BBE8;
+}
+#glatosModelsGridPanel .x-grid3-row {
+  border-color   : #ffffff;
+}
+#glatosModelsGridPanel .x-grid3-row-selected {
+  background-color : transparent !important;
+}
+#glatosModelsGridPanel .x-grid3-body .x-grid3-row-selected .x-grid3-td-numberer, .x-grid3-body .x-grid3-row-selected .x-grid3-td-checker, .x-grid3-body .x-grid3-row-selected .x-grid3-td-expander {
+  background-image : url(image-path('blank.png'));
+}
+#glatosModelsGridPanel .x-grid3-body .x-grid3-td-checker {
+  background-image : url(image-path('blank.png'));
+}
+
 #glatosStatusTimePanel {
   border-top: 1px solid #99BBE8;
 }

@@ -7,6 +7,7 @@ var glatosDeployments  = {
   ,start       : new Date()
   ,ending      : new Date()
   ,frequencies : []
+  ,models      : []
 };
 var sm =  new OpenLayers.StyleMap({
   'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
@@ -44,7 +45,7 @@ var popupCtl;
 var dNow = new Date();
 dNow.setMinutes(0);
 dNow.setSeconds(0);
-var maxOptionsPerFilter = 5; // how many items to list before kicking in a scrollbar (for projects & frequency)
+var maxOptionsPerFilter = 4; // how many items to list before kicking in a scrollbar (for projects & frequency & model)
 
 if (Ext.isIE && (parseFloat(navigator.appVersion.split("MSIE")[1]) >= 9) && (typeof Range.prototype.createContextualFragment == "undefined")) {
     Range.prototype.createContextualFragment = function(html) {
@@ -129,6 +130,7 @@ function init() {
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosStudiesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
+          Ext.getCmp('glatosModelsGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
@@ -202,6 +204,31 @@ function init() {
     ,loadMask         : true
     ,deferRowRender   : false
     ,selModel         : glatosFrequenciesSelModel
+    ,listeners        : {
+      rowclick : function(grid,rowIndex,e) {
+        syncGlatos();
+      }
+    }
+  });
+
+  var glatosModelsSelModel = new Ext.grid.CheckboxSelectionModel({
+    header : ''
+  });
+  var glatosModelsGridPanel = new Ext.grid.GridPanel({
+     id               : 'glatosModelsGridPanel'
+    ,title            : 'Filter by model'
+    ,store            : new Ext.data.ArrayStore({fields : ['model']})
+    ,height           : 2 * 21.1 + 26 + 6
+    ,border           : false
+    ,autoExpandColumn : 'model'
+    ,columns          : [
+       glatosModelsSelModel
+      ,{id : 'model',dataIndex : 'model'}
+    ]
+    ,hideHeaders      : true
+    ,loadMask         : true
+    ,deferRowRender   : false
+    ,selModel         : glatosModelsSelModel
     ,listeners        : {
       rowclick : function(grid,rowIndex,e) {
         syncGlatos();
@@ -347,6 +374,7 @@ function init() {
           ,glatosStudiesGridPanel
           ,glatosSeasonalGridPanel
           ,glatosFrequenciesGridPanel
+          ,glatosModelsGridPanel
           ,new Ext.Panel({
              title       : 'Filter by status, date, or year'
             ,id          : 'glatosStatusTimePanel'
@@ -521,6 +549,7 @@ function initMap() {
             ,(status == 'proposed' ? "<tr><td class='obsInnerPopup'>funded</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.funded ? 'yes' : 'no') + "</td></tr>" : '')
             ,"<tr><td class='obsInnerPopup'>seasonal</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.seasonal ? 'yes' : 'no') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>frequency</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.frequency ? e.feature.attributes.frequency + ' KHz' : 'unknown') + "</td></tr>"
+            ,"<tr><td class='obsInnerPopup'>model</td><td class='obsInnerPopupVal'>" + (e.feature.attributes.model ? e.feature.attributes.model : 'unknown') + "</td></tr>"
             ,"<tr><td class='obsInnerPopup'>description</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.description + "</td></tr>"
             ,(e.feature.attributes.otn_array.waterbody ? "<tr><td class='obsInnerPopup'>water body</td><td class='obsInnerPopupVal'>" + e.feature.attributes.otn_array.waterbody + "</td></tr>" : '')
           ,"</table></td></tr>"
@@ -603,6 +632,7 @@ function initMap() {
           var json        = new OpenLayers.Format.JSON().read(r.responseText);
           var frequencies = {};
           var years       = {};
+          var models      = {};
           for (var i in json) {
             if (json[i].geojson) {
               var geojson = new OpenLayers.Format.GeoJSON();
@@ -627,6 +657,10 @@ function initMap() {
               if (f.attributes.frequency) {
                 frequencies[f.attributes.frequency] = true;
               }
+
+              if (f.attributes.model) {
+                models[f.attributes.model] = true;
+              }
             }
           }
 
@@ -647,6 +681,22 @@ function initMap() {
           }));
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosFrequenciesGridPanel').setHeight((sto.getCount() <= maxOptionsPerFilter ? sto.getCount() : maxOptionsPerFilter) * 21.1 + 26 + 6);
+
+          for (var i in models) {
+            glatosDeployments.models.push(i);
+          }
+          glatosDeployments.models.sort();
+          var sto = Ext.getCmp('glatosModelsGridPanel').getStore();
+          for (var i = 0; i < glatosDeployments.models.length; i++) {
+            sto.add(new sto.recordType({
+              model : glatosDeployments.models[i]
+            }));
+          }
+          sto.add(new sto.recordType({
+            model : 'Unknown'
+          }));
+          Ext.getCmp('glatosModelsGridPanel').getSelectionModel().selectAll();
+          Ext.getCmp('glatosModelsGridPanel').setHeight((sto.getCount() <= maxOptionsPerFilter ? sto.getCount() : maxOptionsPerFilter) * 21.1 + 26 + 6);
 
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesStart').setMinValue(glatosDeployments.start);
@@ -727,6 +777,12 @@ function syncGlatos() {
     frequencyFilter[sel[i].get('frequency').replace(' KHz','')] = true;
   }
 
+  var modelFilter = {};
+  sel = Ext.getCmp('glatosModelsGridPanel').getSelectionModel().getSelections();
+  for (var i = 0; i < sel.length; i++) {
+    modelFilter[sel[i].get('model')] = true;
+  }
+
   var timeFilter = [];
   if (Ext.getCmp('glatosTimesFieldSet').checkbox.dom.checked && Ext.getCmp('glatosTimesStart').getValue() != '' && Ext.getCmp('glatosTimesEnd').getValue() != '') {
     timeFilter = [Ext.getCmp('glatosTimesStart').getValue().getTime(),Ext.getCmp('glatosTimesEnd').getValue().getTime()];
@@ -781,6 +837,7 @@ function syncGlatos() {
         || (seasonalFilter['Seasonal only'] ? glatosDeployments.features[i].attributes.seasonal : false)
       )
       && (glatosDeployments.features[i].attributes.frequency ? frequencyFilter[glatosDeployments.features[i].attributes.frequency] : frequencyFilter['Unknown'])
+      && (glatosDeployments.features[i].attributes.model ? modelFilter[glatosDeployments.features[i].attributes.model] : modelFilter['Unknown'])
       && (timeFilter.length == 2 ? (
         (timeFilter[0] <= start && start <= timeFilter[1])
         || (timeFilter[0] <= recovered && recovered <= timeFilter[1])
