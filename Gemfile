@@ -1,15 +1,15 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.9'
 
 gem 'pg'
 
 gem 'rubyzip', :require => 'zip/zip'
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
   gem 'compass-rails'
 end
 
@@ -26,25 +26,26 @@ group :test, :development do
 end
 
 group :production do
-  gem 'passenger', '3.0.11'
+  gem 'passenger'
+  gem 'libv8'
   gem 'therubyracer'
 end
 
 group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'cucumber', '1.1.0'
-  gem 'cucumber-rails', '1.1.1'
+  gem 'cucumber'
+  gem 'cucumber-rails'
   gem 'pickle'
   gem 'minitest'
   gem 'capybara'
-  gem 'turn', '< 0.8.3', :require => false
+  gem 'turn', :require => false
   gem 'email_spec'
   gem 'launchy'
 end
 
-gem 'rgeo', '0.3.13'
-gem 'rgeo-geojson', '0.2.3'
+gem 'rgeo'
+gem 'rgeo-geojson'
 gem 'activerecord-postgis-adapter'
 
 gem 'kaminari'

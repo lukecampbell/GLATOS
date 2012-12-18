@@ -2,33 +2,45 @@
 
 Setting up the dev environment:
 
-$ yum install goes-devel proj-devel bison flex git gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool libxslt-devel
+$ yum install geos-devel proj-devel bison flex git gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool libxslt-devel
 
-Install Ruby 1.9.2
-Install Postgres 9.0.5
-Install Postgis 1.5.3
+Install Ruby >= 1.9.2
+Install Postgres >= 9.0.5
+Install Postgis >= 2.0
 Install ImageMagick.  /usr/bin/convert need to exist or by symlinked.
 
-# Symlink Postgis SQL scripts.  POSTGIS_DIR should be where postgis.sql is.
+# GLATOS looks for postgis.sql in /usr/share/pgsql/contrib/postgis
+# Symlink your PostGIS directory there. POSTGIS_DIR should be where postgis.sql is.
 $ mkdir -p /usr/share/pgsql/contrib/
-$ ln -s POSTGIS_DIR /usr/share/pgsql/contrib/postgis-1.5
+$ ln -s POSTGIS_DIR /usr/share/pgsql/contrib/postgis
 
 # Link pg_config to the PATH
 $ ln -s PG_CONFIG_PATH /usr/bin/pg_config
 
 Edit pg_hba.conf to allow the "postgres" and "glatos" user to connect to Postgres (with password is fine)
 
+local   all             postgres 				trust
+local   all             glatos          	 	trust
+
+Restart Postgres
+$ /etc/init.d/postgresql restart
+
+Postgres < 9.1
 $ createuser -U postgres
 Enter name of role to add: glatos
 Shall the new role be a superuser? (y/n) y
 
-# The application runs as the glatos user
+Postgres >= 9.1
+$ createuser -U postgres -P -s glatos
 
+# Can skip user creation in development
+# The application runs as the glatos user
 $ useradd glatos
 $ mkdir -p /mnt/glatos
 $ chown glatos:glatos /mnt/glatos/
 $ su glatos
 $ cd /mnt/glatos
+
 $ git clone git://github.com/asascience-open/GLATOS.git
 
 $ cd GLATOS
@@ -36,23 +48,22 @@ $ gem update --system  # Get the most recent rubygems
 $ gem install bundler
 $ export LANG=en_US.utf8
 $ bundle install
-$ bundle exec rake db:create
+$ RAILS_ENV=development bundle exec rake db:create
 
-# Install the trigram postgres contrib (Pg 9.0.5 version is in the 'lib' directory)
-$ psql -U glatos -d glatos_production -f /usr/share/pgsql/contrib/pg_trgm.sql
-$ bundle exec rake db:migrate
-$ bundle exec rake db:seed
+# Install the trigram postgres contrib 
+# Install version specific to your postgres install
+Postgres < 9.1
+$ psql -U glatos -d glatos_development -f lib/pg_trgm.sql
+Postgres >= 9.1
+$ psql -U glatos -d glatos_development
+glatos_development=# CREATE EXTENSION pg_trgm;
 
+# Set up DB
+$ RAILS_ENV=development bundle exec rake db:migrate
+$ RAILS_ENV=development bundle exec rake db:seed
 
 # Start the webserver
 $ rails server thin
 
-
-# Deployment
-$ rvmsudo /etc/init.d/thin stop
-$ git pull origin master
-$ export LANG=en_US.utf8
-$ bundle install
-$ RAILS_ENV=production rake db:migrate
-$ rake assets:precompile
-$ rvmsudo /etc/init.d/thin start
+# Deployment to production
+$ cap production deploy

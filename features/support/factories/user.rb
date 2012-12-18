@@ -36,7 +36,7 @@ FactoryGirl.define do
     factory :unapproved_researcher,   :traits => [:researcher]
     factory :approved_researcher,     :traits => [:approved, :researcher]
 
-    after_create do |user, proxy|
+    after (:create) do |user, proxy|
       user.confirm! unless proxy.confirmed?
     end
 

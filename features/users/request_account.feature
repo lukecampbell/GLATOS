@@ -4,7 +4,7 @@ Feature: Request Account
   I want to be able to request an account
 
   Background:
-    Given an admin user exists
+    Given an admin user has an account
     Given I am not logged in
     And no emails have been sent
     And I am on the home page
@@ -12,10 +12,10 @@ Feature: Request Account
 
   Scenario: User signs up with valid data
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | user@test.com   |
-        | Password              | please          |
-        | Password confirmation | please          |
+        | Name                       | Testy McUserton |
+        | Email                      | user@test.com   |
+        | user_password              | please          |
+        | user_password_confirmation | please          |
     And I press "Sign up"
     Then I should see "A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
     And "user@test.com" should receive 1 email
@@ -27,10 +27,10 @@ Feature: Request Account
 
   Scenario: General users do not require an approval
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | user@test.com   |
-        | Password              | please          |
-        | Password confirmation | please          |
+        | Name                       | Testy McUserton |
+        | Email                      | user@test.com   |
+        | user_password              | please          |
+        | user_password_confirmation | please          |
     And I choose "General"
     And I press "Sign up"
     Then "admin@test.com" should receive 0 emails
@@ -42,10 +42,10 @@ Feature: Request Account
 
   Scenario: Administrators receive an email about the new accounts that are not General
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | user@test.com   |
-        | Password              | please          |
-        | Password confirmation | please          |
+        | Name                       | Testy McUserton |
+        | Email                      | user@test.com   |
+        | user_password              | please          |
+        | user_password_confirmation | please          |
     And I choose "Investigator"
     And I press "Sign up"
     Then "admin@test.com" should receive 1 email
@@ -58,7 +58,7 @@ Feature: Request Account
 
   @javascript
   Scenario: User receives an email when their account is approved for the first time
-    Given an unapproved investigator exists
+    Given an unapproved investigator has an account
     And I am logged in as an admin
     And I am on the user admin page
     Then I should see "Investigator User"
@@ -70,36 +70,36 @@ Feature: Request Account
 
   Scenario: User signs up with invalid email
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | invalidemail    |
-        | Password              | please          |
-        | Password confirmation | please          |
+        | Name                       | Testy McUserton |
+        | Email                      | invalidemail    |
+        | user_password              | please          |
+        | user_password_confirmation | please          |
     And I press "Sign up"
     Then I should see "Email is invalid"
 
   Scenario: User signs up without password
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | user@test.com   |
-        | Password              |                 |
-        | Password confirmation | please          |
+        | Name                       | Testy McUserton |
+        | Email                      | user@test.com   |
+        | user_password              |                 |
+        | user_password_confirmation | please          |
     And I press "Sign up"
     Then I should see "Password can't be blank"
 
   Scenario: User signs up without password confirmation
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | user@test.com   |
-        | Password              | please          |
-        | Password confirmation |                 |
+        | Name                       | Testy McUserton |
+        | Email                      | user@test.com   |
+        | user_password              | please          |
+        | user_password_confirmation |                 |
     And I press "Sign up"
     Then I should see "Password doesn't match confirmation"
 
   Scenario: User signs up with mismatched password and confirmation
     And I fill in the following:
-        | Name                  | Testy McUserton |
-        | Email                 | user@test.com   |
-        | Password              | please          |
-        | Password confirmation | please1         |
+        | Name                       | Testy McUserton |
+        | Email                      | user@test.com   |
+        | user_password              | please          |
+        | user_password_confirmation | please1         |
     And I press "Sign up"
     Then I should see "Password doesn't match confirmation"

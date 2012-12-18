@@ -5,7 +5,7 @@ development:
   pool: 5
   username: glatos
   password:
-  script_dir: /usr/share/pgsql/contrib/postgis-1.5
+  script_dir: /usr/share/pgsql/contrib/postgis
   schema_search_path: public,postgis
 
 test: &test
@@ -15,7 +15,7 @@ test: &test
   pool: 5
   username: glatos
   password:
-  script_dir: /usr/share/pgsql/contrib/postgis-1.5
+  script_dir: /usr/share/pgsql/contrib/postgis
   schema_search_path: public,postgis
 
 staging:
@@ -26,7 +26,7 @@ staging:
   pool: 5
   username: glatos
   password:
-  script_dir: /usr/local/pgsql/share/contrib/postgis-1.5/
+  script_dir: /usr/local/pgsql/share/contrib/postgis
   schema_search_path: public,postgis
   template: template0
 
@@ -38,7 +38,7 @@ production:
   pool: 5
   username: glatos
   password:
-  script_dir: /usr/local/pgsql/share/contrib/postgis-1.5/
+  script_dir: /usr/local/pgsql/share/contrib/postgis
   schema_search_path: public,postgis
   template: template0
 

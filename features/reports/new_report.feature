@@ -4,8 +4,8 @@ Feature: New Report
   I want to be able to request submit a report
 
   Background:
-    Given an admin user exists
-    And an approved investigator exists
+    Given an admin user has an account
+    And an approved investigator has an account
     And a study exists with user: that user
     And a tag exists with code: "ABC123", study: that study
     And a tag_deployment exists with external_codes: "External-XYZ", tag: that tag
