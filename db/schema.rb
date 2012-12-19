@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121219143238) do
+ActiveRecord::Schema.define(:version => 20121219202134) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -194,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20121219143238) do
     t.string   "manufacturer"
     t.string   "type"
     t.text     "description"
+    t.integer  "active_deployment_id"
   end
 
   add_index "tags", ["model"], :name => "index_tags_on_model"

@@ -19,7 +19,7 @@ class SearchController < ApplicationController
 
     ids = (tags_match + deps_match + ids_match).uniq
 
-    tags = Tag.includes(:active_deployment).where(:id => ids)
+    tags = Tag.includes({:active_deployment => {:study => :user}}).where(:id => ids)
 
     # TODO: Do we need only return tags the user can manage?
     # tags.select! { |t| can? :manage, t }

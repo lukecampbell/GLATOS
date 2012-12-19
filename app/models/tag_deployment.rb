@@ -33,6 +33,9 @@ class TagDeployment < ActiveRecord::Base
   #validates_inclusion_of :wild_or_hatchery, :in => Fish::WOH
   #validates_inclusion_of :sex, :in => Fish::SEX
 
+  after_create  :set_active_deployment
+  after_destroy :set_active_deployment
+
   set_rgeo_factory_for_column(:capture_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
   set_rgeo_factory_for_column(:surgery_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
   set_rgeo_factory_for_column(:release_geo, RGeo::Geographic.spherical_factory(:srid => 4326))
@@ -68,6 +71,11 @@ class TagDeployment < ActiveRecord::Base
     capture_date
   end
 
+  private
+    def set_active_deployment
+      self.tag.active_deployment = TagDeployment.includes(:tag).where(:tag_id => self.tag.id).order("release_date DESC").limit(1).first
+      self.tag.save!
+    end
 end
 #
 # == Schema Information

@@ -14,7 +14,8 @@ class Tag < ActiveRecord::Base
                     :tsearch => {:any_word => true}
                   }
 
-  has_many  :tag_deployments, :dependent => :destroy
+  has_many   :tag_deployments, :dependent => :destroy, :order => "release_date DESC"
+  belongs_to :active_deployment, :class_name => TagDeployment
 
   validates_uniqueness_of   :code, :scope => :code_space, :case_sensitive => false
 
@@ -22,10 +23,6 @@ class Tag < ActiveRecord::Base
 
   scope :find_match, lambda { |code| where("((code_space || '-' || code) ILIKE ?) OR (code ILIKE ?) OR (code_space ILIKE ?)", "%#{code}%","%#{code}%","%#{code}%").limit(1) }
   scope :find_all_matches, lambda { |code| where("((code_space || '-' || code) ILIKE ?) OR (code ILIKE ?) OR (code_space ILIKE ?)", "%#{code}%","%#{code}%","%#{code}%") }
-
-  def active_deployment
-    tag_deployments.order("release_date DESC").limit(1).first rescue nil
-  end
 
   def active_deployment_json
     begin
@@ -69,6 +66,7 @@ class Tag < ActiveRecord::Base
         end
 
         td = TagDeployment.find_or_initialize_by_tag_id_and_release_date(t.id, deployed_time)
+
         td.attributes =
           {
             :study => Study.find_by_code(row["GLATOS_PROJECT"]),
@@ -116,7 +114,7 @@ class Tag < ActiveRecord::Base
           errors << "#{td.errors.full_messages.join(" and ")} - Data: #{row}"
         end
       rescue Exception => e
-        errors << "Error creating TagDeployment #{e.backtrace[0..5].join('<br />')} - Data: #{row}"
+        errors << "Error creating TagDeployment - #{e.message} - #{e.backtrace[0..5].join('<br />')} - Data: #{row}"
       end
     end
     return tag_deployments, errors, count
