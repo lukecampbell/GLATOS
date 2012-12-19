@@ -37,8 +37,8 @@ class Study < ActiveRecord::Base
   scope :active, where("title IS NOT NULL AND name IS NOT NULL AND start IS NOT NULL and ending IS NOT NULL")
 
   has_many    :deployments, :dependent => :destroy
-
-  has_many    :tags, :dependent => :destroy
+  has_many    :tag_deployments, :dependent => :destroy
+  has_many    :tags, :through => :tag_deployments, :dependent => :destroy
 
   def active
     Study.active.include?(self)

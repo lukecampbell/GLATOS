@@ -41,12 +41,12 @@ Looking for the
   }
 
   function getStudyLink(oObj) {
-    var text = "#{root_url}" + "projects/" + oObj.aData.study.id;
+    var text = "#{root_url}" + "projects/" + oObj.aData.active_deployment_json.study.id;
     return text;
   }
 
   function getFullName(oObj) {
-    var text = oObj.aData.study.user.name + " (" + oObj.aData.study.user.email + ")";
+    var text = oObj.aData.active_deployment_json.study.user.name + " (" + oObj.aData.active_deployment_json.study.user.email + ")";
     return text;
   }
 
@@ -86,13 +86,13 @@ Looking for the
         "sSearch": "Filter Results:"
       },
       "aoColumns": [
-        { "sTitle": "Project", "sName": "project", "mDataProp": "study.name" },
+        { "sTitle": "Project", "sName": "project", "mDataProp": "active_deployment_json.study.name" },
         { "sTitle": "Code Space", "sName": "code_space", "mDataProp": "code_space" },
         { "sTitle": "Code", "sName": "code", "mDataProp": "code" },
         { "sTitle": "External Codes", "sName": "external_codes", "mDataProp": "active_deployment_json.external_codes" },
         { "sTitle": "Species", "sName": "common_name", "mDataProp": "active_deployment_json.common_name" },
         { "sTitle": "Release Location", "sName": "release_location", "mDataProp": "active_deployment_json.release_location" },
-        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "study.user.name",
+        { "sTitle": "Investigator", "sName": "pi", "mDataProp": "active_deployment_json.study.user.name",
           "fnCellRender": function (oObj){ return getFullName(oObj); },
           "fnRender": function (oObj){ return getFullName(oObj); },},
         { "sTitle": "Project Page", "sName": "site", "mDataProp": null, "bSortable": false,

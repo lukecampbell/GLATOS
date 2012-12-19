@@ -14,7 +14,7 @@ class ReportMailer < ActionMailer::Base
 
   def matched_report_notification(report)
     @report = report
-    recips = @report.tag_deployment.tag.study.user.email
+    recips = @report.tag_deployment.study.user.email
     ccs = User.where("role = 'admin'").map(&:email)
     mail(:to => recips, :cc => ccs, :subject => "[GLATOS] Tag Report Submitted")
   end

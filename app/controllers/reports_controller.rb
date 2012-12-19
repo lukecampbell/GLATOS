@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
         page_num = (params[:iDisplayStart].to_i / params[:iDisplayLength].to_i) + 1
         if params[:study_id]
           authorize! :manage, study
-          reports = Report.includes({:tag_deployment => {:tag => :study}}).where(["tag_deployment_id IS NULL OR tags.study_id = ?",study.id]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
+          reports = Report.includes({:tag_deployment => [:tag, :study]}).where(["tag_deployment_id IS NULL OR tag_deployments.study_id = ?",study.id]).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
         else
           authorize! :manage, Study
           reports = Report.includes({:tag_deployment => :tag}).order("#{sort_column} #{sort_direction}").page(page_num.to_i).per(params[:iDisplayLength].to_i)
@@ -38,12 +38,13 @@ class ReportsController < ApplicationController
             :methods => [:DT_RowId],
             :include => { :tag_deployment => {
               :only => [nil],
-              :include => {:tag => {
-                  :only => :code,
-                  :include => {:study => {
+              :include => {
+                  :study => {
                     :only => :name
-                  }}
-                }
+                  },
+                  :tag => {
+                    :only => :code
+                  }
               }
             }}
           })
@@ -110,7 +111,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.includes({:tag_deployment => {:tag => {:study => :user}}}).find(params[:id])
+    @report = Report.includes({:tag_deployment => [:tag, {:study => :user}]}).find(params[:id])
     respond_to do |format|
       format.html
     end

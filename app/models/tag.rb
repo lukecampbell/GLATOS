@@ -14,11 +14,9 @@ class Tag < ActiveRecord::Base
                     :tsearch => {:any_word => true}
                   }
 
-  has_many      :tag_deployments, :dependent => :destroy
+  has_many  :tag_deployments, :dependent => :destroy
 
-  belongs_to    :study
-
-  validates_uniqueness_of   :code, :serial, :case_sensitive => false
+  validates_uniqueness_of   :code, :scope => :code_space, :case_sensitive => false
 
   self.inheritance_column = 'none'
 
@@ -30,9 +28,19 @@ class Tag < ActiveRecord::Base
   end
 
   def active_deployment_json
-    if active_deployment
-      return active_deployment.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
-    else
+    begin
+      return active_deployment.as_json({
+        :include => {
+          :study => {
+            :only => [:id, :name],
+            :include => {:user => {
+              :only => [:name, :email]
+            }}
+          }
+        },
+        :only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]
+      })
+    rescue
       return TagDeployment.new.as_json({:only => [:release_date, :release_location, :external_codes, :length, :weight, :age, :sex, :common_name]})
     end
   end
@@ -54,11 +62,16 @@ class Tag < ActiveRecord::Base
         woh_d = row["WILD_OR_HATCHERY"].downcase rescue ""
         woh = woh_d == "w" ? "Wild" : woh_d == "h" ? "Hatchery" : "Unknown"
 
-        t = Tag.find_by_code_and_code_space_and_study_id(row["TAG_ID_CODE"], row["TAG_CODE_SPACE"], Study.find_by_code(row["GLATOS_PROJECT"]).id)
+        t = Tag.find_by_code_and_code_space(row["TAG_ID_CODE"], row["TAG_CODE_SPACE"])
+        if t.nil?
+          errors << "Error finding Tag for Tagdeployment - No match on the code and code_space - Data: #{row}"
+          next
+        end
 
         td = TagDeployment.find_or_initialize_by_tag_id_and_release_date(t.id, deployed_time)
         td.attributes =
           {
+            :study => Study.find_by_code(row["GLATOS_PROJECT"]),
             :tagger => row["TAGGER"],
             :common_name => Fish::TYPES.select{|s| /#{Regexp.escape(row["COMMON_NAME_E"].humanize)}/i.match(s)}.first,
             :scientific_name => Fish::SCITYPES.select{|s| /#{Regexp.escape(row["SCIENTIFIC_NAME"].humanize)}/i.match(s)}.first,
@@ -103,7 +116,7 @@ class Tag < ActiveRecord::Base
           errors << "#{td.errors.full_messages.join(" and ")} - Data: #{row}"
         end
       rescue Exception => e
-        errors << "Error creating TagDeployment #{e.backtrace[0..5].join("<br />")} - Data: #{row}"
+        errors << "Error creating TagDeployment #{e.backtrace[0..5].join('<br />')} - Data: #{row}"
       end
     end
     return tag_deployments, errors, count
@@ -123,7 +136,7 @@ class Tag < ActiveRecord::Base
           errors << "Error loading Tag - No RELEASE_DATE specified  Data: #{row}"
           next
         end
-        t = Tag.find_or_initialize_by_code_and_code_space_and_study_id(row["TAG_ID_CODE"], row["TAG_CODE_SPACE"], Study.find_by_code(row["GLATOS_PROJECT"]).id)
+        t = Tag.find_or_initialize_by_code_and_code_space(row["TAG_ID_CODE"], row["TAG_CODE_SPACE"])
         t.attributes =
           {
             :model => row["TAG_MODEL"],
@@ -162,7 +175,6 @@ end
 # Table name: tags
 #
 #  id           :integer         not null, primary key
-#  study_id     :integer         indexed
 #  serial       :string(255)
 #  code         :string(255)
 #  code_space   :string(255)

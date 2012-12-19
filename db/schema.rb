@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522214212) do
+ActiveRecord::Schema.define(:version => 20121219143238) do
 
   create_table "deployments", :force => true do |t|
     t.datetime "start"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(:version => 20120522214212) do
     t.string   "length_type"
     t.string   "implant_type"
     t.string   "reward"
+    t.integer  "study_id"
   end
 
   add_index "tag_deployments", ["capture_geo"], :name => "index_tag_deployments_on_capture_geo", :spatial => true
@@ -184,7 +185,6 @@ ActiveRecord::Schema.define(:version => 20120522214212) do
   add_index "tag_deployments", ["tag_id"], :name => "index_tag_deployments_on_tag_id"
 
   create_table "tags", :force => true do |t|
-    t.integer  "study_id"
     t.string   "serial"
     t.string   "code"
     t.string   "code_space"
@@ -197,7 +197,6 @@ ActiveRecord::Schema.define(:version => 20120522214212) do
   end
 
   add_index "tags", ["model"], :name => "index_tags_on_model"
-  add_index "tags", ["study_id"], :name => "index_tags_on_study_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "",    :null => false

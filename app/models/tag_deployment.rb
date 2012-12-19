@@ -22,6 +22,7 @@ class TagDeployment < ActiveRecord::Base
                   }
 
   belongs_to :tag
+  belongs_to :study
 
   has_one    :report
 
