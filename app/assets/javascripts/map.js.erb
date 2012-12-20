@@ -719,6 +719,8 @@ function initMap() {
           }
           Ext.getCmp('glatosYearsComboBox').enable();
           syncStudiesCounts();
+          // fire a sync to make sure dots match init selections
+          syncGlatos();
         }
       });
     }
