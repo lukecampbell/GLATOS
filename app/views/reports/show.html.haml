@@ -10,12 +10,12 @@
           %td{:class => "label"}
             GLATOS Project Name
           %td
-            = link_to @report.tag_deployment.tag.study.name, project_path(@report.tag_deployment.tag.study.id)
+            = link_to @report.tag_deployment.study.name, project_path(@report.tag_deployment.study.id)
         %tr
           %td{:class => "label"}
             GLATOS Project Title
           %td
-            = @report.tag_deployment.tag.study.title
+            = @report.tag_deployment.study.title
         %tr
           %td{:class => "label"}
             Species Name
@@ -35,7 +35,7 @@
           %td{:class => "label"}
             External Tags
           %td
-            = @report.tag_deployment.external_codes
+            = @report.tag_deployment.external_codes.compact.join(", ") rescue "None"
         %tr
           %td{:class => "label"}
             Release Location
@@ -60,5 +60,5 @@
           %td{:class => "label"}
             Project Investigator
           %td
-            = "#{@report.tag_deployment.tag.study.user.name} (#{@report.tag_deployment.tag.study.user.email})"
+            = "#{@report.tag_deployment.study.user.name} (#{@report.tag_deployment.study.user.email})"
     .clear
