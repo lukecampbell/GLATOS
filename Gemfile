@@ -28,8 +28,8 @@ end
 
 group :production do
   gem 'passenger'
-  gem 'libv8'
-  gem 'therubyracer'
+  gem 'libv8', '3.3.10.4'
+  gem 'therubyracer', '0.10.2'
 end
 
 group :test do

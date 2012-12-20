@@ -37,9 +37,9 @@ namespace :deploy do
   task :symlink_db, :roles => :web do
     run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
   end
-	task :restart, :roles => :web do
-		run "touch #{latest_release}/tmp/restart.txt"
-	end
+  task :restart, :roles => :web do
+    run "touch #{latest_release}/tmp/restart.txt"
+  end
   desc "Run rake db:seed"
   task :seed, :roles => :db, :only => { :primary => true } do
     run "cd #{latest_release}; RAILS_ENV=#{rails_env} bundle exec rake db:seed"
