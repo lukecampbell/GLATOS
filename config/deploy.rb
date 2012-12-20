@@ -9,7 +9,6 @@ set :deploy_via, :remote_cache
 set :rvm_ruby_string, '1.9.3'
 
 require "rvm/capistrano"
-require "bundler/capistrano"
 
 task :production do
   set :deploy_to, "/var/www/applications/GLATOS"
@@ -27,12 +26,19 @@ task :staging do
   role :db, "glos.us", :primary => true
 end
 
+before "deploy:assets:precompile", "deploy:bundle_install"
 after  "deploy:update_code","deploy:migrate"
 after  "deploy:assets:symlink","deploy:symlink_db"
 after  "deploy:migrate","deploy:build_missing_paperclip_styles"
 after  "deploy:update", "deploy:cleanup"
 
 namespace :deploy do
+  task :bundle_install, :roles => :web do
+    run "cd #{latest_release}; RAILS_ENV=#{rails_env} bundle install"
+  end
+  task :bundle_update, :roles => :web do
+    run "cd #{latest_release}; RAILS_ENV=#{rails_env} bundle update"
+  end
   task :symlink_db, :roles => :web do
     run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
   end
