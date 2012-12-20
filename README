@@ -4,8 +4,8 @@ Setting up the dev environment:
 
 $ yum install geos-devel proj-devel bison flex git gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool libxslt-devel
 
-Install Ruby >= 1.9.2
-Install Postgres >= 9.0.5
+Install Ruby >= 1.9.2 (tested on 1.9.3-p327)
+Install Postgres >= 9.0.5 (tested on 9.2)
 Install Postgis >= 2.0
 Install ImageMagick.  /usr/bin/convert need to exist or by symlinked.
 
