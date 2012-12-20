@@ -132,7 +132,7 @@ function init() {
           Ext.getCmp('glatosFrequenciesGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosModelsGridPanel').getSelectionModel().selectAll();
           Ext.getCmp('glatosSeasonalGridPanel').getSelectionModel().selectAll();
-          Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectAll();
+          Ext.getCmp('glatosProjectStatusesGridPanel').getSelectionModel().selectRow(Ext.getCmp('glatosProjectStatusesGridPanel').getStore().findExact('name','Ongoing'));
           Ext.getCmp('glatosTimesStart').setValue(glatosDeployments.start);
           Ext.getCmp('glatosTimesEnd').setValue(glatosDeployments.ending);
           if (Ext.getCmp('glatosYearsComboBox').getStore().getCount() > 0) {
@@ -269,7 +269,7 @@ function init() {
       }
       ,viewready : function(grid) {
         grid.suspendEvents();
-        grid.getSelectionModel().selectAll();
+        grid.getSelectionModel().selectRow(grid.getStore().findExact('name','Ongoing'));
         grid.resumeEvents();
       }
     }
