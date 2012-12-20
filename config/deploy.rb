@@ -27,7 +27,6 @@ task :staging do
   role :db, "glos.us", :primary => true
 end
 
-before "deploy:assets:precompile", "deploy:bundle_install"
 after  "deploy:update_code","deploy:migrate"
 after  "deploy:assets:symlink","deploy:symlink_db"
 after  "deploy:migrate","deploy:build_missing_paperclip_styles"
