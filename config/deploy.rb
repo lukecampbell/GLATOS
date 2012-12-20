@@ -6,9 +6,6 @@ set :use_sudo, false
 set :branch, "master"
 set :keep_releases, 5
 set :deploy_via, :remote_cache
-set :rvm_ruby_string, '1.9.3'
-
-require "rvm/capistrano"
 
 task :production do
   set :deploy_to, "/var/www/applications/GLATOS"
