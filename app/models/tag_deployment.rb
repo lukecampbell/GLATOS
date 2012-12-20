@@ -57,9 +57,9 @@ class TagDeployment < ActiveRecord::Base
 
   def external_codes=(codes)
     if codes.is_a? String
-      write_attribute(:input_external_codes, codes)
+      write_attribute(:external_codes, codes)
     elsif codes.is_a? Array
-      write_attribute(:input_external_codes, codes.join(","))
+      write_attribute(:external_codes, codes.join(","))
     end
   end
 
