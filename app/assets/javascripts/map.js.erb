@@ -508,7 +508,7 @@ function initMap() {
         if (mouseoverObs && mouseoverObs.isVisible()) {
           mouseoverObs.hide();
         }
-        var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
+        var rec = glatosStudiesStore.getAt(glatosStudiesStore.findExact('id',e.feature.attributes.study_id));
         mouseoverObs = new Ext.ToolTip({
            html         : '<font style="font-weight:bold">' + e.feature.attributes.code + '</font>&nbsp;-&nbsp;' + rec.get('name')
           ,anchor       : 'bottom'
@@ -533,7 +533,7 @@ function initMap() {
         if (popupObs && popupObs.isVisible()) {
           popupObs.hide();
         }
-        var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',e.feature.attributes.study_id));
+        var rec = glatosStudiesStore.getAt(glatosStudiesStore.findExact('id',e.feature.attributes.study_id));
         var status = 'ongoing';
         if (e.feature.attributes.proposed == true) {
           status = 'proposed';
@@ -887,7 +887,7 @@ function syncStudiesCounts() {
   });
   for (var i = 0; i < deploymentsLayer.features.length; i++) {
     if (!deploymentsLayer.features[i].style) {
-      var rec = glatosStudiesStore.getAt(glatosStudiesStore.find('id',deploymentsLayer.features[i].attributes.study_id));
+      var rec = glatosStudiesStore.getAt(glatosStudiesStore.findExact('id',deploymentsLayer.features[i].attributes.study_id));
       rec.set('count',rec.get('count') + 1);
       rec.commit();
     }
