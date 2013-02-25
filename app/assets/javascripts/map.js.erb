@@ -378,7 +378,6 @@ function init() {
           ,new Ext.Panel({
              title       : 'Filter by status, date, or year'
             ,collapsible : true
-            ,collapsed   : true
             ,id          : 'glatosStatusTimePanel'
             ,border      : false
             ,bodyStyle   : 'padding:5px 5px 0'
@@ -559,7 +558,7 @@ function initMap() {
           ,"<tr><td colspan=2 style='text-align:center'><font color=gray>Visit the <a target=_blank href='<%= ActionController::Base.relative_url_root %>/projects/" + e.feature.attributes.study_id + "'>project home page</a> for more information.</font></td></tr>"
         ];
         popupObs = new Ext.ToolTip({
-           title     : e.feature.attributes.code + '&nbsp;-&nbsp;Site&nbsp;' + rec.get('name')
+           title     : e.feature.attributes.code + '&nbsp;-&nbsp;' + rec.get('name')
           ,items     : {bodyCssClass : 'obsPopup',html : '<table>' + tr.join('') + '</table>'}
           ,anchor    : 'bottom'
           ,width     : 345
