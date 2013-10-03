@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.14'
 gem 'pg',    '0.14.1'
 
-gem 'rubyzip', :require => 'zip/zip'
+gem 'rubyzip', '< 1.0.0', :require => 'zip/zip'
 
 group :assets do
   gem 'sass-rails',     '3.2.6'
