@@ -38,7 +38,7 @@ group :test do
   gem 'cucumber-rails'
   gem 'pickle'
   gem 'minitest'
-  gem 'capybara'
+  gem 'capybara', '2.0.2'
   gem 'turn', :require => false
   gem 'email_spec'
   gem 'launchy'
