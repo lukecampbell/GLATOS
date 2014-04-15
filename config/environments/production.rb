@@ -51,13 +51,28 @@ Glatos::Application.configure do
   config.assets.precompile += %w( ie7.css ie6.css )
   config.assets.precompile += %w( printing.css )
 
-  config.action_mailer.default_url_options = { :host => 'data.glos.us/glatos' }
-  config.action_mailer.delivery_method = :sendmail
+  # The following original SMTP began to bomb in the production env.  So use SMTP below.
+  # config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.default :charset => "utf-8"
+  # config.action_mailer.default :from => "glatos@glos.us"
+  # config.action_mailer.sendmail_settings = { :arguments => '-i -t -f glatos@glos.us' }
+
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default :charset => "utf-8"
-  config.action_mailer.default :from => "glatos@glos.us"
-  config.action_mailer.sendmail_settings = { :arguments => '-i -t -f glatos@glos.us' }
+  # https://github.com/rails/rails/pull/6950
+  ActionMailer::Base.default(from: "glatos@glos.us")
+  config.action_mailer.smtp_settings = {
+    :address        => 'magus.merit.edu',
+    :port           => 587,
+    :domain         => 'glos.us',
+    :authentication => :login,
+    :user_name      => 'glatos@glos.us',
+    :password       => 'glatos',
+    :enable_starttls_auto => true
+  }
 
   # Enable threaded mode
   # config.threadsafe!
