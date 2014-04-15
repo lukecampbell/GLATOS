@@ -59,6 +59,7 @@ Glatos::Application.configure do
   # config.action_mailer.default :from => "glatos@glos.us"
   # config.action_mailer.sendmail_settings = { :arguments => '-i -t -f glatos@glos.us' }
 
+  config.action_mailer.default_url_options = { :host => 'data.glos.us/glatos' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
