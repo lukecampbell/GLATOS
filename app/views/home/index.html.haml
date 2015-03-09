@@ -11,6 +11,8 @@
       #{link_to "About GLATOS", about_path}
       %br
       #{link_to "Have Data?", have_data_path}
+      %br
+      %i #{link_to "Post-Doctoral Research Associate Position Available with GLATOS", '/static/GLFCDataSteward.docx'}
 
     #functions
       .box{:class => 'globe'}
@@ -53,5 +55,3 @@
           = link_to('Logout', destroy_user_session_path, :method => :get)
         - else
           = link_to('Login or Register to Join the GLATOS Network', new_user_session_path, :class => 'login_home_button')
-
-        = link_to('Position Announcement: GLATOS Data Steward', '/static/GLFCDataSteward.docx')
