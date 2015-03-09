@@ -7,3 +7,5 @@ tmp/
 nohup.out
 public/system
 .rvmrc
+.DS_Store
+*.swp
