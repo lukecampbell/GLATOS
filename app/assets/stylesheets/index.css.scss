@@ -39,10 +39,15 @@ body {
   @include column(8, true);
   margin-top: -45px;
   margin-bottom: 10px;
+  ul {
+    list-style-type: none;
+    text-align: left;
+  }
   a {
     font-weight: bold;
     color: #fff;
     line-height: 1.6em;
+    text-decoration: none;
   }
   a:visited {
     font-weight: bold;
@@ -50,7 +55,15 @@ body {
   }
   a:hover {
     font-weight: bold;
-    color: #001d3e;
+    color: #2E3681;
+  }
+  .joblink {
+    a {
+      color: #EAA776;
+    }
+    a:hover {
+      color: #B48776;
+    }
   }
 }
 
@@ -165,3 +178,4 @@ body {
     }
   }
 }
+

@@ -6,13 +6,15 @@
         GLATOSWeb compiles acoustic telemetry project information and helps users learn more about ongoing acoustic telemetry projects in the Great Lakes.  Scientists have been implanting Great Lakes fish with transmitters and, like the GPS on a car, have been tracking fish movement through a network of receivers placed on the bottom of the lakes.  The purpose of GLATOS is to help scientists and the public learn more about Great Lakes acoustic telemetry projects and their contribution to research.
 
     #links
-      #{link_to "What is Acoustic Telemetry?", acoustic_telemetry_path}
-      %br
-      #{link_to "About GLATOS", about_path}
-      %br
-      #{link_to "Have Data?", have_data_path}
-      %br
-      %i #{link_to "Post-Doctoral Research Associate Position Available with GLATOS", '/static/GLFCDataSteward.docx'}
+      %ul
+        %li
+          #{link_to "What is Acoustic Telemetry?", acoustic_telemetry_path}
+        %li
+          #{link_to "About GLATOS", about_path}
+        %li
+          #{link_to "Have Data?", have_data_path}
+        %li
+          %i.joblink #{link_to "Post-Doctoral Research Associate Position Available with GLATOS", 'http://data.glos.us/glatos/static/GLFCDataSteward.docx'}
 
     #functions
       .box{:class => 'globe'}
