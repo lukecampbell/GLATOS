@@ -33,6 +33,18 @@ body {
   }
 }
 
+#container .test-link {
+  left: 180px;
+  top: 23px;
+  color: red;
+  font-weight: bold;
+  position: absolute;
+}
+
+#container .test-link a{
+  color:orange;
+}
+
 #links {
   text-align: center;
   @include push(8);
